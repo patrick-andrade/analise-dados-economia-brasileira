@@ -180,10 +180,8 @@ str(inflacao_exemplo2)
 # Se você ainda não tem tidyverse instalado, faça UMA vez:
 # install.packages("tidyverse")
 #
-# (No laboratório, idealmente isso foi feito antes da aula.)
-
 library(tidyverse)
-
+#
 # Pipe:
 # - base R: |>
 # - no tidyverse, você verá também: %>%
