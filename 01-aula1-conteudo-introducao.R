@@ -18,27 +18,26 @@
 # ============================================================
 #
 # ------------------------------------------------------------
-# 0) Antes de tudo: projeto, pastas e caminhos (10–15 min)
+# 0) Antes de tudo: projeto, pastas e caminhos
 # ------------------------------------------------------------
-# No laboratório, o mais importante é evitar “funciona no meu PC”.
+# No laboratório, o mais importante é evitar o “não funciona no meu PC”
 # Recomendação: padronizar um ambiente de trabalho organizado
 # - uma pasta do curso (projeto)
- # - subpastas para dados e saídas
-# Dica: no RStudio/Positron, use Project (.Rproj) para fixar o diretório.
+# - subpastas para dados e saídas
 #
 # Onde o R acha que está?
 getwd()
 list.files()
 #
 # ------------------------------------------------------------
-# 1) R é uma calculadora… e uma linguagem
+# 1) Linguagem R
 # ------------------------------------------------------------
-# No console, você pode testar comandos rápidos.
+# No console, você pode testar comandos rápidos do R (como uma calculadora)
 2 + 3
 10 / 2
 2^3
 10 %% 3   # resto da divisão
-# Explique o resto da divisão de 10 por 3.
+# O que significa o resultado 1 do resto da divisão de 10 por 3?
 # Dica: 3 cabe 3 vezes em 10 (3*3=9), sobra 1. O operador %% retorna essa sobra.
 #
 10 %/% 3  # divisão inteira
@@ -53,6 +52,8 @@ list.files()
 # O R trabalha com OBJETOS. Você cria objetos com atribuição.
 #
 # Formas de atribuição (vamos padronizar o <-):
+x = 10
+10 = x # erro de atribuição
 x <- 10
 y <- 3
 x + y
@@ -81,15 +82,16 @@ taxa_juros
 # ------------------------------------------------------------
 # Tipos básicos:
 numero <- 10.5
-inteiro <- 10
-inteiro2 <- 10L # o L indica que é um número inteiro (integer), sem casas decimais.
-texto <- "Brasil" # texto é um tipo de dado chamado character (caractere). No python, seria string.
-logico <- TRUE
-#
 class(numero)
+inteiro <- 10
 class(inteiro)
+inteiro2 <- 10L # o L indica que é um número inteiro (integer), sem casas decimais.
+class(inteiro2)
+texto <- "Brasil" # texto é um tipo de dado chamado character (caractere). No python, seria string.
 class(texto)
+logico <- TRUE
 class(logico)
+#
 #
 # Vetores: vários valores do mesmo tipo (quase sempre)
 inflacao_exemplo <- c(0.4, 0.6, 0.3, 0.5)  # (% ao mês, exemplo didático)
