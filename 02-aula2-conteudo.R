@@ -3,7 +3,7 @@
 # PARTE 1 — Estabilização econômica e regime monetário
 #
 # AULA 2 (2h): Dinâmica macro integrada
-# Tema: Inflação (IPCA), juros (Selic) e atividade (IBC-Br) — 1999–2018
+# Tema: Inflação (IPCA), juros (Selic) e atividade (IBC-Br) — 1999–2025
 # Foco: (A) transformações com dados reais + (B) visualização e interpretação
 # Extra (nível acima): regressão simples (Taylor "na prática")
 #
@@ -22,8 +22,8 @@ dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
 dir.create("outputs/figs",   recursive = TRUE, showWarnings = FALSE)
 dir.create("outputs/tables", recursive = TRUE, showWarnings = FALSE)
 
-# Se você já instalou na Aula 1, não precisa rodar o install de novo —
-# apenas o library() precisa rodar toda vez que abrir o R.
+# Se você já instalou na Aula 1, não precisa rodar o install de novo
+# Apenas o library() precisa rodar toda vez que abrir o R.
 # install.packages(c("tidyverse", "lubridate", "rbcb", "slider", "broom"))
 
 library(tidyverse)   # dplyr, ggplot2, tidyr, readr, etc.
@@ -53,29 +53,100 @@ options(scipen = 999) # desliga notação científica (ex: exibe 1000000 em vez 
 # exatamente como fizemos na Aula 1 com c(ipca = 433).
 # A coluna de datas sempre se chama "date" (padrão do pacote rbcb).
 
-ipca  <- rbcb::get_series(c(ipca_mensal = 433),   start_date = "1999-01-01", end_date = "2018-12-31")
-selic <- rbcb::get_series(c(selic_meta = 432),   start_date = "1999-01-01", end_date = "2018-12-31")
-ibc   <- rbcb::get_series(c(ibc_br = 24363), start_date = "1999-01-01", end_date = "2018-12-31")
+ipca  <- rbcb::get_series(c(ipca_mensal = 433),   start_date = "1999-01-01", end_date = "2025-12-31")
+ibc   <- rbcb::get_series(c(ibc_br = 24363), start_date = "1999-01-01", end_date = "2025-12-31")
 
-# Verificando o resultado (sempre bom conferir após um download)
+# NOTA TÉCNICA — por que não usamos rbcb::get_series() para a Selic?
+# O comando abaixo é a forma "natural" de baixar a série 432 (Selic meta):
+# selic <- rbcb::get_series(c(selic_meta = 432),
+#                              start_date = "2003-01-01", end_date = "2025-12-31")
+#
+# Em certas versões do rbcb / ambientes de rede, o SGS retorna HTTP 406
+# (Not Acceptable) porque o pacote envia headers incompatíveis com o servidor.
+# Para não travar a aula nesse detalhe técnico, usamos o CSV exportado
+# diretamente do SGS como workaround.
+#
+# ANTES DE RODAR: baixe o CSV da série 432 em:
+#   https://www3.bcb.gov.br/sgspub/
+#   → pesquise "432" → clique na série "Taxa de juros - Selic" → Exportar → CSV
+#   Salve como:  data/raw/selic_meta.csv
+
+# Etapa 1: leitura do arquivo bruto
+selic <- readr::read_csv2("data/raw/aula2_selic_meta.csv",
+                           skip = 1, col_names = c("date", "selic_meta"),
+                           show_col_types = FALSE)
+
+glimpse(selic) # date é <chr> "DD/MM/YYYY" e selic_meta é <chr> "45,00" — precisam de ajuste
+
+# Etapa 2: adequação dos tipos (mesma lógica aplicada a ipca e ibc)
+# - dmy() converte "DD/MM/YYYY" → Date
+# - gsub() troca a vírgula decimal por ponto antes de as.numeric()
+# - filter() recorta o período de interesse
+selic_1 <- selic |>
+  mutate(date       = lubridate::dmy(date),
+         selic_meta = as.numeric(gsub(",", ".", selic_meta))) |>
+  filter(date >= as.Date("2003-01-01"), date <= as.Date("2025-12-31"))
+
+glimpse(selic_1) # já com tipos corretos — mas ainda diária (note o nrow)
+
+# Etapa 3: agregação para frequência mensal
+# Problema: selic_1 tem ~5.500 linhas (uma por dia útil), enquanto ipca e ibc
+# têm ~240 linhas (uma por mês). Um join direto por "date" não casaria as datas.
+#
+# Solução: truncar a data para o 1º dia do mês com floor_date() e depois
+# resumir os dias de cada mês em uma única linha.
+#
+# Por que last() e não mean()?
+# A Selic meta é uma taxa de política — ela não oscila diariamente como
+# preços de mercado. O valor ao final do mês representa a decisão vigente
+# do COPOM naquele período, o que é mais adequado para comparar com o IPCA
+# e o IBC-Br, que também são medidas de fim/fechamento de mês.
+# Passo 1 — mutate() + floor_date()
+#   floor_date(..., "month") "arredonda para baixo" qualquer data até o
+#   1º dia do mês (ex.: 2015-03-25 → 2015-03-01).
+#   Isso cria um "rótulo de mês" idêntico para todos os dias do mesmo mês,
+#   permitindo agrupá-los na próxima etapa.
+#   ATENÇÃO: floor_date NÃO escolhe o último dia — ele sempre vai para o
+#   primeiro. A data resultante (2015-03-01) é apenas um identificador do mês.
+# O floor_date só criou um "rótulo comum" para os dias do mesmo mês, mas ainda temos várias linhas por mês. O próximo passo é agrupar essas linhas para poder resumir a série mensal.
+#
+# Passo 2 — group_by(date)
+#   Após o mutate, todas as linhas que pertenciam ao mesmo mês agora têm
+#   exatamente a mesma data (o 1º do mês). group_by() agrupa essas linhas que ganharam o mesmo rótulo.
+#
+# Passo 3 — summarise() + last()
+#   Para cada grupo (= cada mês), last() retorna o ÚLTIMO valor de selic_meta
+#   dentro daquele grupo — ou seja, a taxa vigente no último dia com registro
+#   naquele mês, que corresponde à decisão mais recente do COPOM no período.
+#   Resultado: uma única linha por mês com a taxa de fechamento do mês.
+#
+# Resumindo o truque: floor_date agrupa os dias pelo mês; last() escolhe o
+# valor do último dia dentro do grupo. A data final (1º do mês) é apenas
+# o rótulo do período — não representa o dia em que a taxa foi observada.
+selic_meta <- selic_1 |>
+  mutate(date = lubridate::floor_date(date, "month")) |>
+  group_by(date) |>
+  summarise(selic_meta = last(selic_meta), .groups = "drop")
+
+glimpse(selic_meta) # agora mensal — nrow compatível com ipca e ibc
+
+# Verificando o resultado (sempre bom conferir)
 glimpse(ipca)
-glimpse(selic)
+glimpse(selic_meta)
 glimpse(ibc)
 
 # Salvando os dados brutos localmente (boa prática)
-# Isso evita rebaixar toda vez que você abrir o script — e garante que você
-# tem os dados mesmo se a internet ou o site do BCB estiverem fora do ar.
-readr::write_csv(ipca,  "data/raw/ipca_mensal_1999_2018.csv")
-readr::write_csv(selic, "data/raw/selic_meta_1999_2018.csv")
-readr::write_csv(ibc,   "data/raw/ibc_br_1999_2018.csv")
+readr::write_csv(ipca,  "data/raw/ipca_mensal_1999_2025.csv")
+readr::write_csv(selic_meta, "data/raw/selic_meta_2003_2025.csv")
+readr::write_csv(ibc,   "data/raw/ibc_br_1999_2025.csv")
 
 # ------------------------------------------------------------
 # 1.2) Juntando as três séries em uma única tabela
 # ------------------------------------------------------------
 
 macro <- ipca |>
-  left_join(selic, by = "date") |>
-  left_join(ibc,   by = "date") |>
+  left_join(selic_meta, by = "date") |>
+  left_join(ibc,        by = "date") |>
   arrange(date)   # garante a ordem cronológica
 
 # left_join() une duas tabelas usando uma coluna-chave (aqui: "date").
@@ -83,39 +154,35 @@ macro <- ipca |>
 # e buscamos os valores correspondentes nas tabelas da direita.
 # Resultado: uma linha por mês, com as três séries lado a lado.
 #
-# Por que left_join() e não full_join()?
-# Aqui as três séries foram baixadas com o mesmo recorte temporal (1999–2018),
-# então a diferença prática é pequena. Mas em outros contextos, importa:
+# Atenção: as séries têm coberturas temporais diferentes neste notebook:
+#   ipca      → 1999–2025 (tabela da esquerda — âncora do join)
+#   ibc_br    → 1999–2025 no download, mas o IBC-Br só existe a partir de 2003
+#   selic_meta → filtrada para 2003–2025 na etapa de limpeza (selic_1)
+#
+# Por isso, o left_join() com ipca como tabela da esquerda preserva todas as
+# datas de 1999 a 2025, mas os meses de 1999–2002 ficarão com NA nas colunas
+# selic_meta e ibc_yoy — o que é o comportamento correto e esperado.
+# Esses NAs são tratados depois com filter(!is.na(...)) nas seções 5 e 6.
 #
 #   left_join()  → mantém APENAS as datas presentes na tabela da esquerda (ipca).
-#                  Se selic ou ibc tiverem datas extras, elas são descartadas
-#                  silenciosamente — sem aviso de erro.
+#                  Datas presentes só em selic_meta ou ibc seriam descartadas,
+#                  mas isso não ocorre aqui pois ambas cobrem subconjuntos de ipca.
 #
 #   full_join()  → mantém TODAS as datas de todas as tabelas.
 #                  Onde falta valor, preenche com NA.
-#                  Mais seguro quando as séries têm coberturas diferentes.
-#
-# Exemplo real: o IBC-Br (série 24363) só existe a partir de 2003.
-# Se você fizesse left_join() com ibc como tabela da esquerda, perderia
-# todos os meses anteriores a 2003 das outras séries.
-# Com full_join(), esses meses seriam preservados (com NA no ibc_br).
+#                  Alternativa mais segura se houvesse datas em selic/ibc
+#                  fora do intervalo de ipca.
 #
 # Regra prática:
-#   - Séries com mesmo recorte temporal → left_join() é suficiente.
-#   - Séries com recortes diferentes    → prefira full_join() para não
-#     perder dados sem perceber.
-
-
-# CHECKPOINT (2 min)
-# - Quantas linhas tem macro? (dica: nrow(macro))
-# - Quais são as colunas? Elas fazem sentido?
-glimpse(macro)
-
-
+#   - A série mais longa (ou âncora do período de análise) deve ser a
+#     tabela da esquerda no left_join().
+#   - Séries com recortes que extrapolam a tabela esquerda → use full_join()
+#     para não perder datas sem perceber.
+#
 # ------------------------------------------------------------
 # 2) Transformações macroeconômicas
 # ------------------------------------------------------------
-
+# 
 # ····························································
 # 2.1) IPCA acumulado em 12 meses (%)
 # ····························································
@@ -124,18 +191,43 @@ glimpse(macro)
 # anual. A variação mensal isolada tem muito "ruído".
 #
 # Por que taxa composta e não soma simples?
-# Somar as variações mensais superestima levemente a inflação acumulada.
-# O cálculo correto é o produto dos fatores:
-#   (1 + r1/100) × (1 + r2/100) × ... × (1 + r12/100) − 1
+# Somar as variações mensais (ex.: 0,5 + 0,3 + ... ao longo de 12 meses)
+# superestima levemente a inflação acumulada. O problema é que somar ignora
+# o efeito de "juros sobre juros": se um bem custa R$100 e sobe 1% no mês 1,
+# ele passa a custar R$101 — e o 1% do mês 2 incide sobre R$101, não sobre R$100.
+#
+# O cálculo correto converte cada variação mensal em um "fator de crescimento"
+# e multiplica todos eles em sequência:
+#
+#   Passo 1 — converter % em fator:
+#     Uma inflação de 0,5% ao mês equivale a multiplicar o preço por 1,005
+#     (ou seja: 1 + 0,5/100). O "1" representa o valor original; o "0,005"
+#     representa o acréscimo.
+#
+#   Passo 2 — encadear os 12 meses:
+#     fator_acumulado = (1 + r1/100) × (1 + r2/100) × ... × (1 + r12/100)
+#     Isso é o equivalente a aplicar cada mês de inflação sobre o resultado
+#     do mês anterior — exatamente como funciona na realidade.
+#
+#   Passo 3 — converter de volta para %:
+#     ipca_12m = (fator_acumulado − 1) × 100
+#     Subtraímos 1 para eliminar o "valor original" e ficamos só com o
+#     crescimento líquido; multiplicamos por 100 para expressar em percentual.
+#
+# Exemplo numérico simplificado (3 meses de 2%):
+#   Soma simples:   2 + 2 + 2 = 6,00%  ← incorreto
+#   Taxa composta:  (1,02 × 1,02 × 1,02 − 1) × 100 = 6,12%  ← correto
 #
 # Para fazer isso em janelas móveis de 12 meses usamos slide_dbl() do
 # pacote {slider}. Uma "janela móvel" (rolling window) percorre a série
-# mês a mês, calculando sempre sobre os 12 meses mais recentes.
+# mês a mês, calculando sempre sobre os 12 meses mais recentes — como
+# se você "deslizasse" uma régua de 12 posições ao longo da série.
 #
 # Referência conceitual:
-#   Banco Central do Brasil. Relatório de Inflação (publicação trimestral).
-#   O BCB usa exatamente essa metodologia para divulgar o IPCA acumulado 12m.
-#   Acesso: https://www.bcb.gov.br/publicacoes/ri
+#   IBGE. O que é inflação? (página explicativa oficial).
+#   O IBGE é o responsável pelo cálculo e divulgação do IPCA; o BCB replica
+#   o índice em seus relatórios, mas a metodologia é do IBGE.
+#   Acesso: https://www.ibge.gov.br/explica/inflacao.php
 #
 # Documentação do pacote {slider} (com exemplos de janelas móveis):
 #   https://slider.r-lib.org
@@ -157,19 +249,12 @@ macro <- macro |>
     )
   )
 
-# Explicação da fórmula:
-# - .x é o vetor dos 12 meses (ex: c(0.5, 0.3, 0.4, ..., 0.6))
-# - Para cada mês, somamos 1 e dividimos por 100 para converter de porcentagem para fator (ex: 1 + 0.5/100 = 1.005)
-# - O produto desses fatores dá o crescimento total (ex: 1.005 × 1.003 × ... × 1.006 = 1.061)
-# - Subtraímos 1 para voltar de fator para taxa (ex: 1.061 − 1 = 0.061)
-# - Multiplicamos por 100 para converter de volta para porcentagem (ex: 0.061 × 100 = 6.1% de inflação acumulada em 12 meses)
-# CHECKPOINT:
-# - O que acontece com ipca_12m nos primeiros 11 meses da série?
-# como checar:
-# filter(macro, date < ymd("2000-01-01")) |> select(date, ipca_mensal, ipca_12m)
-# explicação: eles ficam como NA porque a janela de 12 meses não está completa — isso é o comportamento esperado com .complete = TRUE.
-
-
+# Por que prod() e não sum()?
+# Inflação compõe: preços sobem sobre preços que já subiram.
+# Somar as taxas mensais ignoraria esse efeito e subestimaria o acumulado.
+# Ao converter cada taxa em fator (1 + t/100), multiplicá-los e depois
+# subtrair 1, capturamos exatamente essa acumulação composta.
+#
 # ····························································
 # 2.2) Atividade: crescimento do IBC-Br em 12 meses (%)
 # ····························································
@@ -207,15 +292,10 @@ macro <- macro |>
 # "Ex-post" significa que usamos a inflação que de fato ocorreu (e não a esperada).
 #
 # Referência clássica:
-#   Fisher, I. (1930). The Theory of Interest. Macmillan.
+#   Fisher, I. (1930). The Theory of Interest.
 #   (A equação de Fisher é apresentada em qualquer manual de macroeconomia;
 #    ver p. ex. Blanchard, O. Macroeconomia. 7ª ed., cap. 14)
 #
-# Leitura complementar acessível sobre taxa real de juros no Brasil:
-#   Nakane, M.I. & Koyama, S.M. (2003). "O spread bancário no Brasil."
-#   BCB Notas Técnicas n. 18. Acesso: https://www.bcb.gov.br/pec/notastecnicas/port/2003nt18p.pdf
-#   (contextualiza juros nominais vs. reais no sistema financeiro brasileiro)
-
 macro <- macro |>
   mutate(
     selic_real_expost = selic_meta - ipca_12m
@@ -228,82 +308,51 @@ macro <- macro |>
 # ao desvio da inflação em relação à meta — não ao nível absoluto.
 # Esse desvio (inflação_gap) é um dos ingredientes centrais da Regra de Taylor.
 #
-# Usamos meta_inflacao_aprox = 4,5% como simplificação pedagógica.
+# Usamos meta_inflacao_aprox = 3% como simplificação pedagógica.
 # Na realidade, a meta variou ao longo do período (ex.: 3,25% em 2017).
 # Consulte o histórico em: https://www.bcb.gov.br/monetariainflacao/metas
 
 macro <- macro |>
   mutate(
-    meta_inflacao_aprox = 4.5,
-    inflacao_gap        = ipca_12m - meta_inflacao_aprox
+    meta_inflacao_aprox = 3,
+    inflacao_gap = ipca_12m - meta_inflacao_aprox
   )
 
-# CHECKPOINT (3 min)
-# - O que você espera para selic_real_expost em períodos de inflação muito alta?
-# - Em geral, ipca_12m e selic_meta sobem e caem juntos? Por quê?
-
-
 # ------------------------------------------------------------
-# 3) Gráfico 1: IPCA 12m x Selic (comparação temporal com facets)
+# 3) Gráfico 1: IPCA 12m x Selic (séries sobrepostas)
 # ------------------------------------------------------------
-# Para comparar as duas séries num mesmo gráfico, precisamos primeiro
-# reorganizar os dados: de "formato largo" (duas colunas separadas)
-# para "formato longo" (uma coluna com os valores e outra com o rótulo).
-#
-# Isso se chama "pivotar para o formato longo" — pivot_longer().
-# É o padrão "tidy data" (dados arrumados): cada linha é uma observação,
-# cada coluna é uma variável.
-#
-# Referência sobre tidy data:
-#   Wickham, H. (2014). "Tidy Data." Journal of Statistical Software, 59(10), 1–23.
-#   Acesso aberto (open access): https://doi.org/10.18637/jss.v059.i10
-#
-# Documentação de pivot_longer() com exemplos visuais:
-#   https://tidyr.tidyverse.org/reference/pivot_longer.html
-#
-# Como ler pivot_longer():
-#   cols      = quais colunas transformar em linhas
-#   names_to  = nome da nova coluna que vai guardar o rótulo (ex: "serie")
-#   values_to = nome da nova coluna que vai guardar o valor numérico
+# IPCA 12m e Selic estão em unidades comparáveis (ambas em % a.a.) e o
+# Brasil historicamente manteve a Selic acima do IPCA (juro real positivo).
+# Um painel único com as duas linhas preserva a comparação direta de nível
+# e permite ver quando a Selic reage às oscilações da inflação.
 
-macro_long <- macro |>
-  select(date, ipca_12m, selic_meta) |>
-  pivot_longer(
-    cols      = c(ipca_12m, selic_meta),
-    names_to  = "serie",
-    values_to = "valor"
-  ) |>
-  # recode() troca os valores de uma coluna por rótulos mais legíveis
-  mutate(
-    serie = recode(serie,
-                   ipca_12m   = "IPCA (12m, %)",
-                   selic_meta = "Selic meta (% a.a.)")
-  )
-
-# facet_wrap() divide o gráfico em painéis separados por categoria.
-# Aqui usamos scales = "free_y" porque IPCA e Selic têm escalas diferentes.
-# Sem isso, um painel ficaria "achatado" pela escala do outro.
-
-p_inflacao_selic <- ggplot(macro_long, aes(x = date, y = valor)) +
-  geom_line() +
-  facet_wrap(~ serie, ncol = 1, scales = "free_y") +
-  scale_x_date(date_labels = "%Y", date_breaks = "2 years") +
+p_inflacao_selic <- ggplot(macro, aes(x = date)) +
+  geom_line(aes(y = ipca_12m,   color = "IPCA (12m, %)"),        linewidth = 0.8) +
+  geom_line(aes(y = selic_meta, color = "Selic meta (% a.a.)"), linewidth = 0.8) +
+  scale_color_manual(values = c("IPCA (12m, %)"        = "steelblue",
+                                "Selic meta (% a.a.)" = "firebrick")) +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year") +
+  scale_y_continuous(labels = scales::label_number(suffix = "%"), breaks = seq(0, 60, by = 2)) +
   labs(
-    title   = "Inflação (12m) e juros (Selic) no Brasil — 1999–2018",
-    x       = NULL,
-    y       = NULL,
-    caption = "Fonte: BCB/SGS via rbcb. IPCA 12m calculado por taxa composta mensal."
+    title    = "Inflação (IPCA 12m) e Selic — Brasil, 2003–2025",
+    subtitle = "Selic historicamente acima do IPCA: juro real positivo é a norma no Brasil",
+    x        = NULL,
+    y        = "Taxa (% a.a.)",
+    color    = NULL,
+    caption  = "Fonte: BCB/SGS via rbcb. IPCA 12m calculado por taxa composta mensal."
   ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme_classic(base_size = 13) +
+  theme(
+    plot.title       = element_text(face = "bold", size = 14),
+    plot.subtitle    = element_text(color = "grey40", size = 11),
+    plot.caption     = element_text(color = "grey50", size = 9),
+    legend.position  = "bottom",
+    axis.text.x      = element_text(angle = 90, hjust = 1)
+  )
 
 p_inflacao_selic
-ggsave("outputs/figs/aula2_ipca12m_selic_1999_2018.png",
+ggsave("outputs/figs/aula2_ipca12m_selic_1999_2025.png",
        p_inflacao_selic, width = 8, height = 6)
-
-# CHECKPOINT (interpretação):
-# - Em quais períodos a Selic sobe junto com a inflação? (pistas: 2002–03 e 2015–16)
-# - Você enxerga períodos de desinflação (queda persistente do IPCA 12m)?
 
 
 # ------------------------------------------------------------
@@ -314,20 +363,29 @@ ggsave("outputs/figs/aula2_ipca12m_selic_1999_2018.png",
 
 p_selic_real <- ggplot(macro, aes(x = date, y = selic_real_expost)) +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
-  geom_line() +
-  scale_x_date(date_labels = "%Y", date_breaks = "2 years") +
+  geom_line(linewidth = 0.8) +
+  scale_x_date(date_labels = "%Y", date_breaks = "1 year",
+               limits = c(as.Date("2003-01-01"), as.Date("2025-12-31"))) +
+  scale_y_continuous(labels = scales::label_number(suffix = "%"), breaks = seq(-20, 30, by = 2)) +
   labs(
-    title   = "Juro real ex-post (Selic − IPCA 12m) — aproximação",
-    x       = NULL,
-    y       = "p.p.",
-    caption = "Medida ex-post e aproximada (diferença de taxas anuais)."
+    title    = "Juro real ex-post (Selic − IPCA 12m) — Brasil, 2003–2025",
+    subtitle = "Aproximação pela diferença de taxas anuais; linha vermelha = juro real zero",
+    x        = NULL,
+    y        = "p.p.",
+    caption  = "Fonte: BCB/SGS via rbcb. Medida ex-post e aproximada."
   ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme_classic(base_size = 13) +
+  theme(
+    plot.title    = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(color = "grey40", size = 11),
+    plot.caption  = element_text(color = "grey50", size = 9),
+    axis.text.x   = element_text(angle = 90, hjust = 1)
+  )
 
 p_selic_real
-ggsave("outputs/figs/aula2_selic_real_expost_1999_2018.png",
+ggsave("outputs/figs/aula2_selic_real_expost_1999_2025.png",
        p_selic_real, width = 8, height = 4)
+
 
 # CHECKPOINT:
 # - Quando o juro real fica muito alto? O que isso sugere sobre a postura monetária?
@@ -342,16 +400,29 @@ ggsave("outputs/figs/aula2_selic_real_expost_1999_2018.png",
 # Isso facilita comparações e ajuda a identificar padrões estruturais.
 #
 # Referência sobre regimes de política monetária no Brasil:
-#   Bogdanski, J., Tombini, A., & Werlang, S.R. (2000).
-#   "Implementing Inflation Targeting in Brazil."
-#   BCB Working Paper No. 1.
-#   Acesso: https://www.bcb.gov.br/pec/wps/ingl/wps01.pdf
-#   (Artigo fundacional que descreve a implantação do regime de metas no Brasil)
+# Bogdanski, J., Tombini, A., & Werlang, S.R. (2000).
+# "Implementing Inflation Targeting in Brazil."
+# BCB Working Paper No. 1.
+# Acesso: https://www.bcb.gov.br/pec/wps/ingl/wps01.pdf
+# (Artigo fundacional que descreve a implantação do regime de metas no Brasil)
 #
-#   Mishkin, F.S. (2000). "Inflation Targeting in Emerging-Market Countries."
-#   American Economic Review, 90(2), 105–109.
-#   Acesso via Google Scholar: buscar por "Mishkin 2000 Inflation Targeting Emerging"
-#   (Contexto internacional do regime de metas para países emergentes)
+# Mishkin, F.S. (2000). "Inflation Targeting in Emerging-Market Countries."
+# American Economic Review, 90(2), 105–109.
+# Acesso: https://www.nber.org/system/files/working_papers/w7618/w7618.pdf
+# (Contexto internacional do regime de metas para países emergentes)
+
+macro <- macro |>
+  mutate(
+    regime = case_when(
+      date < ymd("2003-01-01") ~ "1999–2002: transição/credibilidade",
+      date < ymd("2011-01-01") ~ "2003–2010: metas consolidadas",
+      date < ymd("2015-01-01") ~ "2011–2014: juros em queda/expansão",
+      date < ymd("2020-01-01") ~ "2015–2019: ajuste/desinflação",
+      date < ymd("2022-01-01") ~ "2020–2021: pandemia COVID-19",
+      TRUE                     ~ "2022–2025: pós-pandemia/ajuste"
+    )
+  )
+
 #
 # case_when() é uma versão vetorizada do "se/senão" (if/else) do R.
 # Funciona assim: avalia cada condição em ordem e atribui o valor
@@ -362,17 +433,7 @@ ggsave("outputs/figs/aula2_selic_real_expost_1999_2018.png",
 # ymd() do pacote lubridate converte uma string "AAAA-MM-DD" em objeto Date.
 # É equivalente a as.Date(), mas com sintaxe mais compacta e legível.
 # Documentação do pacote {lubridate}: https://lubridate.tidyverse.org
-
-macro <- macro |>
-  mutate(
-    regime = case_when(
-      date < ymd("2003-01-01") ~ "1999–2002: transição/credibilidade",
-      date < ymd("2011-01-01") ~ "2003–2010: metas consolidadas",
-      date < ymd("2015-01-01") ~ "2011–2014: juros em queda/expansão",
-      TRUE                     ~ "2015–2018: ajuste/desinflação"
-    )
-  )
-
+#
 # Tabela-resumo por regime
 # group_by() + summarise() já vimos na Aula 1.
 # sd() calcula o desvio padrão — uma medida de dispersão/volatilidade.
@@ -397,8 +458,14 @@ readr::write_csv(tab_regimes, "outputs/tables/aula2_resumo_regimes.csv")
 
 # CHECKPOINT:
 # - Qual regime tem maior inflação média? E maior juro real médio?
-# - Compare inflacao_media com a meta de 4,5%: em quais regimes o BC ficou
+# - Compare inflacao_media com a meta de inflação: em quais regimes o BC ficou
 #   consistentemente acima ou abaixo da meta?
+# - O regime pandemia (2020–21) se destaca em qual variável? E o pós-pandemia?
+# NOTA: a meta de inflação variou ao longo do período — 4,5% de 2005 a 2018,
+# depois foi sendo reduzida gradualmente: 4,25% (2019), 4,0% (2020), 3,75% (2021),
+# 3,5% (2022), 3,25% (2023), 3,0% a partir de 2024.
+# Consulte o histórico completo em: https://www.bcb.gov.br/controleinflacao/historicometas
+# meta_inflacao_aprox = 3% é usada como simplificação pedagógica para todo o período.
 
 
 # ------------------------------------------------------------
@@ -410,7 +477,10 @@ readr::write_csv(tab_regimes, "outputs/tables/aula2_resumo_regimes.csv")
 #
 #   i_t = r* + π* + α(π_t − π*) + β(y_t − y*)
 #
-# onde i = taxa de juros, r* = juro natural, π* = meta de inflação,
+# Em que:
+# i = taxa de juros,
+# r* = juro natural,
+# π* = meta de inflação,
 # (π − π*) = desvio da inflação em relação à meta,
 # (y − y*) = hiato do produto (atividade acima/abaixo do potencial).
 #
@@ -419,21 +489,14 @@ readr::write_csv(tab_regimes, "outputs/tables/aula2_resumo_regimes.csv")
 #   Carnegie-Rochester Conference Series on Public Policy, 39, 195–214.
 #   Acesso: https://doi.org/10.1016/0167-2231(93)90009-L
 #
-# Aplicação ao Brasil:
-#   Moreira, T.B.S., Souza, G.S., & Almeida, C.L. (2007).
-#   "A Regra de Taylor e a Política Monetária Brasileira."
-#   Revista de Economia Política, 27(2), 247–267.
-#   Acesso via Scielo: https://www.scielo.br/j/rep/
-#
 # Modelo estimado aqui (versão simplificada e didática):
 #   Selic_t = a + b × IPCA12m_t + c × CrescimentoIBC_t + erro_t
 #
-# ATENÇÃO — Três avisos importantes:
-# 1) Isso NÃO prova causalidade. É uma regressão descritiva.
+# ATENÇÃO — Avisos importantes:
+# 1) NÃO se pretende provar causalidade. Trata-se de uma regressão descritiva.
 # 2) Há endogeneidade: a Selic afeta a inflação futura, e a inflação
 #    afeta a Selic atual — as variáveis se influenciam mutuamente.
-# 3) O objetivo aqui é aprender a ler coeficientes e sinais.
-#    OLS completo virá em outras disciplinas.
+# 3) Objetivo aqui é ler os coeficientes e sinais.
 
 dados_modelo <- macro |>
   select(date, selic_meta, ipca_12m, ibc_yoy, inflacao_gap, regime) |>
@@ -456,6 +519,51 @@ coef_m1 <- broom::tidy(m1, conf.int = TRUE)
 coef_m1
 readr::write_csv(coef_m1, "outputs/tables/aula2_regressao_m1_coef.csv")
 
+# Considerando o resultado do modelo m1, tem-se:
+#
+# ── Como ler uma tabela OLS ──────────────────────────────────────────────────
+# estimate  : o coeficiente estimado — quanto Y varia para +1 unidade em X,
+#             mantendo as demais variáveis constantes (ceteris paribus).
+# std.error : incerteza em torno do estimate. Quanto menor, mais precisa a estimativa.
+# statistic : t = estimate / std.error. Mede em quantos erros-padrão o coeficiente
+#             está afastado de zero. Valores |t| > 2 são um sinal informal de
+#             significância com amostras grandes.
+# p.value   : probabilidade de observar um t tão extremo se o coeficiente fosse
+#             zero na população. Convenção usual: p < 0,05 → "estatisticamente
+#             significativo" (rejeitamos a hipótese nula de coeficiente = 0).
+# conf.low / conf.high : intervalo de confiança de 95%. Se o intervalo não cruzar
+#             zero, o coeficiente é significativo ao nível de 5%.
+#
+# ── Interpretação dos coeficientes ──────────────────────────────────────────
+#
+# (Intercept) = 6,79 p.p. (p < 0,001)
+#   Quando IPCA 12m = 0 e IBC-Br = 0, o modelo prevê Selic ≈ 6,8% a.a.
+#   Esse valor pode ser interpretado como uma estimativa implícita da taxa
+#   de juros neutra (r*) no período — o patamar de juros na ausência de
+#   pressões inflacionárias ou de atividade.
+#
+# ipca_12m = 0,697 (IC 95%: 0,48 – 0,91; p < 0,001)
+#   Cada +1 p.p. no IPCA 12m está associado, em média, a +0,70 p.p. na Selic.
+#   O coeficiente é positivo e significativo — coerente com a Regra de Taylor.
+#   ATENÇÃO: o "Princípio de Taylor" prevê que esse coeficiente deva ser > 1
+#   para que a política monetária seja estabilizadora (juro real sobe quando
+#   a inflação sobe). Aqui o coeficiente é < 1, o que sugere que, na média
+#   do período 2003–2025, o BC reagiu à inflação, mas não o suficiente para
+#   elevar o juro real. Isso pode refletir períodos de dominância fiscal ou
+#   afrouxamento deliberado (ex.: 2011–2014 e 2020–2021).
+#
+# ibc_yoy = 0,170 (IC 95%: 0,06 – 0,28; p = 0,002)
+#   Cada +1 p.p. no crescimento do IBC-Br está associado a +0,17 p.p. na Selic.
+#   O sinal positivo faz sentido pela lógica Taylor: economia aquecida →
+#   BC aperta juros. O coeficiente é menor do que o de inflação, indicando
+#   que o BC reage mais à inflação do que à atividade — padrão esperado
+#   num regime de metas de inflação.
+#
+# LEMBRETE: essa regressão é DESCRITIVA. Correlação ≠ causalidade.
+#   Há endogeneidade: a Selic afeta inflação e atividade futuras, que por sua
+#   vez afetam a Selic atual. OLS não resolve isso — é um ponto de partida.
+
+
 # Gráfico 3: dispersão Selic x IPCA 12m com reta de regressão
 # geom_smooth(method = "lm") adiciona automaticamente a reta OLS com
 # a faixa de incerteza (intervalo de confiança) em cinza ao redor dela.
@@ -464,7 +572,7 @@ p_dispersao <- ggplot(dados_modelo, aes(x = ipca_12m, y = selic_meta)) +
   geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", se = TRUE) +
   labs(
-    title   = "Selic vs Inflação (12m) — regressão simples (2003–2018)",
+    title   = "Selic vs Inflação (12m) — regressão simples (2003–2025)",
     x       = "IPCA 12m (%)",
     y       = "Selic meta (% a.a.)",
     caption = "Dispersão + reta OLS. Não implica causalidade."
@@ -474,6 +582,35 @@ p_dispersao <- ggplot(dados_modelo, aes(x = ipca_12m, y = selic_meta)) +
 p_dispersao
 ggsave("outputs/figs/aula2_selic_vs_ipca_regressao.png",
        p_dispersao, width = 7, height = 5)
+
+# Considerando a dispersão dos pontos e a reta de regressão, tem-se:
+# - A nuvem de pontos mostra que, em geral, meses com IPCA 12m mais alto tendem
+#   a ter Selic mais alta, o que é consistente com a resposta do BC à inflação.
+# - A reta de regressão (linha azul, cor padrão do geom_smooth) tem inclinação
+#   positiva, refletindo a relação prevista pela Regra de Taylor.
+# - A nuvem apresenta dispersão considerável: a relação não é determinística.
+#   Pontos afastados da reta correspondem a períodos em que outros fatores
+#   dominaram a decisão do BC — ex.: 2020–2021, quando a Selic foi reduzida
+#   a 2% a.a. mesmo com IPCA em alta, por conta do choque pandêmico.
+
+
+# E se utilizássemos cores para cada regime no gráfico de dispersão?
+# A ideia é identificar os momentos acima e abaixo da meta de inflação por regime? A resposta do BC à inflação mudou ao longo dos subperíodos?
+
+p_dispersao_regime <- ggplot(dados_modelo, aes(x = ipca_12m, y = selic_meta, color = regime)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(
+    title   = "Selic vs Inflação (12m) por Regime — regressão simples (2003–2025)",
+    x       = "IPCA 12m (%)",
+    y       = "Selic meta (% a.a.)",
+    color   = "Regime",
+    caption = "Dispersão + reta OLS por regime. Não implica causalidade."
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+p_dispersao_regime
+
 
 # CHECKPOINT (interpretação do modelo):
 # - O sinal do coeficiente de ipca_12m é positivo? Isso faz sentido econômico?
