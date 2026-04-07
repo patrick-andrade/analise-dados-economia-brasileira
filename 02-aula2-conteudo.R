@@ -2,7 +2,7 @@
 # Economia brasileira: análise de dados (Laboratório)
 # PARTE 1 — Estabilização econômica e regime monetário
 #
-# AULA 2 (2h): Dinâmica macro integrada
+# AULA 2: Dinâmica macro integrada
 # Tema: Inflação (IPCA), juros (Selic) e atividade (IBC-Br) — 1999–2025
 # Foco: (A) transformações com dados reais + (B) visualização e interpretação
 # Extra (nível acima): regressão simples (Taylor "na prática")
@@ -13,6 +13,8 @@
 # - 3–5 frases interpretativas citando números e anos
 # ============================================================
 
+setwd("PROJETOS/202601-ANALISE-ECONOMIA-BR") # ajuste para o diretório do projeto no seu computador
+getwd() # verifique se o diretório está correto
 
 # ------------------------------------------------------------
 # 0) Setup (pastas, pacotes, opções)
@@ -22,15 +24,18 @@ dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
 dir.create("outputs/figs",   recursive = TRUE, showWarnings = FALSE)
 dir.create("outputs/tables", recursive = TRUE, showWarnings = FALSE)
 
-# Se você já instalou na Aula 1, não precisa rodar o install de novo
+# Se você já instalou na Aula 1, não precisa rodar o install de novo.
 # Apenas o library() precisa rodar toda vez que abrir o R.
-# install.packages(c("tidyverse", "lubridate", "rbcb", "slider", "broom"))
+# Nesta aula, {gt} formata a tabela e {webshot2} dá suporte à exportação em PNG.
+install.packages(c("tidyverse", "lubridate", "rbcb", "slider", "broom", "gt", "webshot2"))
 
 library(tidyverse)   # dplyr, ggplot2, tidyr, readr, etc.
 library(lubridate)   # facilita trabalhar com datas (ymd, year, month...)
 library(rbcb)        # acessa o SGS do Banco Central
 library(slider)      # funções de janela móvel (rolling window)
 library(broom)       # deixa resultados de modelos no formato tibble
+library(gt)          # cria tabelas de apresentação
+library(webshot2)    # suporte para salvar tabelas gt como imagem
 
 options(scipen = 999) # desliga notação científica (ex: exibe 1000000 em vez de 1e+06)
 
@@ -42,20 +47,19 @@ options(scipen = 999) # desliga notação científica (ex: exibe 1000000 em vez 
 # Aqui repetimos o mesmo padrão para 3 séries:
 #
 # Códigos SGS/BCB (Sistema Gerenciador de Séries Temporais do Banco Central):
-#   433   → IPCA: variação mensal (%)
-#   432   → Selic meta (% a.a.)
-#   24363 → IBC-Br: Índice de Atividade Econômica do Banco Central (índice)
+# 433   → IPCA: variação mensal (%)
+# 432   → Selic meta (% a.a.)
+# 24363 → IBC-Br: Índice de Atividade Econômica do Banco Central (índice)
 #
 # Para pesquisar outros códigos de séries disponíveis no SGS:
-#   https://www3.bcb.gov.br/sgspub/
+#   <https://www3.bcb.gov.br/sgspub/>
 #
 # A sintaxe c(nome = codigo) nomeia automaticamente a coluna de valores —
-# exatamente como fizemos na Aula 1 com c(ipca = 433).
-# A coluna de datas sempre se chama "date" (padrão do pacote rbcb).
-
+# exatamente como fizemos na Aula 1 com "c(ipca = 433)"
+#
 ipca  <- rbcb::get_series(c(ipca_mensal = 433),   start_date = "1999-01-01", end_date = "2025-12-31")
 ibc   <- rbcb::get_series(c(ibc_br = 24363), start_date = "1999-01-01", end_date = "2025-12-31")
-
+#
 # NOTA TÉCNICA — por que não usamos rbcb::get_series() para a Selic?
 # O comando abaixo é a forma "natural" de baixar a série 432 (Selic meta):
 # selic <- rbcb::get_series(c(selic_meta = 432),
@@ -67,9 +71,9 @@ ibc   <- rbcb::get_series(c(ibc_br = 24363), start_date = "1999-01-01", end_date
 # diretamente do SGS como workaround.
 #
 # ANTES DE RODAR: baixe o CSV da série 432 em:
-#   https://www3.bcb.gov.br/sgspub/
+#   <https://www3.bcb.gov.br/sgspub/>
 #   → pesquise "432" → clique na série "Taxa de juros - Selic" → Exportar → CSV
-#   Salve como:  data/raw/selic_meta.csv
+#   Salve como:  data/raw/aula2_selic_meta.csv
 
 # Etapa 1: leitura do arquivo bruto
 selic <- readr::read_csv2("data/raw/aula2_selic_meta.csv",
@@ -83,15 +87,15 @@ glimpse(selic) # date é <chr> "DD/MM/YYYY" e selic_meta é <chr> "45,00" — pr
 # - gsub() troca a vírgula decimal por ponto antes de as.numeric()
 # - filter() recorta o período de interesse
 selic_1 <- selic |>
-  mutate(date       = lubridate::dmy(date),
+  mutate(date = lubridate::dmy(date),
          selic_meta = as.numeric(gsub(",", ".", selic_meta))) |>
   filter(date >= as.Date("2003-01-01"), date <= as.Date("2025-12-31"))
 
 glimpse(selic_1) # já com tipos corretos — mas ainda diária (note o nrow)
 
 # Etapa 3: agregação para frequência mensal
-# Problema: selic_1 tem ~5.500 linhas (uma por dia útil), enquanto ipca e ibc
-# têm ~240 linhas (uma por mês). Um join direto por "date" não casaria as datas.
+# Problema: selic_1 tem ~8.400 linhas (uma por dia útil), enquanto ipca e ibc
+# têm ~270 linhas (uma por mês). Um join direto por "date" não casaria as datas.
 #
 # Solução: truncar a data para o 1º dia do mês com floor_date() e depois
 # resumir os dias de cada mês em uma única linha.
@@ -103,11 +107,11 @@ glimpse(selic_1) # já com tipos corretos — mas ainda diária (note o nrow)
 # e o IBC-Br, que também são medidas de fim/fechamento de mês.
 # Passo 1 — mutate() + floor_date()
 #   floor_date(..., "month") "arredonda para baixo" qualquer data até o
-#   1º dia do mês (ex.: 2015-03-25 → 2015-03-01).
+#   1º dia do mês (ex.: 2025-03-25 → 2025-03-01).
 #   Isso cria um "rótulo de mês" idêntico para todos os dias do mesmo mês,
 #   permitindo agrupá-los na próxima etapa.
 #   ATENÇÃO: floor_date NÃO escolhe o último dia — ele sempre vai para o
-#   primeiro. A data resultante (2015-03-01) é apenas um identificador do mês.
+#   primeiro. A data resultante 2025-03-01) é apenas um identificador do mês.
 # O floor_date só criou um "rótulo comum" para os dias do mesmo mês, mas ainda temos várias linhas por mês. O próximo passo é agrupar essas linhas para poder resumir a série mensal.
 #
 # Passo 2 — group_by(date)
@@ -159,14 +163,14 @@ macro <- ipca |>
 #   ibc_br    → 1999–2025 no download, mas o IBC-Br só existe a partir de 2003
 #   selic_meta → filtrada para 2003–2025 na etapa de limpeza (selic_1)
 #
-# Por isso, o left_join() com ipca como tabela da esquerda preserva todas as
+# Por isso, o left_join() com ipca como tabela da esquerda preserva todas as 
 # datas de 1999 a 2025, mas os meses de 1999–2002 ficarão com NA nas colunas
 # selic_meta e ibc_yoy — o que é o comportamento correto e esperado.
 # Esses NAs são tratados depois com filter(!is.na(...)) nas seções 5 e 6.
 #
 #   left_join()  → mantém APENAS as datas presentes na tabela da esquerda (ipca).
-#                  Datas presentes só em selic_meta ou ibc seriam descartadas,
-#                  mas isso não ocorre aqui pois ambas cobrem subconjuntos de ipca.
+# Datas presentes só em selic_meta ou ibc seriam descartadas,
+#  mas isso não ocorre aqui pois ambas cobrem subconjuntos de ipca.
 #
 #   full_join()  → mantém TODAS as datas de todas as tabelas.
 #                  Onde falta valor, preenche com NA.
@@ -174,10 +178,9 @@ macro <- ipca |>
 #                  fora do intervalo de ipca.
 #
 # Regra prática:
-#   - A série mais longa (ou âncora do período de análise) deve ser a
-#     tabela da esquerda no left_join().
-#   - Séries com recortes que extrapolam a tabela esquerda → use full_join()
-#     para não perder datas sem perceber.
+#   - A série mais longa (ou âncora do período de análise) deve
+# ser a tabela da esquerda no left_join().
+#   - Séries com recortes que extrapolam a tabela esquerda → use full_join() para não perder datas sem perceber.
 #
 # ------------------------------------------------------------
 # 2) Transformações macroeconômicas
@@ -284,11 +287,18 @@ macro <- macro |>
 # A distinção entre taxa nominal e real é central em macroeconomia:
 # o que importa para as decisões de poupança e investimento é o
 # rendimento acima da inflação, não o rendimento bruto.
-#
+
+# Equação de Fisher:
+# É a relação que conecta a taxa de juros nominal,
+# a taxa de juros real e a inflação esperada.
+
 # Fórmula exata (equação de Fisher):
-#   (1 + r_real) = (1 + r_nominal) / (1 + inflação)  →  r_real ≈ r_nominal − inflação
-#
-# Aqui usamos a aproximação (diferença simples), adequada para fins didáticos.
+# (1 + r_real) = (1 + r_nominal) / (1 + inflação esperada)
+
+# Como, em níveis usuais de inflação e juros, o termo de multiplicação cruzada costuma ser pequeno, em macroeconomia aplicada trabalha-se frequentemente com a versão aproximada.
+
+# r_real ≈ r_nominal − inflação
+
 # "Ex-post" significa que usamos a inflação que de fato ocorreu (e não a esperada).
 #
 # Referência clássica:
@@ -422,7 +432,7 @@ macro <- macro |>
       TRUE                     ~ "2022–2025: pós-pandemia/ajuste"
     )
   )
-
+#
 #
 # case_when() é uma versão vetorizada do "se/senão" (if/else) do R.
 # Funciona assim: avalia cada condição em ordem e atribui o valor
@@ -438,7 +448,7 @@ macro <- macro |>
 # group_by() + summarise() já vimos na Aula 1.
 # sd() calcula o desvio padrão — uma medida de dispersão/volatilidade.
 # n() conta o número de observações (meses) em cada grupo.
-
+#
 tab_regimes <- macro |>
   filter(!is.na(ipca_12m), !is.na(ibc_yoy)) |>
   group_by(regime) |>
@@ -456,6 +466,70 @@ tab_regimes <- macro |>
 tab_regimes
 readr::write_csv(tab_regimes, "outputs/tables/aula2_resumo_regimes.csv")
 
+# ------------------------------------------------------------
+# 6) Elementos do R: do dado bruto ao objeto exportável
+# ------------------------------------------------------------
+# Uma forma útil de pensar o R é em 3 níveis:
+#
+# Nível 1 — dados:
+#   usamos readr, dplyr e tidyr para importar, limpar e resumir tabelas.
+#   Exemplo nesta aula: tab_regimes é um tibble com os resultados por regime.
+#
+# Nível 2 — objeto de apresentação:
+#   transformamos os dados em um "elemento visual" do R.
+#   No ggplot2, esse objeto é um gráfico; no gt, esse objeto é uma tabela formatada.
+#
+# Nível 3 — exportação:
+#   salvamos o objeto em um arquivo externo.
+#   Exemplo: ggplot → ggsave(); gt_tbl → gtsave().
+#
+# Essa lógica ajuda a organizar o raciocínio:
+#   primeiro construímos os dados;
+#   depois definimos como eles serão apresentados;
+#   por fim exportamos o resultado.
+#
+# Criar uma versão formatada da tabela tab_regimes com {gt}:
+# - gt() converte o tibble em uma tabela de apresentação;
+# - cols_label() renomeia colunas para exibição;
+# - fmt_number() controla as casas decimais;
+# - tab_header() adiciona título e subtítulo.
+# Como carregamos {gt} no início do notebook, podemos usar gt(), fmt_number()
+# e gtsave() diretamente, no mesmo estilo em que usamos ggplot() e ggsave().
+
+tab_regimes_gt <- tab_regimes |>
+  gt() |>
+  tab_header(
+    title = "Resumo por regimes macroeconômicos",
+    subtitle = "Brasil, 1999–2025"
+  ) |>
+  cols_label(
+    regime = "Regime",
+    inflacao_media = "Inflação média",
+    inflacao_dp = "Desv. p. inflação",
+    selic_media = "Selic média",
+    juro_real_med = "Juro real médio",
+    ibc_yoy_media = "IBC-Br média",
+    n = "Meses"
+  ) |>
+  fmt_number(
+    columns = c(inflacao_media, inflacao_dp, selic_media, juro_real_med, ibc_yoy_media),
+    decimals = 2
+  )
+
+tab_regimes_gt
+
+# Lembrando o que significa 1 desvião padrão (dp):
+# - Em uma distribuição normal, cerca de 68% dos valores estão dentro de ±1 dp da média.
+# Tomando como exemplo o período "2011–2014: juros em queda/expansão",
+# sendo a inflação média = 6,14 e o desvio padrão = 0,58,
+# cerca de 68% dos valores estão entre 5,56 e 6,72.
+
+# Salvar a tabela como PNG:
+# O gt cria a tabela; o gtsave() exporta.
+# Para PNG, o gt normalmente renderiza a tabela e gera a imagem a partir dela.
+gtsave(tab_regimes_gt, "outputs/figs/aula2_tab_regimes.png")
+
+
 # CHECKPOINT:
 # - Qual regime tem maior inflação média? E maior juro real médio?
 # - Compare inflacao_media com a meta de inflação: em quais regimes o BC ficou
@@ -469,7 +543,7 @@ readr::write_csv(tab_regimes, "outputs/tables/aula2_resumo_regimes.csv")
 
 
 # ------------------------------------------------------------
-# 6) Regressão simples: uma "Taylor" didática
+# 7) Regressão simples: uma "Taylor" didática
 # ------------------------------------------------------------
 # A Regra de Taylor (1993) descreve como os bancos centrais tendem a
 # ajustar a taxa de juros em resposta à inflação e ao hiato do produto.
@@ -626,7 +700,7 @@ broom::tidy(m2, conf.int = TRUE)
 
 
 # ------------------------------------------------------------
-# 7) Fechamento: escrever evidência em 3–5 frases
+# 8) Fechamento: escrever evidência em 3–5 frases
 # ------------------------------------------------------------
 # TAREFA FINAL (em texto, não em código):
 # 1) Escolha 2 regimes da tabela tab_regimes e compare inflacao_media e
