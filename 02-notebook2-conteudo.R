@@ -2,7 +2,7 @@
 # Economia brasileira: análise de dados (Laboratório)
 # PARTE 1 — Estabilização econômica e regime monetário
 #
-# AULA 2: Dinâmica macro integrada
+# NOTEBOOK 2: Dinâmica macro integrada
 # Tema: Inflação (IPCA), juros (Selic) e atividade (IBC-Br) — 1999–2025
 # Foco: (A) transformações com dados reais + (B) visualização e interpretação
 # Extra (nível acima): regressão simples (Taylor "na prática")
@@ -13,8 +13,7 @@
 # - 3–5 frases interpretativas citando números e anos
 # ============================================================
 
-setwd("PROJETOS/202601-ANALISE-ECONOMIA-BR") # ajuste para o diretório do projeto no seu computador
-getwd() # verifique se o diretório está correto
+getwd()
 
 # ------------------------------------------------------------
 # 0) Setup (pastas, pacotes, opções)
@@ -24,9 +23,9 @@ dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
 dir.create("outputs/figs",   recursive = TRUE, showWarnings = FALSE)
 dir.create("outputs/tables", recursive = TRUE, showWarnings = FALSE)
 
-# Se você já instalou na Aula 1, não precisa rodar o install de novo.
+# Se você já instalou no Notebook 1, não precisa rodar o install de novo.
 # Apenas o library() precisa rodar toda vez que abrir o R.
-# Nesta aula, {gt} formata a tabela e {webshot2} dá suporte à exportação em PNG.
+# Neste notebook, {gt} formata a tabela e {webshot2} dá suporte à exportação em PNG.
 install.packages(c("tidyverse", "lubridate", "rbcb", "slider", "broom", "gt", "webshot2"))
 
 library(tidyverse)   # dplyr, ggplot2, tidyr, readr, etc.
@@ -43,7 +42,7 @@ options(scipen = 999) # desliga notação científica (ex: exibe 1000000 em vez 
 # ------------------------------------------------------------
 # 1) Baixando os dados do SGS/BCB com rbcb
 # ------------------------------------------------------------
-# Na Aula 1 já usamos get_series() para baixar o IPCA.
+# No Notebook 1 já usamos get_series() para baixar o IPCA.
 # Aqui repetimos o mesmo padrão para 3 séries:
 #
 # Códigos SGS/BCB (Sistema Gerenciador de Séries Temporais do Banco Central):
@@ -55,7 +54,7 @@ options(scipen = 999) # desliga notação científica (ex: exibe 1000000 em vez 
 #   <https://www3.bcb.gov.br/sgspub/>
 #
 # A sintaxe c(nome = codigo) nomeia automaticamente a coluna de valores —
-# exatamente como fizemos na Aula 1 com "c(ipca = 433)"
+# exatamente como fizemos no Notebook 1 com "c(ipca = 433)"
 #
 ipca  <- rbcb::get_series(c(ipca_mensal = 433),   start_date = "1999-01-01", end_date = "2025-12-31")
 ibc   <- rbcb::get_series(c(ibc_br = 24363), start_date = "1999-01-01", end_date = "2025-12-31")
@@ -67,16 +66,16 @@ ibc   <- rbcb::get_series(c(ibc_br = 24363), start_date = "1999-01-01", end_date
 #
 # Em certas versões do rbcb / ambientes de rede, o SGS retorna HTTP 406
 # (Not Acceptable) porque o pacote envia headers incompatíveis com o servidor.
-# Para não travar a aula nesse detalhe técnico, usamos o CSV exportado
+# Para não travar o notebook nesse detalhe técnico, usamos o CSV exportado
 # diretamente do SGS como workaround.
 #
 # ANTES DE RODAR: baixe o CSV da série 432 em:
 #   <https://www3.bcb.gov.br/sgspub/>
 #   → pesquise "432" → clique na série "Taxa de juros - Selic" → Exportar → CSV
-#   Salve como:  data/raw/aula2_selic_meta.csv
+#   Salve como:  data/raw/notebook2_selic_meta.csv
 
 # Etapa 1: leitura do arquivo bruto
-selic <- readr::read_csv2("data/raw/aula2_selic_meta.csv",
+selic <- readr::read_csv2("data/raw/notebook2_selic_meta.csv",
                            skip = 1, col_names = c("date", "selic_meta"),
                            show_col_types = FALSE)
 
@@ -271,7 +270,7 @@ macro <- macro |>
 #   (buscar por "IBC-Br" na listagem de notas técnicas)
 #
 # lag(x, 12) pega o valor da coluna x com 12 períodos de defasagem.
-# Já usamos lag() na Aula 1 (dif_cambio). Aqui aplicamos o mesmo conceito
+# Já usamos lag() no Notebook 1 (dif_cambio). Aqui aplicamos o mesmo conceito
 # para calcular a variação percentual em relação ao mesmo mês do ano anterior:
 #   variação = (valor_atual / valor_12_meses_atrás − 1) × 100
 
@@ -361,7 +360,7 @@ p_inflacao_selic <- ggplot(macro, aes(x = date)) +
   )
 
 p_inflacao_selic
-ggsave("outputs/figs/aula2_ipca12m_selic_1999_2025.png",
+ggsave("outputs/figs/notebook2_ipca12m_selic_1999_2025.png",
        p_inflacao_selic, width = 8, height = 6)
 
 
@@ -393,7 +392,7 @@ p_selic_real <- ggplot(macro, aes(x = date, y = selic_real_expost)) +
   )
 
 p_selic_real
-ggsave("outputs/figs/aula2_selic_real_expost_1999_2025.png",
+ggsave("outputs/figs/notebook2_selic_real_expost_1999_2025.png",
        p_selic_real, width = 8, height = 4)
 
 
@@ -445,7 +444,7 @@ macro <- macro |>
 # Documentação do pacote {lubridate}: https://lubridate.tidyverse.org
 #
 # Tabela-resumo por regime
-# group_by() + summarise() já vimos na Aula 1.
+# group_by() + summarise() já vimos no Notebook 1.
 # sd() calcula o desvio padrão — uma medida de dispersão/volatilidade.
 # n() conta o número de observações (meses) em cada grupo.
 #
@@ -464,7 +463,7 @@ tab_regimes <- macro |>
   arrange(regime)
 
 tab_regimes
-readr::write_csv(tab_regimes, "outputs/tables/aula2_resumo_regimes.csv")
+readr::write_csv(tab_regimes, "outputs/tables/notebook2_resumo_regimes.csv")
 
 # ------------------------------------------------------------
 # 6) Elementos do R: do dado bruto ao objeto exportável
@@ -473,7 +472,7 @@ readr::write_csv(tab_regimes, "outputs/tables/aula2_resumo_regimes.csv")
 #
 # Nível 1 — dados:
 #   usamos readr, dplyr e tidyr para importar, limpar e resumir tabelas.
-#   Exemplo nesta aula: tab_regimes é um tibble com os resultados por regime.
+#   Exemplo neste notebook: tab_regimes é um tibble com os resultados por regime.
 #
 # Nível 2 — objeto de apresentação:
 #   transformamos os dados em um "elemento visual" do R.
@@ -527,7 +526,7 @@ tab_regimes_gt
 # Salvar a tabela como PNG:
 # O gt cria a tabela; o gtsave() exporta.
 # Para PNG, o gt normalmente renderiza a tabela e gera a imagem a partir dela.
-gtsave(tab_regimes_gt, "outputs/figs/aula2_tab_regimes.png")
+gtsave(tab_regimes_gt, "outputs/figs/notebook2_tab_regimes.png")
 
 
 # CHECKPOINT:
@@ -591,7 +590,7 @@ summary(m1)
 
 coef_m1 <- broom::tidy(m1, conf.int = TRUE)
 coef_m1
-readr::write_csv(coef_m1, "outputs/tables/aula2_regressao_m1_coef.csv")
+readr::write_csv(coef_m1, "outputs/tables/notebook2_regressao_m1_coef.csv")
 
 # Considerando o resultado do modelo m1, tem-se:
 #
@@ -654,7 +653,7 @@ p_dispersao <- ggplot(dados_modelo, aes(x = ipca_12m, y = selic_meta)) +
   theme_minimal()
 
 p_dispersao
-ggsave("outputs/figs/aula2_selic_vs_ipca_regressao.png",
+ggsave("outputs/figs/notebook2_selic_vs_ipca_regressao.png",
        p_dispersao, width = 7, height = 5)
 
 # Considerando a dispersão dos pontos e a reta de regressão, tem-se:
