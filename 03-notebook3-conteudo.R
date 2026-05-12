@@ -2,7 +2,7 @@
 # Economia brasileira: análise de dados (Laboratório)
 # PARTE 2 — Setor externo e regime cambial
 #
-# AULA 3: Câmbio, reservas e o Brasil no cenário global
+# NOTEBOOK 3: Câmbio, reservas e o Brasil no cenário global
 # Tema: Taxa de câmbio (R$/US$), reservas internacionais,
 #        inflação Brasil vs EUA e comparação com emergentes
 # Foco: (A) nova fonte de dados (Banco Mundial via wbstats)
@@ -18,12 +18,12 @@
 # - 3–5 frases interpretativas citando números e anos
 # ============================================================
 #
-# Conexão com as aulas anteriores:
-# Aula 1: fundamentos do R e trabalho com o IPCA
-# Aula 2: integração de inflação, juros e atividade usando o BCB (rbcb),
+# Conexão com os notebooks anteriores:
+# Notebook 1: fundamentos do R e trabalho com o IPCA
+# Notebook 2: integração de inflação, juros e atividade usando o BCB (rbcb),
 # construção de tabelas de regimes e estimação de Regra de Taylor didática.
 #
-# Nesta aula: ampliacação do escopo:
+# Neste notebook: ampliacação do escopo:
 # - Geográfico: saímos do "Brasil apenas" para "Brasil + emergentes".
 # - De fontes: saímos do BCB (rbcb) para o Banco Mundial (wbstats).
 # - De estrutura: saímos de séries temporais (data × valor) para
@@ -33,9 +33,6 @@
 # quase sempre precisamos combinar dados domésticos e internacionais.
 # ============================================================
 
-setwd("PROJETOS/202601-ANALISE-ECONOMIA-BR") # ajuste para o seu diretório
-getwd()
-
 # ------------------------------------------------------------
 # 0) Setup (pastas, pacotes, opções)
 # ------------------------------------------------------------
@@ -44,7 +41,7 @@ dir.create("data/processed", recursive = TRUE, showWarnings = FALSE)
 dir.create("outputs/figs",   recursive = TRUE, showWarnings = FALSE)
 dir.create("outputs/tables", recursive = TRUE, showWarnings = FALSE)
 
-# Novos pacotes desta aula:
+# Novos pacotes deste notebook:
 # - {wbstats}: acessa a API do Banco Mundial (World Development Indicators)
 # - {patchwork}: combina múltiplos gráficos ggplot em uma única figura
 # - {slider}: janelas móveis — usado via slider:: sem library()
@@ -56,9 +53,9 @@ dir.create("outputs/tables", recursive = TRUE, showWarnings = FALSE)
 library(tidyverse)   # dplyr, ggplot2, tidyr, readr, stringr, etc.
 library(lubridate)   # trabalhar com datas (parte do tidyverse 2.0+; explícito por clareza)
 library(rbcb)        # SGS do Banco Central (câmbio e reservas domésticas)
-library(wbstats)     # API do Banco Mundial — NOVIDADE desta aula
-library(patchwork)   # combinar gráficos — NOVIDADE desta aula
-library(gt)          # tabelas de apresentação (já usamos na Aula 2)
+library(wbstats)     # API do Banco Mundial — NOVIDADE deste notebook
+library(patchwork)   # combinar gráficos — NOVIDADE deste notebook
+library(gt)          # tabelas de apresentação (já usamos no Notebook 2)
 library(broom)       # resultados de modelos em tibble (para a extensão)
 
 options(scipen = 999)
@@ -78,7 +75,7 @@ options(scipen = 999)
 # 3698  → Taxa de câmbio comercial (R$/US$) — média mensal
 # 3546  → Reservas internacionais (US$ milhões) — posição final do mês
 #
-# Estas séries complementam as que usamos na Aula 2 (IPCA 433, Selic 432,
+# Estas séries complementam as que usamos no Notebook 2 (IPCA 433, Selic 432,
 # IBC-Br 24363). A lógica de download é idêntica.
 
 cambio   <- rbcb::get_series(c(cambio_brl = 3698),
@@ -92,7 +89,7 @@ reservas <- rbcb::get_series(c(reservas_usd = 3546),
 glimpse(cambio)
 glimpse(reservas)
 
-# Salvando localmente (mesma boa prática da Aula 2)
+# Salvando localmente (mesma boa prática do Notebook 2)
 readr::write_csv(cambio,   "data/raw/cambio_brl_1999_2025.csv")
 readr::write_csv(reservas, "data/raw/reservas_usd_1999_2025.csv")
 
@@ -108,10 +105,10 @@ glimpse(setor_externo)
 # 2) Gráfico 1: Câmbio e Reservas — dois painéis
 # ------------------------------------------------------------
 # Usamos {patchwork} para combinar dois gráficos lado a lado (ou empilhados).
-# Diferente da Aula 2, em que IPCA e Selic foram sobrepostos no mesmo painel
+# Diferente do Notebook 2, em que IPCA e Selic foram sobrepostos no mesmo painel
 # por estarem em unidades comparáveis (% a.a.), aqui câmbio (R$/US$) e reservas
 # (US$ bi) têm unidades muito diferentes, então painéis separados ficam mais legíveis.
-# Já o facet_wrap(), usado mais adiante nesta própria aula na comparação entre
+# Já o facet_wrap(), usado mais adiante neste próprio notebook na comparação entre
 # países, funciona bem quando queremos repetir a mesma estrutura de gráfico
 # para vários grupos.
 #
@@ -155,7 +152,7 @@ p_setor_externo <- p_cambio / p_reservas +
   )
 
 p_setor_externo
-ggsave("outputs/figs/aula3_cambio_reservas_1999_2025.png",
+ggsave("outputs/figs/notebook3_cambio_reservas_1999_2025.png",
        p_setor_externo, width = 9, height = 7)
 
 
@@ -253,7 +250,7 @@ p_vol_cambio
 
 
 p_vol_cambio
-ggsave("outputs/figs/aula3_volatilidade_cambial_12m.png",
+ggsave("outputs/figs/notebook3_volatilidade_cambial_12m.png",
        p_vol_cambio, width = 9, height = 4.5)
 
 
@@ -267,8 +264,8 @@ ggsave("outputs/figs/aula3_volatilidade_cambial_12m.png",
 # - Compare o gráfico em nível com o gráfico de volatilidade móvel.
 #   Em quais episódios a turbulência cambial realmente se concentra?
 #
-# Conexão com a Aula 2:
-# A tabela de regimes que construímos na Aula 2 ajuda a interpretar
+# Conexão com o Notebook 2:
+# A tabela de regimes que construímos no Notebook 2 ajuda a interpretar
 # este gráfico. Os regimes "1999–2002: transição/credibilidade" e
 # "2003–2010: metas consolidadas" se conectam, respectivamente, a uma fase
 # de instabilidade cambial mais aguda e a outra de acumulação de reservas
@@ -333,7 +330,7 @@ wb_search("consumer price|CPI|inflation") |> head(10)
 #   end_date     = ano final
 #
 # IMPORTANTE: o Banco Mundial trabalha com dados ANUAIS.
-# Na Aula 2, trabalhamos com dados mensais do BCB. Agora estamos
+# No Notebook 2, trabalhamos com dados mensais do BCB. Agora estamos
 # em frequência anual — cada linha é um país-ano.
 #
 # Vamos definir os países de comparação.
@@ -423,7 +420,7 @@ wb_clean |>
 # 6) Gráfico 2: Comparação de inflação entre emergentes
 # ------------------------------------------------------------
 # Usamos facet_wrap() para criar um painel por país — mesma técnica
-# da Aula 2, mas agora com 6 países em vez de 2 séries.
+# do Notebook 2, mas agora com 6 países em vez de 2 séries.
 #
 # filter(!is.na(inflacao_cpi)) remove os anos sem dado, evitando
 # que geom_line() "conecte" pontos separados por anos faltantes.
@@ -453,7 +450,7 @@ p_inflacao_comp <- ggplot(
 p_inflacao_comp
 
 # Caso queira salvar a figura:
-# ggsave("outputs/figs/aula3_inflacao_emergentes_1995_2023.png",
+# ggsave("outputs/figs/notebook3_inflacao_emergentes_1995_2023.png",
 #       p_inflacao_comp, width = 10, height = 7)
 
 # Observe que a escala do eixo Y é "free_y" — isso significa que cada painel tem sua própria escala.
@@ -507,7 +504,7 @@ tab_comparativo
 # Essa formatação visual é uma convenção do RStudio para destacar valores negativos.
 
 
-# Formatando com {gt} (mesma técnica da Aula 2)
+# Formatando com {gt} (mesma técnica do Notebook 2)
 tab_comparativo_gt <- tab_comparativo |>
   gt(groupname_col = "subperiodo") |>
   tab_header(
@@ -526,8 +523,8 @@ tab_comparativo_gt <- tab_comparativo |>
   )
 
 tab_comparativo_gt
-gtsave(tab_comparativo_gt, "outputs/figs/aula3_tab_comparativo_emergentes.png")
-readr::write_csv(tab_comparativo, "outputs/tables/aula3_comparativo_emergentes.csv")
+gtsave(tab_comparativo_gt, "outputs/figs/notebook3_tab_comparativo_emergentes.png")
+readr::write_csv(tab_comparativo, "outputs/tables/notebook3_comparativo_emergentes.csv")
 
 # A tabela de saída retornou que o valor de Reservas do Chile é NaN.
 # Isso ocorre porque o Chile não tem dados disponíveis para o indicador de reservas em meses de importação (FI.RES.TOTL.DT.ZS)
@@ -544,7 +541,7 @@ readr::write_csv(tab_comparativo, "outputs/tables/aula3_comparativo_emergentes.c
 # ============================================================
 # PARTE C — Economia aplicada: Paridade do Poder de Compra (PPP)
 # ============================================================
-# Na Aula 2, aplicamos a Regra de Taylor como modelo descritivo
+# No Notebook 2, aplicamos a Regra de Taylor como modelo descritivo
 # para a relação entre inflação e juros. Aqui, aplicamos outro
 # conceito clássico de macroeconomia internacional:
 # a Paridade do Poder de Compra (PPP, Purchasing Power Parity).
@@ -624,7 +621,7 @@ cpi_wide <- cpi_indices |>
   )
 
 # pivot_wider() é o inverso de pivot_longer().
-# Na Aula 2 usamos pivot_longer() para empilhar IPCA e Selic em uma
+# No Notebook 2 usamos pivot_longer() para empilhar IPCA e Selic em uma
 # coluna "serie". Aqui fazemos o oposto: cada país vira uma coluna.
 #
 # names_from  = iso3c → os valores de iso3c ("BRA", "USA") viram nomes de coluna
@@ -674,13 +671,13 @@ ppp_dados <- ppp_dados |>
 #   < 0: real mais APRECIADO que o previsto pela PPP (câmbio abaixo do "justo")
 
 ppp_dados
-readr::write_csv(ppp_dados, "outputs/tables/aula3_ppp_cambio_teorico.csv")
+readr::write_csv(ppp_dados, "outputs/tables/notebook3_ppp_cambio_teorico.csv")
 
 
 # ------------------------------------------------------------
 # 9) Gráfico 3: Câmbio observado vs PPP teórica
 # ------------------------------------------------------------
-# Este é o gráfico central da aula. Ele mostra:
+# Este é o gráfico central do notebook. Ele mostra:
 # - Linha azul: câmbio observado (o que de fato aconteceu)
 # - Linha vermelha tracejada: câmbio PPP (o que "deveria" ser pela teoria)
 # - Quando as linhas se afastam, algo além da inflação está movendo o câmbio.
@@ -710,7 +707,7 @@ p_ppp <- ggplot(ppp_dados, aes(x = ano)) +
   )
 
 p_ppp
-ggsave("outputs/figs/aula3_cambio_ppp_1999_2023.png",
+ggsave("outputs/figs/notebook3_cambio_ppp_1999_2023.png",
        p_ppp, width = 9, height = 5)
 
 # Gráfico complementar: desvio percentual da PPP
@@ -732,11 +729,11 @@ p_desvio <- ggplot(ppp_dados, aes(x = ano, y = desvio_ppp)) +
   )
 
 p_desvio
-ggsave("outputs/figs/aula3_desvio_ppp_1999_2023.png",
+ggsave("outputs/figs/notebook3_desvio_ppp_1999_2023.png",
        p_desvio, width = 9, height = 4)
 
 
-# CHECKPOINT (interpretação — este é o exercício mais rico da aula):
+# CHECKPOINT (interpretação — este é o exercício mais rico do notebook):
 #
 # (a) Em 2002, o câmbio observado ficou MUITO acima da PPP. Por quê?
 #     Dica: crise de confiança com a eleição, fuga de capitais, risco-país.
@@ -756,7 +753,7 @@ ggsave("outputs/figs/aula3_desvio_ppp_1999_2023.png",
 #      podem durar anos. A PPP funciona como "âncora de longo prazo",
 #      não como ferramenta de previsão trimestral.)
 #
-# Conexão com a Aula 2:
+# Conexão com o Notebook 2:
 # Na regressão Taylor, vimos que o BC reage à inflação elevando a Selic.
 # O gráfico de PPP mostra o outro lado: juros altos atraem capitais,
 # valorizam o câmbio, e criam "sobrevalorização" (câmbio abaixo da PPP).
@@ -795,7 +792,7 @@ p_reservas_comp <- ggplot(
   )
 
 p_reservas_comp
-ggsave("outputs/figs/aula3_reservas_meses_emergentes.png",
+ggsave("outputs/figs/notebook3_reservas_meses_emergentes.png",
        p_reservas_comp, width = 9, height = 5)
 
 
@@ -803,7 +800,7 @@ ggsave("outputs/figs/aula3_reservas_meses_emergentes.png",
 # EXTENSÃO OPCIONAL — Regressão: determinantes do câmbio
 # ============================================================
 # Se sobrar tempo, podemos estimar uma regressão simples com
-# determinantes do câmbio, no mesmo espírito da Taylor da Aula 2.
+# determinantes do câmbio, no mesmo espírito da Taylor do Notebook 2.
 #
 # A ideia: o câmbio depende de fatores "reais" (termos de troca,
 # conta corrente) e "financeiros" (diferencial de juros, risco).
@@ -811,11 +808,11 @@ ggsave("outputs/figs/aula3_reservas_meses_emergentes.png",
 # Modelo simplificado (anual, dados do Banco Mundial):
 #   cambio_t = a + b × inflacao_t + c × conta_corrente_t + erro_t
 #
-# É um modelo muito simples (mesma ressalva da Aula 2: descritivo,
+# É um modelo muito simples (mesma ressalva do Notebook 2: descritivo,
 # não causal), mas permite praticar lm() com dados cross-section
 # e interpretar os sinais dos coeficientes.
 #
-# ATENÇÃO — mesmos avisos da Aula 2:
+# ATENÇÃO — mesmos avisos do Notebook 2:
 # 1) NÃO se pretende provar causalidade.
 # 2) Há endogeneidade: o câmbio afeta inflação e conta corrente,
 #    que por sua vez afetam o câmbio.
@@ -835,7 +832,7 @@ summary(m_cambio)
 
 coef_cambio <- broom::tidy(m_cambio, conf.int = TRUE)
 coef_cambio
-readr::write_csv(coef_cambio, "outputs/tables/aula3_regressao_cambio_coef.csv")
+readr::write_csv(coef_cambio, "outputs/tables/notebook3_regressao_cambio_coef.csv")
 
 # Interpretação esperada:
 #
@@ -867,7 +864,7 @@ p_cambio_inflacao <- ggplot(br_anual, aes(x = inflacao_cpi, y = cambio_obs)) +
   theme_minimal()
 
 p_cambio_inflacao
-ggsave("outputs/figs/aula3_dispersao_cambio_inflacao.png",
+ggsave("outputs/figs/notebook3_dispersao_cambio_inflacao.png",
        p_cambio_inflacao, width = 7, height = 5)
 
 # Extensão da extensão: incluir todos os países (dados em painel)
@@ -880,7 +877,7 @@ broom::tidy(m_painel, conf.int = TRUE)
 
 # Nota: uma regressão de painel "séria" usaria efeitos fixos de país
 # (para controlar as diferenças de nível entre moedas) e possivelmente
-# efeitos fixos de ano. Isso está além do escopo desta aula,
+# efeitos fixos de ano. Isso está além do escopo deste notebook,
 # mas é o próximo passo natural para quem quiser se aprofundar.
 # Pacote sugerido para efeitos fixos: {fixest} ou {plm}.
 
@@ -905,7 +902,7 @@ broom::tidy(m_painel, conf.int = TRUE)
 #    é positivo? Isso é consistente com a teoria da PPP?
 
 # ------------------------------------------------------------
-# Resumo do que aprendemos nesta aula:
+# Resumo do que aprendemos neste notebook:
 # ------------------------------------------------------------
 # Novo pacote:
 #   {wbstats} → wb_search() para buscar indicadores, wb_data() para baixar
@@ -922,7 +919,7 @@ broom::tidy(m_painel, conf.int = TRUE)
 #   - Regra de Guidotti-Greenspan para adequação de reservas
 #   - Determinantes do câmbio (inflação, conta corrente)
 #
-# Conexões com aulas anteriores:
-#   - Aula 1 (IPCA) → inflação doméstica é ingrediente da PPP
-#   - Aula 2 (Taylor) → juros altos atraem capitais e valorizam o câmbio
-#   - Aula 2 (regimes) → os regimes explicam os desvios da PPP
+# Conexões com notebooks anteriores:
+#   - Notebook 1 (IPCA) → inflação doméstica é ingrediente da PPP
+#   - Notebook 2 (Taylor) → juros altos atraem capitais e valorizam o câmbio
+#   - Notebook 2 (regimes) → os regimes explicam os desvios da PPP
