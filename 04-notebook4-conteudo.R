@@ -28,8 +28,8 @@
 #   wbstats, Paridade do Poder de Compra.
 #
 # Neste notebook, ampliamos novamente o repertório:
-# - De fontes: saímos do BCB (rbcb) e do Banco Mundial (wbstats)
-#   e adicionamos o Fundo Monetário Internacional (imfweo).
+# - De fontes: além do BCB (rbcb) e do Banco Mundial (wbstats),
+#   adicionamos o Fundo Monetário Internacional (imfapi).
 # - De temas: entramos em finanças públicas e mercado de trabalho.
 # - De modelos aplicados: aplicamos a equação da dinâmica da
 #   dívida, no mesmo espírito da Taylor (Notebook 2) e da PPP
@@ -146,9 +146,9 @@ options(scipen = 999)
 #   discutir por que economias com instituições parecidas têm
 #   indicadores de trabalho tão diferentes.
 #
-# - COBERTURA DE DADOS: a Colômbia tem séries completas nos
-#   indicadores do WDI (Banco Mundial) e do WEO (FMI) para
-#   todo o período 2000–2025.
+# - COBERTURA DE DADOS: Brasil e Colômbia têm boa cobertura no
+#   WEO/FMI para os indicadores fiscais e de mercado de trabalho
+#   usados no diagnóstico central deste notebook.
 #
 # Referência sobre a regra fiscal colombiana:
 #   Lozano-Espitia, I. & Julio, J. M. (2016). "Fiscal Rules
@@ -249,7 +249,7 @@ codigos_weo |>
 # Ver países disponíveis (alguns exemplos):
 codigos_weo |>
   filter(dimension_id == "COUNTRY") |>
-  filter(str_detect(name, regex("brazil|colombia|united states|germany",
+  filter(str_detect(name, regex("brazil|colombia",
                                 ignore_case = TRUE)))
 
 # Você usará essa lógica de exploração com frequência no Trabalho 1.
@@ -263,10 +263,11 @@ codigos_weo |>
 
 
 # ------------------------------------------------------------
-# 3) Baixando dados fiscais do WEO/FMI via {imfapi}
+# 3) Baixando dados macro do WEO/FMI via {imfapi}
 # ------------------------------------------------------------
-# Séries que vamos usar — todas em "% do PIB" para garantir
-# comparabilidade internacional:
+# Séries que vamos usar. A vantagem de concentrar este bloco no WEO
+# é manter uma única fonte para o diagnóstico fiscal e do mercado de
+# trabalho, com códigos de país e calendário já padronizados.
 #
 #   GGXONLB_NGDP : Resultado primário do governo geral
 #                  (general government primary net lending/borrowing)
@@ -278,21 +279,26 @@ codigos_weo |>
 #   NGDP_RPCH    : Crescimento do PIB real (% a.a.)
 #                  Necessário para a equação de dinâmica da dívida.
 #
+#   LUR          : Taxa de desemprego (% da força de trabalho)
+#
+#   GGX_NGDP     : Despesa total do governo geral (% do PIB)
+#
 # A sintaxe é direta: informamos o dataset (WEO) e as dimensões
 # (país, indicador e frequência anual). O {imfapi} cuida do
 # resto — monta a requisição SDMX e retorna um tibble limpo.
 
-dados_fiscais <- imf_get(
+dados_macro_weo <- imf_get(
   dataflow_id = "WEO",
   dimensions  = list(
     COUNTRY   = c("BRA", "COL"),
-    INDICATOR = c("GGXONLB_NGDP", "GGXWDG_NGDP", "NGDP_RPCH"),
+    INDICATOR = c("GGXONLB_NGDP", "GGXWDG_NGDP", "NGDP_RPCH",
+                  "LUR", "GGX_NGDP"),
     FREQUENCY = "A"
   )
 )
 
 # Inspeção inicial — sempre confira a estrutura antes de prosseguir:
-glimpse(dados_fiscais)
+glimpse(dados_macro_weo)
 
 # Note a estrutura: cada linha é uma combinação país × indicador × ano.
 # Esse é o formato "longo" (long format), comum em painéis.
@@ -301,13 +307,13 @@ glimpse(dados_fiscais)
 # O WEO inclui projeções — vamos filtrar para 2000–2025 na seção 4.
 
 # Salvar localmente (mesma boa prática dos notebooks anteriores):
-write_csv(dados_fiscais, "data/raw/notebook4_weo_brasil_colombia.csv")
+write_csv(dados_macro_weo, "data/raw/notebook4_weo_macro_brasil_colombia.csv")
 
 
 # ------------------------------------------------------------
 # 4) Transformando o formato longo em largo
 # ------------------------------------------------------------
-# Para construir gráficos comparativos e a equação da dívida,
+# Para construir gráficos comparativos, tabelas e a equação da dívida,
 # precisamos das séries em colunas separadas. Vamos usar
 # pivot_wider() — a mesma função que apareceu no Notebook 3
 # para o cálculo de PPP.
@@ -315,7 +321,7 @@ write_csv(dados_fiscais, "data/raw/notebook4_weo_brasil_colombia.csv")
 # Adicionalmente: convertemos TIME_PERIOD (caractere) para ano
 # numérico e filtramos para o período de análise 2000–2025.
 
-fiscal_largo <- dados_fiscais |>
+macro_fiscal <- dados_macro_weo |>
   select(COUNTRY, INDICATOR, TIME_PERIOD, OBS_VALUE) |>
   mutate(ano = as.integer(TIME_PERIOD)) |>
   filter(ano >= 2000, ano <= 2025) |>
@@ -328,85 +334,40 @@ fiscal_largo <- dados_fiscais |>
     iso3             = COUNTRY,
     primario_pct_pib = GGXONLB_NGDP,
     divida_pct_pib   = GGXWDG_NGDP,
-    crescimento_real = NGDP_RPCH
+    crescimento_real = NGDP_RPCH,
+    desemprego_pct   = LUR,
+    gasto_pct_pib    = GGX_NGDP
   ) |>
   mutate(pais = case_when(iso3 == "BRA" ~ "Brazil",
-                          iso3 == "COL" ~ "Colombia")) |>
-  select(iso3, pais, ano, primario_pct_pib, divida_pct_pib, crescimento_real) |>
-  arrange(iso3, ano)
-
-glimpse(fiscal_largo)
-# Esperado: 26 anos × 2 países = 52 linhas, 6 colunas.
-
-
-# ------------------------------------------------------------
-# 5) Baixando dados de mercado de trabalho do WDI/Banco Mundial
-# ------------------------------------------------------------
-# Para o mercado de trabalho, voltamos ao {wbstats} (que vocês
-# já conhecem do Notebook 3). O WEO/FMI também tem desemprego,
-# mas o WDI tem cobertura mais consistente e séries mais longas.
-#
-# Indicadores:
-#   SL.UEM.TOTL.ZS          : Taxa de desemprego (% força de trabalho)
-#   GC.XPN.TOTL.GD.ZS       : Gasto público total (% PIB)
-#
-# Note que aqui o gasto público vem do WDI (Banco Mundial),
-# enquanto o resultado primário e a dívida vêm do WEO (FMI).
-# Por que essa mistura?
-# - O WEO tem o resultado primário com a definição correta
-#   (governo geral, exclui juros) — o WDI tem apenas o saldo
-#   nominal (mistura primário e juros).
-# - O WDI tem cobertura mais ampla de indicadores de gasto
-#   detalhados e de mercado de trabalho.
-# Usamos cada fonte onde tem vantagem comparativa.
-
-dados_trabalho <- wb_data(
-  indicator  = c(
-    desemprego_pct = "SL.UEM.TOTL.ZS",
-    gasto_pct_pib  = "GC.XPN.TOTL.GD.ZS"
-  ),
-  country    = c("BR", "CO"),
-  start_date = 2000,
-  end_date   = 2025
-)
-
-glimpse(dados_trabalho)
-write_csv(dados_trabalho, "data/raw/notebook4_wdi_trabalho.csv")
-
-# Limpeza e renomeação para padrão consistente com fiscal_largo:
-trabalho_largo <- dados_trabalho |>
-  select(iso3c, country, date, desemprego_pct, gasto_pct_pib) |>
-  rename(
-    iso3 = iso3c,
-    pais = country,
-    ano  = date
-  ) |>
-  arrange(iso3, ano)
-
-glimpse(trabalho_largo)
-
-
-# ------------------------------------------------------------
-# 6) Juntando fiscal e trabalho em uma única base
-# ------------------------------------------------------------
-# Vamos juntar as duas bases por país e ano. Tanto o {imfapi}
-# (WEO) quanto o {wbstats} (WDI) retornam códigos ISO3
-# ("BRA", "COL") — não precisamos converter. Mas vale conferir:
-
-unique(fiscal_largo$iso3)
-unique(trabalho_largo$iso3)
-# Esperado: "BRA" "COL" em ambos.
-# Se você fosse combinar fontes que usam ISO2 vs ISO3, precisaria
-# de uma tabela de conversão — o pacote {econid} resolve isso.
-
-macro_fiscal <- fiscal_largo |>
-  left_join(
-    trabalho_largo |> select(-pais),
-    by = c("iso3", "ano")
-  ) |>
+                           iso3 == "COL" ~ "Colombia")) |>
+  select(iso3, pais, ano, primario_pct_pib, divida_pct_pib,
+         crescimento_real, desemprego_pct, gasto_pct_pib) |>
   arrange(iso3, ano)
 
 glimpse(macro_fiscal)
+# Esperado: 26 anos × 2 países = 52 linhas, 8 colunas.
+
+
+# ------------------------------------------------------------
+# 5) Checando cobertura, NAs e salvando a base final
+# ------------------------------------------------------------
+# Antes, este notebook baixava mercado de trabalho no WDI/Banco
+# Mundial e depois juntava as bases. Ao testar a cobertura, o WEO
+# retornou séries mais completas para gasto público e também cobre
+# desemprego. Por isso, todos os indicadores centrais passam a vir
+# da mesma chamada ao FMI.
+#
+# Boas práticas: depois de baixar e transformar os dados, fazemos
+# uma checagem curta e explícita antes de seguir para gráficos e
+# tabelas. Aqui verificamos:
+# - número de linhas por país;
+# - cobertura de cada variável;
+# - presença de NAs relevantes.
+# Isso ajuda a detectar mudanças de cobertura quando o WEO é
+# atualizado em novos releases.
+
+macro_fiscal |>
+  count(iso3, pais)
 
 # Conferindo cobertura de cada variável por país:
 macro_fiscal |>
@@ -425,12 +386,14 @@ macro_fiscal |>
 # é normal haver NAs nos anos mais recentes (dados publicados
 # com defasagem) ou em séries específicas que não cobrem todo
 # o período. Não é erro — é parte do trabalho com dados reais.
+# Neste caso, a principal lacuna esperada é gasto público do
+# Brasil em 2000; a cobertura melhora bastante em relação ao WDI.
 
 write_csv(macro_fiscal, "data/processed/notebook4_macro_fiscal.csv")
 
 
 # ------------------------------------------------------------
-# 7) Gráfico 1: Dívida pública bruta — Brasil × Colômbia
+# 6) Gráfico 1: Dívida pública bruta — Brasil × Colômbia
 # ------------------------------------------------------------
 # Primeiro gráfico comparativo. Estratégia: duas linhas no
 # mesmo painel (unidades comparáveis, ambas em % do PIB).
@@ -451,7 +414,7 @@ p_divida <- macro_fiscal |>
     x        = NULL,
     y        = "% do PIB",
     color    = "País",
-    caption  = "Fonte: FMI/WEO via {imfweo}. Série GGXWDG_NGDP."
+    caption  = "Fonte: FMI/WEO via {imfapi}. Série GGXWDG_NGDP."
   ) +
   theme_classic(base_size = 12) +
   theme(
@@ -467,7 +430,7 @@ ggsave("outputs/figs/notebook4_divida_brasil_colombia.png",
 
 
 # ------------------------------------------------------------
-# 8) Gráfico 2: Resultado primário comparativo
+# 7) Gráfico 2: Resultado primário comparativo
 # ------------------------------------------------------------
 # O resultado primário é a diferença entre receitas e despesas
 # do governo EXCLUINDO o pagamento de juros sobre a dívida.
@@ -485,7 +448,7 @@ ggsave("outputs/figs/notebook4_divida_brasil_colombia.png",
 # - primário < 0 (déficit): o esforço fiscal corrente está
 #   aumentando a dívida (mesmo sem contar juros).
 #
-# A relevância disso ficará clara na seção 10 (dinâmica da dívida).
+# A relevância disso ficará clara na seção 9 (dinâmica da dívida).
 
 p_primario <- macro_fiscal |>
   filter(!is.na(primario_pct_pib)) |>
@@ -502,7 +465,7 @@ p_primario <- macro_fiscal |>
     x        = NULL,
     y        = "% do PIB",
     fill     = "País",
-    caption  = "Fonte: FMI/WEO via {imfweo}. Série GGXONLB_NGDP."
+    caption  = "Fonte: FMI/WEO via {imfapi}. Série GGXONLB_NGDP."
   ) +
   theme_classic(base_size = 12) +
   theme(
@@ -529,7 +492,7 @@ ggsave("outputs/figs/notebook4_primario_brasil_colombia.png",
 
 
 # ------------------------------------------------------------
-# 9) Gráfico 3: Mercado de trabalho — taxa de desemprego
+# 8) Gráfico 3: Mercado de trabalho — taxa de desemprego
 # ------------------------------------------------------------
 # Mesma lógica do gráfico de dívida: duas linhas, painel único.
 
@@ -549,7 +512,7 @@ p_desemprego <- macro_fiscal |>
     x        = NULL,
     y        = "% força de trabalho",
     color    = "País",
-    caption  = "Fonte: Banco Mundial/WDI via {wbstats}. Indicador SL.UEM.TOTL.ZS."
+    caption  = "Fonte: FMI/WEO via {imfapi}. Indicador LUR."
   ) +
   theme_classic(base_size = 12) +
   theme(
@@ -572,7 +535,7 @@ ggsave("outputs/figs/notebook4_desemprego_brasil_colombia.png",
 
 
 # ------------------------------------------------------------
-# 10) Dinâmica da dívida — aplicação econômica central
+# 9) Dinâmica da dívida — aplicação econômica central
 # ------------------------------------------------------------
 # Agora chegamos ao bloco aplicado mais importante do notebook.
 # Vamos decompor a variação da dívida pública brasileira em
@@ -811,7 +774,7 @@ ggsave("outputs/figs/notebook4_decomposicao_divida_brasil.png",
 
 
 # ------------------------------------------------------------
-# 11) Tabela comparativa por subperíodo de 5 anos
+# 10) Tabela comparativa por subperíodo de 5 anos
 # ------------------------------------------------------------
 # Agora aplicamos a função `classificar_subperiodo()` que
 # definimos na seção 1. Esse é o padrão exato que vocês
@@ -859,7 +822,7 @@ tab_subperiodos_gt <- tab_subperiodos |>
     decimals = 1
   ) |>
   tab_source_note(
-    source_note = "Fonte: FMI/WEO (fiscal) e Banco Mundial/WDI (trabalho)."
+    source_note = "Fonte: FMI/WEO via {imfapi}."
   )
 
 tab_subperiodos_gt
@@ -892,7 +855,7 @@ gtsave(tab_subperiodos_gt, "outputs/figs/notebook4_tab_subperiodos.png")
 
 
 # ------------------------------------------------------------
-# 12) Estrutura de script multi-módulo
+# 11) Estrutura de script multi-módulo
 # ------------------------------------------------------------
 # O Trabalho 1 pede um ÚNICO script .R organizado em 5 módulos.
 # Recomenda-se a seguinte estrutura, que reproduz a lógica
@@ -909,7 +872,7 @@ gtsave(tab_subperiodos_gt, "outputs/figs/notebook4_tab_subperiodos.png")
 # # ----- Setup -----
 # library(tidyverse)
 # library(wbstats)
-# library(imfweo)
+# library(imfapi)
 # library(patchwork)
 # library(gt)
 #
@@ -930,7 +893,7 @@ gtsave(tab_subperiodos_gt, "outputs/figs/notebook4_tab_subperiodos.png")
 #
 # # Lista de países que aparecem em TODOS os módulos:
 # paises_iso2 <- c("BR", "[XX]")  # para wbstats
-# paises_iso3 <- c("BRA", "[XXX]") # para imfweo
+# paises_iso3 <- c("BRA", "[XXX]") # para imfapi
 #
 # # ----- Módulo 1: Crescimento e ciclo econômico -----
 # # 1.1 Download dos indicadores
@@ -970,7 +933,7 @@ gtsave(tab_subperiodos_gt, "outputs/figs/notebook4_tab_subperiodos.png")
 
 
 # ------------------------------------------------------------
-# 13) Lidando com NAs em comparações cross-country
+# 12) Lidando com NAs em comparações cross-country
 # ------------------------------------------------------------
 # Em dados internacionais, NAs são fato da vida. As principais
 # situações que vocês vão encontrar:
@@ -1028,7 +991,7 @@ exemplo_audit
 
 
 # ------------------------------------------------------------
-# 14) Decomposição do PIB pela ótica da demanda
+# 13) Decomposição do PIB pela ótica da demanda
 # ------------------------------------------------------------
 # O Módulo 1 do Trabalho 1 pede explicitamente um gráfico de
 # barras empilhadas ou agrupadas com a decomposição do PIB
@@ -1204,7 +1167,7 @@ ggsave("outputs/figs/notebook4_pib_demanda_decomposicao.png",
 
 
 # ------------------------------------------------------------
-# 15) Estrutura mínima de um Quarto Reveal.js (.qmd)
+# 14) Estrutura mínima de um Quarto Reveal.js (.qmd)
 # ------------------------------------------------------------
 # Um arquivo .qmd Reveal.js tem três partes:
 #
@@ -1266,7 +1229,7 @@ ggsave("outputs/figs/notebook4_pib_demanda_decomposicao.png",
 
 
 # ------------------------------------------------------------
-# 16) Layouts úteis para apresentação de dados
+# 15) Layouts úteis para apresentação de dados
 # ------------------------------------------------------------
 # Reveal.js suporta layouts em colunas, muito úteis para colocar
 # um gráfico ao lado de interpretação. Exemplo:
@@ -1302,7 +1265,7 @@ ggsave("outputs/figs/notebook4_pib_demanda_decomposicao.png",
 
 
 # ------------------------------------------------------------
-# 17) Renderizando o documento
+# 16) Renderizando o documento
 # ------------------------------------------------------------
 # Para gerar a apresentação:
 #
@@ -1328,7 +1291,7 @@ ggsave("outputs/figs/notebook4_pib_demanda_decomposicao.png",
 
 
 # ------------------------------------------------------------
-# 18) Recomendação prática para o Trabalho 1
+# 17) Recomendação prática para o Trabalho 1
 # ------------------------------------------------------------
 # Se decidir usar Quarto Reveal.js para o Trabalho 1:
 #
@@ -1379,15 +1342,15 @@ ggsave("outputs/figs/notebook4_pib_demanda_decomposicao.png",
 # Resumo do que aprendemos neste notebook:
 # ============================================================
 # Novo pacote:
-#   {imfweo} → weo_get(), weo_get_series(), weo_get_entities()
-#              para acesso ao World Economic Outlook do FMI.
+#   {imfapi} → imf_get_dataflows(), imf_get_codelists(), imf_get()
+#              para descobrir e baixar dados do FMI.
 #
 # Ecossistema novo:
 #   EconDataverse → padrão de pacotes econômicos em R/Python.
 #   Pacotes irmãos: wbwdi, imfapi, wbids, owidapi, econid.
 #
 # Novas habilidades de dados:
-#   - Combinação de fontes (WEO + WDI no mesmo dataset).
+#   - Uso do WEO/FMI em painel país × ano com múltiplos indicadores.
 #   - Padronização via códigos ISO3.
 #   - Função classificar_subperiodo() reutilizável.
 #   - Audit sistemático de NAs em comparações cross-country.
@@ -1404,7 +1367,7 @@ ggsave("outputs/figs/notebook4_pib_demanda_decomposicao.png",
 #   - Notebook 2 (regimes) → o padrão de subperíodos retorna
 #     com cortes diferentes, mais adequados ao Trabalho 1.
 #   - Notebook 3 (wbstats, painel país × ano) → mesmo paradigma,
-#     agora combinado com {imfweo}.
+#     agora aplicado ao WEO/FMI via {imfapi}.
 #
 # Caminho para o Trabalho 1:
 #   - A estrutura da Parte A espelha o Módulo 5 do trabalho.
