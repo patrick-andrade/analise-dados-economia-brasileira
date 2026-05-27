@@ -1,12 +1,13 @@
 ---
 title: "Do script ao relatório"
-subtitle: "Como transformar uma análise em R num documento Quarto"
-author: "Economia Brasileira: Análise de Dados"
+subtitle: "Disciplina: *Economia brasileira: análise de dados*"
+abstract: "Como transformar uma análise em R num documento Quarto"
+author: "[Patrick Andrade](https://www.github.com/patrick-andrade)"
 date: today
 lang: pt-BR
 format:
   revealjs:
-    theme: white
+    theme: serif
     slide-number: true
     transition: slide
     incremental: false
@@ -14,6 +15,19 @@ format:
     code-line-numbers: false
     width: 1280
     height: 720
+    max-scale: 1.5
+    include-in-header:
+      text: |
+        <style>
+        .reveal .slides section > h2:first-child {
+          margin-bottom: 0.9em !important;
+        }
+
+        .reveal .slides section p {
+          margin-bottom: 0.75em !important;
+          line-height: 1.15;
+        }
+        </style>
 execute:
   echo: true
   eval: false
@@ -21,65 +35,73 @@ execute:
   message: false
 ---
 
-## O que vamos fazer hoje {.smaller}
+## Objetivos {.smaller}
 
-Nesta aula, a meta **não** é "converter automaticamente" um script `.R`
-inteiro em um documento. A meta é aprender a transformar uma **análise** em
-um **produto de comunicação**.
+A meta é aprender a transformar uma **análise** em um **produto de comunicação**.
 
-A pergunta central:
+**Não** é "converter automaticamente" um script `.R` inteiro em um documento. 
 
-> Quando o leitor precisa ver o código — e quando ele só precisa ver o
+Pergunta central:
+
+> Quando o leitor precisa ver o código e quando ele só precisa ver o
 > resultado?
 
 ::: aside
-Usaremos o `04-notebook4-conteudo.R` (Brasil × Colômbia) como referência
-concreta o tempo todo.
+Usaremos o `04-notebook4-conteudo.R` (Brasil × Colômbia) como referência.
 :::
 
-# Parte 1 — De onde veio o Quarto
+# 1. Origem do Quarto
 
-## Como era antes: R Markdown {.smaller}
+## Uma evolução do R Markdown {.smaller}
 
-Por muito tempo, o ecossistema R produziu relatórios reprodutíveis com
+Durante anos o ecossistema R produziu relatórios reprodutíveis com
 **R Markdown** (`.Rmd`), apoiado no pacote `{knitr}`.
 
 A ideia já era poderosa:
 
 - Texto em Markdown + blocos de código R no mesmo arquivo;
-- "Tecer" (*knit*) o documento gerava HTML, PDF ou Word;
+  - "Tecer" (*knit*) o documento gerava HTML, PDF ou Word;
 - O resultado era reprodutível: quem tivesse o `.Rmd` regenerava tudo.
 
 ::: {.callout-note}
-## A limitação
+## Limitação:
 
-O `.Rmd` era, na prática, **centrado no R**. Integrar outras linguagens
-exigia remendos, e cada formato de saída tinha suas idiossincrasias.
+O `.Rmd` era, na prática, **centrado no R**.  
+Integrar outras linguagens exigia remendos, e cada formato de saída tinha suas idiossincrasias.
 :::
 
-## Em paralelo, no mundo Python {.smaller}
+## Evoluções no mundo Python {.smaller}
 
 Enquanto isso, a comunidade Python popularizava outra forma de trabalhar:
-os **Jupyter notebooks**.
+
+Os **Jupyter notebooks**.
 
 - Células de código e de texto intercaladas, executadas de forma interativa
   no navegador;
 - A distribuição **Anaconda** facilitou enormemente a instalação do
   ecossistema científico (Python, Jupyter, bibliotecas) num pacote só;
-- O notebook virou o formato dominante de ensino e prototipagem em
+- O *"python notebook"* virou um formato dominante de ensino e prototipagem em
   ciência de dados.
 
 ::: {.callout-tip}
-## Para a turma
+## Observações:
 
-Dois mundos, duas culturas: o `.Rmd` *renderiza um documento final*;
-o Jupyter *é um ambiente interativo*. Cada um com suas vantagens.
+Dois mundos, duas culturas:  
+- O `.Rmd` *renderiza um documento final*  
+- O Jupyter *é um ambiente interativo*  
+Cada um com suas vantagens e desvantagens.
 :::
 
 ## A inovação da Posit: Quarto {.smaller}
 
 A **Posit** (antiga RStudio) deu o passo seguinte com o **Quarto**, lançado
-em 2022 — pense nele como o sucessor do R Markdown, repensado do zero.
+em 2022.  
+
+### O que é o Quarto?
+
+Um sistema de publicação científica e técnica de código aberto
+
+> Pense nele como o sucessor do R Markdown, repensado do zero.
 
 :::: {.columns}
 
@@ -102,7 +124,7 @@ em 2022 — pense nele como o sucessor do R Markdown, repensado do zero.
 
 ::::
 
-# Parte 2 — A ideia central
+# 2. A ideia central
 
 ## Script ≠ Relatório {.smaller}
 
@@ -117,7 +139,8 @@ A distinção mais importante da aula:
 :::
 
 O `04-notebook4-conteudo.R` continua sendo a base da análise. Ele baixa
-dados, trata bases, calcula indicadores e **salva** gráficos e tabelas.
+dados, trata bases, calcula indicadores e **salva** gráficos e tabelas.  
+
 O Quarto entra depois, para organizar os resultados.
 
 Reprodutibilidade **não** significa colocar tudo no mesmo arquivo.
@@ -128,11 +151,11 @@ Reprodutibilidade **não** significa colocar tudo no mesmo arquivo.
 ## Por que não chamar a API a cada renderização?
 
 Se o `.qmd` baixar dados do FMI e do Banco Mundial toda vez que renderiza,
-a aula fica lenta e refém da internet. Pior: a apresentação pode quebrar
-ao vivo.
+a aula fica lenta e refém da internet.  
+**Pior:** a apresentação pode quebrar ao vivo.
 :::
 
-O fluxo que adotamos:
+Fluxo que adotamos:
 
 1. Rode o script **uma vez** → ele salva tudo em `outputs/`;
 2. O `.qmd` apenas **lê** esses arquivos prontos;
@@ -147,15 +170,15 @@ list.files("outputs/figs")
 list.files("outputs/tables")
 ```
 
-# Parte 3 — Mão na massa
+# 3. Mão na massa
 
-## Passo 1 — O cabeçalho YAML {.smaller}
+## 3.1. O cabeçalho YAML {.smaller}
 
 Todo arquivo Quarto começa com um cabeçalho entre `---`.
 
 ```yaml
 ---
-title: "Notebook 4 — Condições fiscais e mercado de trabalho"
+title: "Notebook 4: Condições fiscais e mercado de trabalho"
 author: "Seu nome"
 date: today
 lang: pt-BR
@@ -186,27 +209,23 @@ A primeira escolha de todo relatório:
 ::: {.column width="50%"}
 `echo: true`
 
-O leitor vê o **código** e o resultado. Bom para ensino, para mostrar
-*como* a conta foi feita.
+O leitor vê o **código** e o resultado.
+
+Bom para ensino, para mostrar *como* a conta foi feita.
 :::
 
 ::: {.column width="50%"}
 `echo: false`
 
-O leitor vê **só** o resultado. Bom para relatório executivo, onde o
-código distrai.
+O leitor vê **só** o resultado.
+
+Bom para relatório executivo, em que o código distrai.
 :::
 
 ::::
 
-::: {.callout-tip}
-## Para demonstrar ao vivo
 
-Renderize o mesmo bloco com `echo: true` e depois `echo: false`. A turma
-vê na hora a diferença entre "mostrar a cozinha" e "servir o prato".
-:::
-
-## Passo 2 — De comentário para texto {.smaller}
+## 3.2. De comentário para texto {.smaller}
 
 No script R, o comentário começa com `#`:
 
@@ -225,15 +244,18 @@ mercado de trabalho e trajetórias diferentes de dívida pública.
 ```
 
 ::: {.callout-note}
-Nem todo comentário deve migrar. Alguns explicam **código** (ficam no `.R`);
-outros explicam **economia** (vão para o relatório). Essa filtragem é manual
-porque envolve julgamento.
+Nem todo comentário deve migrar.
+- Comentários que apenas explicam o **código** podem ficar no script `.R`;
+- Outros, que explicam **economia** podem ir para o relatório `.qmd`.
+
+Essa filtragem é manual e depende da avaliação de quem está trabalhando.
 :::
 
-## Passo 3 — Inserir um gráfico já salvo {.smaller}
+## 3.3. Inserir um gráfico já salvo {.smaller}
 
-O script salva os gráficos em `outputs/figs/`. No `.qmd`, incluímos com
-`knitr::include_graphics()`:
+O script salva os gráficos em `outputs/figs/`.
+
+No `.qmd`, incluímos com `knitr::include_graphics()`:
 
 ```{r}
 #| label: fig-divida
@@ -246,14 +268,16 @@ knitr::include_graphics("outputs/figs/notebook4_divida_brasil_colombia.png")
 ::: {.callout-note}
 ## Ótimo para trabalho em grupo
 
-Uma pessoa cuida do script que gera os resultados; outra organiza o
-relatório. Todos trabalham sobre os **mesmos** arquivos de saída.
+- Uma pessoa cuida do script que gera os resultados;
+- Outra organiza o relatório;
+- Todos trabalham sobre os **mesmos** arquivos de saída.
 :::
 
-## Passo 4 — Ler uma tabela pronta {.smaller}
+## 3.4. Ler uma tabela pronta {.smaller}
 
-O script também salva a tabela em CSV. No `.qmd`, lemos e formatamos com
-`{gt}`:
+O script também salva a tabela em CSV.
+
+No `.qmd`, lemos e formatamos com `{gt}`:
 
 ```{r}
 #| label: tbl-subperiodos
@@ -276,13 +300,14 @@ tab |>
 
 . . .
 
-Alternativa ainda mais simples: incluir a **imagem** da tabela que o
-script já exportou (`notebook4_tab_subperiodos.png`).
+Alternativa ainda mais simples:  
+- Incluir a **imagem** da tabela que o script já exportou (`notebook4_tab_subperiodos.png`).
 
-## Passo 5 — Escrever a interpretação {.smaller}
+## 3.5. Escrever a interpretação {.smaller}
 
-Depois de cada gráfico, uma frase curta. Uma boa interpretação tem
-**três elementos**:
+Depois de cada gráfico, uma frase curta.
+
+Uma boa interpretação tem **três elementos**:
 
 1. o **indicador** observado;
 2. o **período** ou ano;
@@ -305,25 +330,19 @@ Depois de cada gráfico, uma frase curta. Uma boa interpretação tem
 
 ::::
 
-::: {.callout-tip}
-## Exercício em duplas
-
-Cada dupla escolhe um gráfico e escreve uma frase com pelo menos um ano.
-Depois comparem: quais citam **evidência** e quais ficam só na **opinião**?
-:::
-
-# Parte 4 — Recursos do Reveal.js
+# 4. Recursos do Reveal.js
 
 ## Por que slides são diferentes {.smaller}
 
 A regra muda do relatório para os slides:
 
 ::: {.callout-important}
-No **relatório** cabem mais detalhes. Em cada **slide**, uma ideia principal.
+No **relatório** cabem mais detalhes.  
+Em cada **slide**, uma ideia principal.
 :::
 
-E há uma sintaxe própria que vale conhecer — afinal, *este material está
-usando todos esses recursos agora mesmo*.
+E há uma sintaxe própria que vale conhecer (já que *este material está
+usando todos esses recursos agora mesmo*).
 
 - `#` cria uma **seção** (slide de divisória, como "Parte 4" acima);
 - `##` inicia um **novo slide**;
@@ -354,7 +373,7 @@ O layout mais útil para dados é colocar o gráfico ao lado do texto, com
 
 . . .
 
-É exatamente o que vimos nos slides de história e da ideia central.
+É exatamente o que vimos nos slides de história e ideia central.
 
 ## Outros recursos úteis {.smaller}
 
@@ -374,7 +393,7 @@ O layout mais útil para dados é colocar o gráfico ao lado do texto, com
 - `. . .` (três pontos) revela o conteúdo seguinte só no próximo clique;
 - `incremental: true` faz listas aparecerem item a item.
 
-*Os "fraca/forte" e vários blocos desta aula usaram `. . .`.*
+*Vários blocos desta aula usaram `. . .`.*
 :::
 
 ::::
@@ -396,7 +415,7 @@ A tecla `S` abre uma segunda janela com cronômetro e notas — ideal para
 projetar só os slides e manter as anotações no seu monitor.
 :::
 
-# Parte 5 — Fechamento
+# 5. Fechamento
 
 ## O que NÃO colocar no relatório {.smaller}
 
@@ -407,12 +426,6 @@ Evite transportar tudo do script. Em geral, ficam de fora:
 - comentários muito técnicos sobre instalação;
 - objetos temporários e gráficos que não entram na argumentação final.
 
-::: {.callout-note}
-## A analogia
-
-O **script** é a cozinha; o **relatório** é o prato servido. A cozinha
-precisa existir e estar organizada — mas o leitor não precisa ver cada panela.
-:::
 
 ## Estrutura sugerida para o Trabalho 1 {.smaller}
 
@@ -428,9 +441,9 @@ Uma estrutura simples já basta:
 ::: {.callout-tip}
 ## Lembrete do Notebook 4
 
-Mantenha o `.R` separado do `.qmd`. O `.R` baixa via `{imfapi}` e `{wbstats}`
-e **salva** em `outputs/`; o `.qmd` apenas lê. Assim você não re-executa
-chamadas de API a cada renderização.
+- Mantenha o `.R` separado do `.qmd`.
+- O `.R` baixa via `{imfapi}` e **salva** em `outputs/`;
+- o `.qmd` apenas lê. Assim você não re-executa chamadas de API a cada renderização.
 :::
 
 ## Passo final — Renderizar {.smaller}
@@ -448,28 +461,28 @@ Ou use o botão **Render** no RStudio / Positron.
 ::: {.callout-warning}
 ## Se o comando `quarto` não for reconhecido
 
-O Quarto não está instalado ou não está no PATH. Use o botão **Render**
-do IDE ou instale pelo site oficial: <https://quarto.org>.
+O Quarto não está instalado ou não está no PATH.  
+- Use o botão **Render** do IDE ou instale pelo site oficial: <https://quarto.org>.
 :::
 
-Para exportar **estes slides** como PDF: abra o `.html` com `?print-pdf`
-no fim da URL e imprima como PDF pelo navegador.
+Para exportar **estes slides** como PDF:  
+- Abra o `.html` com `?print-pdf` no fim da URL e imprima como PDF pelo navegador.
 
 ## Síntese {.smaller}
 
 ::: {.callout-important}
 ## Os três pontos da aula
 
-1. **Quarto** é o sucessor multi-formato do R Markdown — do mesmo `.qmd`
-   saem relatório **e** slides.
-2. **Script produz, relatório comunica**: rode uma vez, salve em `outputs/`,
-   o `.qmd` só lê.
+1. **Quarto**: sucessor multi-formato do R Markdown
+  - Do mesmo `.qmd` saem relatório **e** slides.
+2. **Script produz, relatório comunica**: rode uma vez, salve em `outputs/`
+  - O `.qmd` só lê
 3. **Toda figura merece interpretação**: indicador + ano + mecanismo.
 :::
 
-Próximo passo prático: transformar o seu Módulo 5 do Trabalho 1 num
-relatório — e, se quiser, nestes slides.
+Recomendação de próximo passo:
 
-### Obrigado! {.center}
+Transformar o seu próximo script `.R` num relatório e, se quiser, em slides.
 
-*Dúvidas e mãos à obra.*
+# Obrigado! {.center}
+
