@@ -1,0 +1,203 @@
+---
+title: "Notebook 4: Condições fiscais e mercado de trabalho"
+subtitle: "Disciplina: *Economia brasileira: análise de dados*"
+abstract: "Dívida pública, resultado primário, gasto público e desemprego - Brasil x Colômbia"
+author: "[Patrick Andrade](https://www.github.com/patrick-andrade)"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    theme: cosmo
+    embed-resources: true
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+library(knitr)
+library(readr)
+library(dplyr)
+library(gt)
+```
+
+## Objetivo
+
+Este relatório transforma os principais resultados do script
+`04-notebook4-conteudo.R` em uma página HTML legível e
+reprodutível.
+
+Ideia central: dividir a análise em duas partes
+
+- script `.R`: faz a análise completa, baixa os dados, trata a base e salva os resultados;
+- arquivo `.qmd`: organiza os principais gráficos, tabelas e interpretações para leitura.
+
+::: {.callout-note}
+## Leitura do relatório
+
+Um notebook Quarto não precisa substituir o script.  
+Em trabalhos aplicados, costuma ser melhor deixar o script como "motor" da análise
+e usar o `.qmd` como produto de comunicação.
+:::
+
+## Fonte e recorte
+
+**O exercício compara Brasil e Colômbia entre 2000 e 2025.**
+
+- A análise combina indicadores fiscais, mercado de trabalho e decomposições macroeconômicas.
+- Resultados: foram gerados previamente pelo script principal e salvos
+nas pastas `outputs/figs/` e `outputs/tables/`.
+
+## Dívida pública bruta
+
+```{r}
+#| label: fig-divida
+#| fig-cap: "Dívida pública bruta - Brasil x Colômbia"
+#| out-width: "100%"
+include_graphics("outputs/figs/notebook4_divida_brasil_colombia.png")
+```
+
+**Comparação da dívida bruta**:  
+
+- Permite observar não apenas o nível da dívida, mas também a direção da trajetória
+
+**Para a discussão econômica**:  
+
+- Pergunta principal não é só "quem tem dívida maior?", mas "em quais períodos a dívida
+muda de patamar e por que?"
+
+::: {.callout-tip}
+## Orientação de leitura
+
+- Identifique visualmente os pontos de inflexão na trajetória brasileira e outro
+na trajetória colombiana.
+- Depois, conecte essas mudanças a períodos macroeconômicos concretos:
+recessão, pandemia, juros reais, resultado primário e crescimento.
+:::
+
+## Resultado primário
+
+```{r}
+#| label: fig-primario
+#| fig-cap: "Resultado primário - Brasil x Colômbia"
+#| out-width: "100%"
+include_graphics("outputs/figs/notebook4_primario_brasil_colombia.png")
+```
+
+**Resultado primário**:
+- Uma das principais medidas para discutir política fiscal.
+  - Mostra a diferença entre receitas e despesas antes do pagamento de juros.
+
+**Em termos simples**:  
+- superávit primário ajuda a estabilizar ou reduzir a dívida;
+- déficit primário pressiona a dívida para cima;
+- o efeito final depende também dos juros reais (`r`)e do crescimento (`g`).
+
+## Mercado de trabalho
+
+```{r}
+#| label: fig-desemprego
+#| fig-cap: "Taxa de desemprego - Brasil x Colômbia"
+#| out-width: "100%"
+include_graphics("outputs/figs/notebook4_desemprego_brasil_colombia.png")
+```
+
+**Comparação do desemprego**:
+
+- Países com instituições macroeconômicas parcialmente parecidas podem
+ter mercados de trabalho muito diferentes.
+- Análise gráfica:
+  - Abre espaço para discutir informalidade, estrutura produtiva,
+legislação trabalhista, composição setorial e choques agregados.
+
+## Decomposição da dinâmica da dívida
+
+```{r}
+#| label: fig-decomp-divida
+#| fig-cap: "Decomposição da variação da dívida brasileira"
+#| out-width: "100%"
+include_graphics("outputs/figs/notebook4_decomposicao_divida_brasil.png")
+```
+
+**Esta é a parte conceitual mais importante do notebook**.
+
+A variação da dívida pode ser lida como uma combinação entre:
+
+- efeito snowball: relação entre juros reais, crescimento e estoque de dívida;
+- resultado primário: esforço fiscal antes dos juros;
+- resíduos e demais fatores contábeis.
+
+::: {.callout-note}
+## Orientação de leitura
+
+Uma forma útil de ler este gráfico é partir da pergunta:
+
+*"A dívida sobe porque o governo teve déficit primário
+ou porque a combinação juros-crescimento foi desfavorável?"*
+
+Essa pergunta desloca a análise de uma leitura moral da dívida
+para uma leitura contábil e macroeconômica.
+:::
+
+## PIB pela ótica da demanda
+
+```{r}
+#| label: fig-pib-demanda
+#| fig-cap: "Decomposição do crescimento do PIB pela ótica da demanda"
+#| out-width: "100%"
+include_graphics("outputs/figs/notebook4_pib_demanda_decomposicao.png")
+```
+
+**Decomposição pela demanda**:  
+
+- Ajuda a conectar o tema fiscal ao ciclo econômico.
+  - Consumo, investimento, gasto do governo e setor externo contribuem de formas
+diferentes para o crescimento em cada período.
+
+## Tabela por subperíodos
+
+```{r}
+#| label: tab-subperiodos
+tab_subperiodos <- read_csv(
+  "outputs/tables/notebook4_resumo_subperiodos.csv",
+  show_col_types = FALSE
+)
+
+tab_subperiodos |>
+  gt() |>
+  tab_header(
+    title = "Resumo por subperíodos",
+    subtitle = "Brasil x Colômbia"
+  )
+```
+
+```{r}
+#| label: fig-tab-subperiodos
+#| fig-cap: "Tabela exportada como imagem pelo script principal"
+#| out-width: "100%"
+include_graphics("outputs/figs/notebook4_tab_subperiodos.png")
+```
+
+## Síntese interpretativa
+
+Uma boa interpretação deve citar números, anos e mecanismos.
+
+Evite frases genéricas como "a economia piorou" ou "a dívida aumentou".
+
+Prefira frases do tipo:
+
+- "Entre 2015 e 2025, a dívida bruta brasileira aumentou em X pontos percentuais do PIB, enquanto a colombiana aumentou Y."
+- "No subperíodo 2005-2009, o resultado primário brasileiro foi mais favorável, o que ajudou a conter a trajetória da dívida."
+- "Em 2020, a pandemia aparece como choque fiscal e macroeconômico atípico, combinando queda de atividade e deterioração fiscal."
+
+::: {.callout-important}
+## Tarefa final
+
+Escreva de 3 a 5 frases interpretativas usando pelo menos dois gráficos e a
+tabela de subperíodos.  
+Cada frase deve conter uma evidência numérica ou uma referência temporal clara.
+:::
