@@ -1,0 +1,503 @@
+---
+title: "Índice de Gini e Curva de Lorenz da Renda no Brasil"
+subtitle: "PNAD Contínua, cálculo oficial validado e reconstrução didática"
+author: "Patrick Rodrigues Andrade"
+date: today
+date-format: "DD/MM/YYYY"
+lang: pt-BR
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    theme: cosmo
+    embed-resources: true
+execute:
+  echo: true
+  message: false
+  warning: false
+fig-width: 8
+fig-height: 5
+---
+
+```{r}
+#| label: setup
+#| include: false
+knitr::opts_chunk$set(dpi = 120)
+options(scipen = 999)
+```
+
+## Objetivo
+
+Este documento organiza o estudo em duas camadas:
+
+1. Reproduzir o indicador oficial do IBGE/SIDRA para o índice de Gini do
+   rendimento domiciliar per capita.
+2. Reconstruir uma medida analítica de renda domiciliar per capita a partir dos
+   microdados, para fins de aprendizado e decomposição.
+
+A camada oficial usa `VD5008`, variável derivada da PNAD Contínua descrita no
+dicionário como rendimento habitual domiciliar per capita. Essa especificação é
+validada contra a tabela SIDRA 7435 para 2024 e 2025.
+
+A camada didática reconstrói uma renda domiciliar per capita a partir de
+componentes individuais de rendimento. Ela é útil para entender a mecânica do
+cálculo, mas não substitui a especificação oficial validada contra o SIDRA.
+
+## Pacotes
+
+```{r}
+#| label: packages
+pacotes <- c(
+  "PNADcIBGE", "survey", "convey", "dplyr", "ggplot2",
+  "scales", "jsonlite", "knitr", "tibble"
+)
+
+faltantes <- setdiff(pacotes, rownames(installed.packages()))
+if (length(faltantes) > 0) {
+  install.packages(faltantes, repos = "https://cloud.r-project.org")
+}
+
+invisible(lapply(pacotes, library, character.only = TRUE))
+```
+
+## Parâmetros
+
+```{r}
+#| label: parametros
+anos_validacao <- c(2024, 2025)
+ano_reconstrucao <- 2024
+visita <- 1
+pasta_dados <- "dados_pnadc"
+dir.create(pasta_dados, showWarnings = FALSE)
+
+quantis_lorenz <- seq(0, 1, 0.1)
+```
+
+## Referência IBGE/SIDRA
+
+```{r}
+#| label: sidra
+url_sidra <- sprintf(
+  "https://apisidra.ibge.gov.br/values/t/7435/n1/1/v/10681/p/%s?formato=json",
+  paste(anos_validacao, collapse = ",")
+)
+
+sidra_bruto <- jsonlite::fromJSON(url_sidra)
+sidra <- sidra_bruto[-1, ] |>
+  dplyr::transmute(
+    ano = as.integer(D3N),
+    territorio = D1N,
+    indicador = D2N,
+    gini_sidra = as.numeric(V)
+  )
+
+knitr::kable(
+  sidra,
+  digits = 3,
+  col.names = c("Ano", "Território", "Indicador", "Gini SIDRA")
+)
+```
+
+## Funções auxiliares
+
+```{r}
+#| label: funcoes
+extrair_lorenz <- function(objeto_lorenz, ano, tipo, media = 1) {
+  tibble::tibble(
+    ano = ano,
+    proporcao_populacao = as.numeric(sub("L\\((.*)\\)", "\\1", names(objeto_lorenz))),
+    valor = as.numeric(objeto_lorenz) * media,
+    tipo = tipo
+  )
+}
+
+calcular_oficial_ano <- function(ano) {
+  pnadc <- PNADcIBGE::get_pnadc(
+    year = ano,
+    interview = visita,
+    defyear = ano,
+    vars = c("VD5008"),
+    design = TRUE,
+    savedir = pasta_dados,
+    reload = FALSE
+  )
+
+  pnadc_convey <- convey::convey_prep(pnadc)
+
+  gini <- convey::svygini(~VD5008, design = pnadc_convey, na.rm = TRUE)
+  media <- survey::svymean(~VD5008, design = pnadc, na.rm = TRUE)
+  gini_valor <- as.numeric(coef(gini))
+  gini_erro_padrao <- as.numeric(SE(gini))
+  media_valor <- as.numeric(coef(media))
+  media_erro_padrao <- as.numeric(SE(media))
+
+  lorenz_padrao <- convey::svylorenz(
+    ~VD5008,
+    design = pnadc_convey,
+    quantiles = quantis_lorenz,
+    na.rm = TRUE,
+    plot = FALSE
+  )
+
+  list(
+    resumo = tibble::tibble(
+      ano = ano,
+      n_pessoas_amostra = nrow(pnadc$variables),
+      gini = gini_valor,
+      erro_padrao_gini = gini_erro_padrao,
+      rendimento_medio = media_valor,
+      erro_padrao_media = media_erro_padrao
+    ),
+    lorenz = dplyr::bind_rows(
+      extrair_lorenz(lorenz_padrao, ano, "Lorenz padrão"),
+      extrair_lorenz(lorenz_padrao, ano, "Lorenz generalizada", media = media_valor)
+    )
+  )
+}
+```
+
+## Cálculo oficial
+
+```{r}
+#| label: calculo-oficial
+resultados_oficiais <- lapply(anos_validacao, calcular_oficial_ano)
+
+resumo_oficial <- dplyr::bind_rows(lapply(resultados_oficiais, `[[`, "resumo"))
+lorenz_oficial <- dplyr::bind_rows(lapply(resultados_oficiais, `[[`, "lorenz"))
+
+comparacao_sidra <- resumo_oficial |>
+  dplyr::left_join(sidra |> dplyr::select(ano, gini_sidra), by = "ano") |>
+  dplyr::mutate(
+    gini_arredondado_3_casas = round(gini, 3),
+    diferenca_estimativa_sidra = gini - gini_sidra
+  ) |>
+  dplyr::select(
+    ano,
+    n_pessoas_amostra,
+    gini,
+    erro_padrao_gini,
+    gini_arredondado_3_casas,
+    gini_sidra,
+    diferenca_estimativa_sidra,
+    rendimento_medio,
+    erro_padrao_media
+  )
+
+knitr::kable(
+  comparacao_sidra,
+  digits = 6,
+  col.names = c(
+    "Ano", "N amostral", "Gini calculado", "Erro-padrão",
+    "Arred. 3 casas", "Gini SIDRA", "Diferença",
+    "Renda média", "EP renda média"
+  )
+)
+```
+
+O teste em 2025 funciona como uma validação fora do ano usado para organizar o
+estudo. A mesma especificação reproduz o SIDRA em ambos os anos, dentro do
+arredondamento de divulgação.
+
+## Curvas de Lorenz oficiais
+
+A curva de Lorenz padrão é calculada com `convey::svylorenz()`, respeitando o
+desenho amostral complexo. A curva generalizada é obtida multiplicando a Lorenz
+padrão pela renda média do ano.
+
+```{r}
+#| label: lorenz-oficial-padrao
+lorenz_oficial |>
+  dplyr::filter(tipo == "Lorenz padrão") |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = proporcao_populacao,
+      y = valor,
+      color = factor(ano)
+    )
+  ) +
+  ggplot2::geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "#B23A48") +
+  ggplot2::geom_line(linewidth = 1) +
+  ggplot2::coord_equal() +
+  ggplot2::scale_color_manual(values = c("2024" = "#1F6F8B", "2025" = "#2E7D32")) +
+  ggplot2::scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
+  ggplot2::scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  ggplot2::labs(
+    title = "Curva de Lorenz do rendimento domiciliar per capita",
+    subtitle = "Cálculo oficial com VD5008 e svylorenz()",
+    x = "População acumulada",
+    y = "Rendimento acumulado",
+    color = "Ano",
+    caption = "Fonte: elaboração própria com microdados da PNAD Contínua/IBGE."
+  ) +
+  ggplot2::theme_minimal(base_size = 12)
+```
+
+```{r}
+#| label: lorenz-oficial-generalizada
+lorenz_oficial |>
+  dplyr::filter(tipo == "Lorenz generalizada") |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = proporcao_populacao,
+      y = valor,
+      color = factor(ano)
+    )
+  ) +
+  ggplot2::geom_line(linewidth = 1) +
+  ggplot2::scale_color_manual(values = c("2024" = "#1F6F8B", "2025" = "#2E7D32")) +
+  ggplot2::scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
+  ggplot2::scale_y_continuous(
+    labels = scales::dollar_format(prefix = "R$ ", big.mark = ".", decimal.mark = ",")
+  ) +
+  ggplot2::labs(
+    title = "Curva de Lorenz generalizada",
+    subtitle = "Lorenz padrão multiplicada pelo rendimento médio domiciliar per capita",
+    x = "População acumulada",
+    y = "Rendimento acumulado médio",
+    color = "Ano",
+    caption = "Fonte: elaboração própria com microdados da PNAD Contínua/IBGE."
+  ) +
+  ggplot2::theme_minimal(base_size = 12)
+```
+
+## Reconstrução didática da renda
+
+Esta seção recupera a riqueza analítica da versão preparatória `v03`: trabalhar
+com componentes de renda, domicílio e condição no domicílio. O objetivo aqui é
+didático e exploratório. A reconstrução permite entender a formação da renda
+domiciliar per capita e observar a contribuição de renda do trabalho e de outras
+fontes.
+
+O exercício usa:
+
+- `VD4019`: rendimento habitual de todos os trabalhos;
+- `VD4048`: rendimento efetivo de outras fontes;
+- `CO2` e `CO2e`: deflatores carregados pelo pacote `PNADcIBGE`;
+- `UPA`, `V1008` e `V1014`: identificação do domicílio;
+- `V2005`: condição no domicílio, usada para identificar pensionistas,
+  empregados domésticos e parentes de empregados domésticos.
+
+```{r}
+#| label: reconstrucao
+pnadc_recon <- PNADcIBGE::get_pnadc(
+  year = ano_reconstrucao,
+  interview = visita,
+  defyear = ano_reconstrucao,
+  vars = c("UPA", "V1008", "V1014", "V2005", "VD4019", "VD4048", "VD5008"),
+  design = TRUE,
+  savedir = pasta_dados,
+  reload = FALSE
+)
+
+dados_recon <- pnadc_recon$variables |>
+  dplyr::mutate(
+    linha_original = dplyr::row_number(),
+    id_domicilio = paste(UPA, V1008, V1014, sep = "-"),
+    fora_do_nucleo_domestico = grepl("Pensionista|Empregado", as.character(V2005), ignore.case = TRUE),
+    renda_trabalho_real = dplyr::coalesce(VD4019 * CO2, 0),
+    renda_outras_fontes_real = dplyr::coalesce(VD4048 * CO2e, 0),
+    renda_individual_total_real = renda_trabalho_real + renda_outras_fontes_real,
+    renda_trabalho_para_soma = dplyr::if_else(fora_do_nucleo_domestico, 0, renda_trabalho_real),
+    renda_outras_para_soma = dplyr::if_else(fora_do_nucleo_domestico, 0, renda_outras_fontes_real),
+    renda_individual_para_soma = renda_trabalho_para_soma + renda_outras_para_soma
+  )
+
+renda_domiciliar_recon <- dados_recon |>
+  dplyr::group_by(id_domicilio) |>
+  dplyr::summarise(
+    renda_domiciliar_trabalho = sum(renda_trabalho_para_soma, na.rm = TRUE),
+    renda_domiciliar_outras = sum(renda_outras_para_soma, na.rm = TRUE),
+    renda_domiciliar_total = sum(renda_individual_para_soma, na.rm = TRUE),
+    moradores = dplyr::n(),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(
+    rdpc_trabalho = renda_domiciliar_trabalho / moradores,
+    rdpc_outras = renda_domiciliar_outras / moradores,
+    rdpc_reconstruida = renda_domiciliar_total / moradores
+  )
+
+dados_recon <- dados_recon |>
+  dplyr::left_join(
+    renda_domiciliar_recon |>
+      dplyr::select(id_domicilio, rdpc_trabalho, rdpc_outras, rdpc_reconstruida),
+    by = "id_domicilio"
+  ) |>
+  dplyr::arrange(linha_original)
+
+pnadc_recon <- update(
+  pnadc_recon,
+  rdpc_reconstruida = dados_recon$rdpc_reconstruida,
+  rdpc_trabalho = dados_recon$rdpc_trabalho,
+  rdpc_outras = dados_recon$rdpc_outras
+)
+
+pnadc_recon_convey <- convey::convey_prep(pnadc_recon)
+```
+
+## Resultados da reconstrução
+
+```{r}
+#| label: resultados-reconstrucao
+gini_recon <- convey::svygini(~rdpc_reconstruida, design = pnadc_recon_convey, na.rm = TRUE)
+media_componentes <- survey::svymean(
+  ~rdpc_reconstruida + rdpc_trabalho + rdpc_outras + VD5008,
+  design = pnadc_recon,
+  na.rm = TRUE
+)
+
+resumo_recon <- tibble::tibble(
+  indicador = c(
+    "RDPC reconstruída",
+    "VD5008 oficial"
+  ),
+  gini = c(
+    as.numeric(coef(gini_recon)),
+    resumo_oficial |> dplyr::filter(ano == ano_reconstrucao) |> dplyr::pull(gini)
+  ),
+  erro_padrao = c(
+    as.numeric(SE(gini_recon)),
+    resumo_oficial |> dplyr::filter(ano == ano_reconstrucao) |> dplyr::pull(erro_padrao_gini)
+  )
+)
+
+knitr::kable(
+  resumo_recon,
+  digits = 6,
+  col.names = c("Indicador", "Gini", "Erro-padrão")
+)
+```
+
+```{r}
+#| label: medias-componentes
+componentes_renda <- tibble::tibble(
+  componente = c(
+    "RDPC reconstruída",
+    "RDPC do trabalho",
+    "RDPC de outras fontes",
+    "VD5008 oficial"
+  ),
+  media = as.numeric(coef(media_componentes)),
+  erro_padrao = as.numeric(SE(media_componentes))
+)
+
+knitr::kable(
+  componentes_renda,
+  digits = 2,
+  col.names = c("Componente", "Média", "Erro-padrão")
+)
+```
+
+A diferença entre a reconstrução e `VD5008` é esperada: o exercício combina
+rendimento habitual do trabalho com rendimento efetivo de outras fontes. Essa
+mistura é didaticamente útil para decomposição, mas não é a especificação usada
+para validar o Gini oficial.
+
+## Lorenz da reconstrução
+
+```{r}
+#| label: lorenz-reconstrucao
+lorenz_recon_padrao <- convey::svylorenz(
+  ~rdpc_reconstruida,
+  design = pnadc_recon_convey,
+  quantiles = quantis_lorenz,
+  na.rm = TRUE,
+  plot = FALSE
+)
+
+media_recon <- as.numeric(coef(survey::svymean(~rdpc_reconstruida, pnadc_recon, na.rm = TRUE)))
+
+lorenz_recon <- dplyr::bind_rows(
+  extrair_lorenz(lorenz_recon_padrao, ano_reconstrucao, "Lorenz padrão"),
+  extrair_lorenz(lorenz_recon_padrao, ano_reconstrucao, "Lorenz generalizada", media = media_recon)
+)
+
+lorenz_comparada <- dplyr::bind_rows(
+  lorenz_oficial |>
+    dplyr::filter(ano == ano_reconstrucao) |>
+    dplyr::mutate(especificacao = "VD5008 oficial"),
+  lorenz_recon |>
+    dplyr::mutate(especificacao = "RDPC reconstruída")
+)
+
+lorenz_comparada |>
+  dplyr::filter(tipo == "Lorenz padrão") |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = proporcao_populacao,
+      y = valor,
+      color = especificacao
+    )
+  ) +
+  ggplot2::geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "#B23A48") +
+  ggplot2::geom_line(linewidth = 1) +
+  ggplot2::coord_equal() +
+  ggplot2::scale_color_manual(values = c("VD5008 oficial" = "#1F6F8B", "RDPC reconstruída" = "#6A4C93")) +
+  ggplot2::scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
+  ggplot2::scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  ggplot2::labs(
+    title = "Curva de Lorenz: oficial e reconstruída",
+    subtitle = paste("Brasil,", ano_reconstrucao),
+    x = "População acumulada",
+    y = "Rendimento acumulado",
+    color = "Especificação",
+    caption = "Fonte: elaboração própria com microdados da PNAD Contínua/IBGE."
+  ) +
+  ggplot2::theme_minimal(base_size = 12)
+```
+
+```{r}
+#| label: lorenz-reconstrucao-generalizada
+lorenz_comparada |>
+  dplyr::filter(tipo == "Lorenz generalizada") |>
+  ggplot2::ggplot(
+    ggplot2::aes(
+      x = proporcao_populacao,
+      y = valor,
+      color = especificacao
+    )
+  ) +
+  ggplot2::geom_line(linewidth = 1) +
+  ggplot2::scale_color_manual(values = c("VD5008 oficial" = "#1F6F8B", "RDPC reconstruída" = "#6A4C93")) +
+  ggplot2::scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
+  ggplot2::scale_y_continuous(
+    labels = scales::dollar_format(prefix = "R$ ", big.mark = ".", decimal.mark = ",")
+  ) +
+  ggplot2::labs(
+    title = "Curva de Lorenz generalizada: oficial e reconstruída",
+    subtitle = paste("Brasil,", ano_reconstrucao),
+    x = "População acumulada",
+    y = "Rendimento acumulado médio",
+    color = "Especificação",
+    caption = "Fonte: elaboração própria com microdados da PNAD Contínua/IBGE."
+  ) +
+  ggplot2::theme_minimal(base_size = 12)
+```
+
+## Resultado final
+
+```{r}
+#| label: resultado-final
+for (linha in seq_len(nrow(comparacao_sidra))) {
+  cat(sprintf(
+    "%s: Gini calculado = %.6f | SIDRA = %.3f | diferença = %.6f\n",
+    comparacao_sidra$ano[linha],
+    comparacao_sidra$gini[linha],
+    comparacao_sidra$gini_sidra[linha],
+    comparacao_sidra$diferenca_estimativa_sidra[linha]
+  ))
+}
+
+cat(sprintf(
+  "\n%s: Gini da RDPC reconstruída = %.6f\n",
+  ano_reconstrucao,
+  as.numeric(coef(gini_recon))
+))
+```
+
+O cálculo oficial validado usa `VD5008`, visita 1, deflator do próprio ano e
+desenho amostral complexo preparado com `convey`. A reconstrução didática
+preserva a lógica de agregação domiciliar e composição de renda dos estudos
+preparatórios, mas deve ser lida como exercício analítico, não como substituta
+do indicador oficial.
