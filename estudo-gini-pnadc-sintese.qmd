@@ -8,12 +8,14 @@ lang: pt-BR
 format:
   html:
     toc: true
-    toc-depth: 2
+    toc-depth: 3
     number-sections: true
     theme: cosmo
     embed-resources: true
+    code-fold: true
+    code-summary: "Ver código"
 execute:
-  echo: true
+  echo: false
   message: false
   warning: false
 fig-width: 8
@@ -38,11 +40,54 @@ Este documento organiza o estudo em duas camadas:
 
 A camada oficial usa `VD5008`, variável derivada da PNAD Contínua descrita no
 dicionário como rendimento habitual domiciliar per capita. Essa especificação é
-validada contra a tabela SIDRA 7435 para 2024 e 2025.
+validada contra a tabela SIDRA 7435 para 2014, 2019 e 2024.
 
 A camada didática reconstrói uma renda domiciliar per capita a partir de
 componentes individuais de rendimento. Ela é útil para entender a mecânica do
 cálculo, mas não substitui a especificação oficial validada contra o SIDRA.
+
+## O que é o índice de Gini?
+
+O índice de Gini é uma medida síntese de desigualdade de distribuição. Seu valor
+varia entre 0 e 1: quanto mais próximo de 0, mais igualitária é a distribuição;
+quanto mais próximo de 1, mais concentrada. Nenhuma sociedade real atinge os
+extremos — valores empíricos para renda situam-se tipicamente entre 0,25 (países
+escandinavos) e 0,65 (algumas economias da América Latina e da África
+Subsaariana).
+
+::: {.callout-note title="Definição formal"}
+Matematicamente, o Gini é definido como o complemento de duas vezes a área sob a
+Curva de Lorenz $L(p)$:
+
+$$G = 1 - 2\int_0^1 L(p)\,dp$$
+
+onde:
+
+- $p \in [0, 1]$ é a proporção acumulada da população, ordenada do menor ao maior
+  rendimento;
+- $L(p)$ é a proporção acumulada da renda que pertence aos $p\%$ mais pobres da
+  distribuição;
+- a integral $\int_0^1 L(p)\,dp$ é a área sob a Curva de Lorenz.
+
+Geometricamente, $G$ é **o dobro da área** compreendida entre a diagonal de
+perfeita igualdade e a Curva de Lorenz. Quando a distribuição é perfeitamente
+igualitária, $L(p) = p$ para todo $p$, e a integral vale $\frac{1}{2}$, resultando
+em $G = 0$. Quando toda a renda se concentra em um único indivíduo, a área sob
+$L(p)$ tende a zero e $G \to 1$.
+:::
+
+::: {.callout-tip title="Estimação prática com surveys complexos"}
+Com dados amostrais e pesos de expansão, o Gini não é calculado por integração
+direta. Uma forma equivalente amplamente usada em surveys complexos é a
+**fórmula da covariância ponderada** (Deville, 1999):
+
+$$G = \frac{2 \cdot \text{Cov}_w\!\left(y,\, F_w(y)\right)}{\bar{y}}$$
+
+onde $F_w(y)$ é a função de distribuição acumulada ponderada pelos pesos
+amostrais e $\bar{y}$ é a média ponderada da renda. É exatamente esse estimador
+que `convey::svygini()` implementa, levando em conta a estratificação,
+conglomeração e pesos de expansão da PNAD Contínua.
+:::
 
 ## Pacotes
 
@@ -65,89 +110,278 @@ invisible(lapply(pacotes, library, character.only = TRUE))
 
 ```{r}
 #| label: parametros
-anos_validacao <- c(2024, 2025)
+anos_validacao   <- c(2014, 2019, 2024)
 ano_reconstrucao <- 2024
-visita <- 1
-pasta_dados <- "dados_pnadc"
+visita           <- 1
+pasta_dados      <- "dados_pnadc"
 dir.create(pasta_dados, showWarnings = FALSE)
 
 quantis_lorenz <- seq(0, 1, 0.1)
+
+cache_rds <- function(path, expr) {
+  if (file.exists(path)) return(readRDS(path))
+  result <- force(expr)
+  saveRDS(result, path)
+  result
+}
 ```
 
-## Referência IBGE/SIDRA
+
+::: {.callout-tip title="Por que escolher a 1ª visita?"}
+A escolha de `visita <- 1` (primeira entrevista) é uma convenção para
+análises cross-sectionais de renda na PNADC. O painel rotativo entrevista cada
+domicílio até 5 vezes em trimestres consecutivos; domicílios em visitas
+posteriores já foram expostos ao questionário antes, o que pode introduzir
+condicionamento de painel nas respostas. Usar apenas a primeira visita garante
+que todos os domicílios chegam à entrevista com o mesmo nível de familiaridade,
+produzindo uma amostra transversal mais homogênea. A convergência com o SIDRA
+7435 — verificada na tabela de validação — confirma que essa escolha reproduz
+os valores oficiais do IBGE.
+:::
+
+
+::: {.callout-caution title="Visitas suplementares"}
+Alguns questionários da PNADC Anual (habitação, trabalho infantil, mobilidade
+social) são aplicados **somente na 5ª visita**, que é a última antes de o
+domicílio sair da amostra. Referências à visita 5 na literatura geralmente
+dizem respeito a esses módulos suplementares, que não não necessários para a
+análise de renda com `VD5008`.
+:::
+
+## A Curva de Lorenz — construção passo a passo
+
+A Curva de Lorenz é o objeto geométrico que sustenta o índice de Gini. Antes de
+usar as funções do pacote `convey`, vale entender como ela é construída.
+
+**Passo 1 — Ordenar a população.** Dados $n$ indivíduos, ordene-os do mais pobre
+ao mais rico pela variável de interesse (renda, consumo, riqueza).
+
+**Passo 2 — Calcular as proporções acumuladas.** Para cada ponto $p$ (proporção
+da população acumulada), calcule $L(p)$: a fatia da renda total que pertence aos
+$p\%$ mais pobres.
+
+**Passo 3 — Traçar a curva.** Plote $L(p)$ no eixo vertical e $p$ no eixo
+horizontal. A diagonal de 45° representa $L(p) = p$, a igualdade perfeita.
+Quanto mais a curva se afasta da diagonal em direção ao eixo horizontal, maior a
+desigualdade.
+
+**Passo 4 — Calcular o Gini.** O Gini é o dobro da área entre a diagonal e a
+Curva de Lorenz.
+
+### Exemplo numérico
+
+O exemplo a seguir usa 4 indivíduos fictícios para ilustrar cada etapa.
 
 ```{r}
-#| label: sidra
-url_sidra <- sprintf(
-  "https://apisidra.ibge.gov.br/values/t/7435/n1/1/v/10681/p/%s?formato=json",
-  paste(anos_validacao, collapse = ",")
-)
-
-sidra_bruto <- jsonlite::fromJSON(url_sidra)
-sidra <- sidra_bruto[-1, ] |>
-  dplyr::transmute(
-    ano = as.integer(D3N),
-    territorio = D1N,
-    indicador = D2N,
-    gini_sidra = as.numeric(V)
+#| label: exemplo-lorenz
+#| code-fold: false
+exemplo_lorenz <- tibble::tibble(
+  individuo = c("Ana", "Bruno", "Carla", "Diego"),
+  renda     = c(500,   1500,    3000,    7000)
+) |>
+  dplyr::arrange(renda) |>
+  dplyr::mutate(
+    p          = cumsum(rep(1 / dplyr::n(), dplyr::n())),
+    renda_acum = cumsum(renda),
+    L_p        = renda_acum / sum(renda)
   )
 
 knitr::kable(
-  sidra,
-  digits = 3,
-  col.names = c("Ano", "Território", "Indicador", "Gini SIDRA")
+  exemplo_lorenz |>
+    dplyr::select(individuo, renda, p, renda_acum, L_p),
+  col.names = c("Indivíduo", "Renda (R$)", "p", "Renda acum. (R$)", "L(p)"),
+  digits    = 3
 )
 ```
 
+Leitura da tabela: os 50% mais pobres (Ana e Bruno) detêm apenas
+`r scales::percent(exemplo_lorenz$L_p[2], accuracy = 0.1)` da renda total.
+Os 75% mais pobres acumulam
+`r scales::percent(exemplo_lorenz$L_p[3], accuracy = 0.1)`.
+A área abaixo da diagonal menos a área abaixo da curva resultará no Gini
+desse grupo.
+
+```{r}
+#| label: exemplo-lorenz-plot
+#| fig-width: 5
+#| fig-height: 5
+#| code-fold: false
+exemplo_plot <- dplyr::bind_rows(
+  tibble::tibble(individuo = "Origem", renda = 0, p = 0, renda_acum = 0, L_p = 0),
+  exemplo_lorenz
+)
+
+ggplot2::ggplot(exemplo_plot, ggplot2::aes(x = p, y = L_p)) +
+  ggplot2::geom_abline(
+    intercept = 0, slope = 1, linetype = "dashed", color = "#B23A48"
+  ) +
+  ggplot2::geom_ribbon(
+    ggplot2::aes(ymin = L_p, ymax = p), fill = "#B23A48", alpha = 0.12
+  ) +
+  ggplot2::geom_line(color = "#1F6F8B", linewidth = 1.2) +
+  ggplot2::geom_point(color = "#1F6F8B", size = 3) +
+  ggplot2::coord_equal() +
+  ggplot2::scale_x_continuous(
+    labels = scales::percent_format(accuracy = 1), limits = c(0, 1)
+  ) +
+  ggplot2::scale_y_continuous(
+    labels = scales::percent_format(accuracy = 1), limits = c(0, 1)
+  ) +
+  ggplot2::labs(
+    title    = "Curva de Lorenz — exemplo com 4 indivíduos",
+    subtitle = "Área sombreada = metade do índice de Gini",
+    x        = "Proporção acumulada da população (p)",
+    y        = "Proporção acumulada da renda L(p)"
+  ) +
+  ggplot2::theme_minimal(base_size = 12)
+```
+
+
 ## Funções auxiliares
+
+::: {.callout-tip title="Por que criar funções em R?"}
+Ao longo deste estudo, o mesmo padrão de gráfico (filtrar tipo de curva, formatar
+eixos, aplicar cores e rótulos) se repetiria quatro vezes.  
+Cada repetição é uma oportunidade de introduzir um erro difícil de rastrear, por exemplo, ajustar a
+cor em dois gráficos e esquecer o terceiro.  
+Encapsular a lógica em uma função garante que:
+
+1. **Consistência**: qualquer ajuste estético é feito em um único lugar e se
+   propaga para todos os gráficos.
+2. **Legibilidade**: o código do gráfico vira uma linha descritiva, não 20 linhas
+   de boilerplate.
+3. **Testabilidade**: é mais fácil verificar que uma função funciona corretamente
+   do que auditar código duplicado espalhado pelo documento.
+:::
 
 ```{r}
 #| label: funcoes
+# Converte objeto svylorenz em tibble padronizado
 extrair_lorenz <- function(objeto_lorenz, ano, tipo, media = 1) {
   tibble::tibble(
-    ano = ano,
+    ano                 = ano,
     proporcao_populacao = as.numeric(sub("L\\((.*)\\)", "\\1", names(objeto_lorenz))),
-    valor = as.numeric(objeto_lorenz) * media,
-    tipo = tipo
+    valor               = as.numeric(objeto_lorenz) * media,
+    tipo                = tipo
   )
 }
 
+# Gera gráfico de Lorenz (padrão ou generalizada) a partir de tibble padronizado
+plotar_lorenz <- function(dados, tipo_lorenz = "Lorenz padrão",
+                          var_grupo = "ano", cores = NULL,
+                          titulo = NULL, subtitulo = NULL,
+                          caption = "Fonte: elaboração própria com microdados da PNAD Contínua/IBGE.") {
+
+  eh_generalizada <- tipo_lorenz == "Lorenz generalizada"
+  nome_legenda    <- if (var_grupo == "ano") "Ano" else "Especificação"
+
+  dados_filtrados <- dplyr::filter(dados, tipo == tipo_lorenz) |>
+    dplyr::mutate(.grupo = as.character(.data[[var_grupo]]))
+
+  p <- ggplot2::ggplot(
+    dados_filtrados,
+    ggplot2::aes(x = proporcao_populacao, y = valor, color = .grupo)
+  )
+
+  if (!eh_generalizada) {
+    p <- p +
+      ggplot2::geom_abline(
+        intercept = 0, slope = 1, linetype = "dashed", color = "#B23A48"
+      ) +
+      ggplot2::coord_equal()
+  }
+
+  p <- p + ggplot2::geom_line(linewidth = 1)
+
+  if (!is.null(cores)) {
+    p <- p + ggplot2::scale_color_manual(values = cores, name = nome_legenda)
+  } else {
+    p <- p + ggplot2::guides(color = ggplot2::guide_legend(title = nome_legenda))
+  }
+
+  p <- p + ggplot2::scale_x_continuous(
+    labels = scales::percent_format(accuracy = 1)
+  )
+
+  if (eh_generalizada) {
+    p <- p + ggplot2::scale_y_continuous(
+      labels = scales::dollar_format(prefix = "R$ ", big.mark = ".", decimal.mark = ",")
+    )
+  } else {
+    p <- p + ggplot2::scale_y_continuous(
+      labels = scales::percent_format(accuracy = 1)
+    )
+  }
+
+  p +
+    ggplot2::labs(
+      title    = titulo,
+      subtitle = subtitulo,
+      x        = "População acumulada",
+      y        = if (eh_generalizada) "Rendimento acumulado médio" else "Rendimento acumulado",
+      caption  = caption
+    ) +
+    ggplot2::theme_minimal(base_size = 12)
+}
+
+# Compara L(p) de dois grupos em todos os quantis e retorna as diferenças
+verificar_dominancia <- function(dados_lorenz, grupo1, grupo2,
+                                 col_grupo   = "ano",
+                                 tipo_lorenz = "Lorenz padrão") {
+
+  selecionar <- function(g) {
+    dados_lorenz |>
+      dplyr::filter(
+        tipo == tipo_lorenz,
+        as.character(.data[[col_grupo]]) == as.character(g)
+      ) |>
+      dplyr::select(proporcao_populacao, valor)
+  }
+
+  d1 <- selecionar(grupo1) |> dplyr::rename(L_grupo1 = valor)
+  d2 <- selecionar(grupo2) |> dplyr::rename(L_grupo2 = valor)
+
+  dplyr::inner_join(d1, d2, by = "proporcao_populacao") |>
+    dplyr::mutate(diferenca = L_grupo1 - L_grupo2)
+}
+
+# Calcula Gini, média e curvas de Lorenz para um ano da PNAD Contínua
 calcular_oficial_ano <- function(ano) {
   pnadc <- PNADcIBGE::get_pnadc(
-    year = ano,
+    year      = ano,
     interview = visita,
-    defyear = ano,
-    vars = c("VD5008"),
-    design = TRUE,
-    savedir = pasta_dados,
-    reload = FALSE
+    defyear   = ano,
+    vars      = c("VD5008"),
+    design    = TRUE,
+    savedir   = pasta_dados,
+    reload    = FALSE
   )
 
   pnadc_convey <- convey::convey_prep(pnadc)
 
-  gini <- convey::svygini(~VD5008, design = pnadc_convey, na.rm = TRUE)
-  media <- survey::svymean(~VD5008, design = pnadc, na.rm = TRUE)
-  gini_valor <- as.numeric(coef(gini))
-  gini_erro_padrao <- as.numeric(SE(gini))
+  gini        <- convey::svygini(~VD5008, design = pnadc_convey, na.rm = TRUE)
+  media       <- survey::svymean(~VD5008, design = pnadc, na.rm = TRUE)
+  gini_valor  <- as.numeric(coef(gini))
+  gini_ep     <- as.numeric(SE(gini))
   media_valor <- as.numeric(coef(media))
-  media_erro_padrao <- as.numeric(SE(media))
+  media_ep    <- as.numeric(SE(media))
 
   lorenz_padrao <- convey::svylorenz(
     ~VD5008,
-    design = pnadc_convey,
+    design    = pnadc_convey,
     quantiles = quantis_lorenz,
-    na.rm = TRUE,
-    plot = FALSE
+    na.rm     = TRUE,
+    plot      = FALSE
   )
 
   list(
     resumo = tibble::tibble(
-      ano = ano,
+      ano               = ano,
       n_pessoas_amostra = nrow(pnadc$variables),
-      gini = gini_valor,
-      erro_padrao_gini = gini_erro_padrao,
-      rendimento_medio = media_valor,
-      erro_padrao_media = media_erro_padrao
+      gini              = gini_valor,
+      erro_padrao_gini  = gini_ep,
+      rendimento_medio  = media_valor,
+      erro_padrao_media = media_ep
     ),
     lorenz = dplyr::bind_rows(
       extrair_lorenz(lorenz_padrao, ano, "Lorenz padrão"),
@@ -157,11 +391,75 @@ calcular_oficial_ano <- function(ano) {
 }
 ```
 
+
+::: {.callout-important title="Lorenz padrão × Lorenz generalizada"}
+A **Lorenz padrão** exibe $L(p)$ no eixo Y como proporção da renda total (0–100%).
+Ela captura desigualdade relativa, mas ignora o nível absoluto de renda — uma
+sociedade igualitária mas pobre e uma igualitária e rica têm a mesma Lorenz
+padrão.
+
+A **Lorenz generalizada** (Shorrocks, 1983) escala a curva pela renda média:
+$GL(p) = L(p) \times \bar{y}$. O eixo Y passa a ser expresso em unidades
+monetárias, combinando igualdade e nível de renda. Esse conceito é desenvolvido
+na @sec-lorenz-oficial.
+:::
+
+
+## Referência IBGE/SIDRA
+
+```{r}
+#| label: sidra
+#| cache: true
+url_sidra <- sprintf(
+  "https://apisidra.ibge.gov.br/values/t/7435/n1/1/v/10681/p/%s?formato=json",
+  paste(anos_validacao, collapse = ",")
+)
+
+sidra_bruto <- jsonlite::fromJSON(url_sidra)
+sidra <- sidra_bruto[-1, ] |>
+  dplyr::transmute(
+    ano        = as.integer(D3N),
+    territorio = D1N,
+    indicador  = D2N,
+    gini_sidra = as.numeric(V)
+  )
+
+knitr::kable(
+  sidra,
+  digits    = 3,
+  col.names = c("Ano", "Território", "Indicador", "Gini SIDRA")
+)
+```
+
 ## Cálculo oficial
+
+::: {.callout-note title="Por que usar saveRDS/readRDS em vez de cache: true?"}
+O `cache: true` do knitr é baseado em hash do código do chunk e dos seus `dependson`.
+Qualquer re-execução de um chunk dependente — mesmo que o resultado seja idêntico —
+invalida o cache e dispara os cálculos pesados novamente. Para workflows com microdados
+volumosos, o padrão `saveRDS`/`readRDS` é mais robusto: o resultado é gravado em um
+arquivo `.rds` nomeado explicitamente; enquanto esse arquivo existir, o bloco de cálculo
+é completamente ignorado. A invalidação é manual e deliberada (basta apagar o arquivo
+`.rds` correspondente).
+:::
+
+::: {.callout-tip title="Nome do arquivo de cache — atualização automática"}
+O nome do arquivo `cache_oficial` é construído a partir de `anos_validacao` e `visita`,
+definidos na seção **Parâmetros**. Quando qualquer um desses valores mudar, o nome do
+arquivo muda e o cálculo é disparado automaticamente — sem precisar apagar nada
+manualmente. Exemplo: mudar `anos_validacao` de `c(2014, 2019, 2024)` para
+`c(2014, 2019, 2022, 2024)` gera `resultados_oficiais_2014-2019-2022-2024_v1.rds`,
+forçando novo cálculo apenas para o conjunto alterado.
+:::
 
 ```{r}
 #| label: calculo-oficial
-resultados_oficiais <- lapply(anos_validacao, calcular_oficial_ano)
+cache_oficial <- file.path(
+  pasta_dados,
+  paste0("resultados_oficiais_", paste(anos_validacao, collapse = "-"), "_v", visita, ".rds")
+)
+
+resultados_oficiais <- cache_rds(cache_oficial, lapply(anos_validacao, calcular_oficial_ano))
 
 resumo_oficial <- dplyr::bind_rows(lapply(resultados_oficiais, `[[`, "resumo"))
 lorenz_oficial <- dplyr::bind_rows(lapply(resultados_oficiais, `[[`, "lorenz"))
@@ -169,24 +467,18 @@ lorenz_oficial <- dplyr::bind_rows(lapply(resultados_oficiais, `[[`, "lorenz"))
 comparacao_sidra <- resumo_oficial |>
   dplyr::left_join(sidra |> dplyr::select(ano, gini_sidra), by = "ano") |>
   dplyr::mutate(
-    gini_arredondado_3_casas = round(gini, 3),
+    gini_arredondado_3_casas   = round(gini, 3),
     diferenca_estimativa_sidra = gini - gini_sidra
   ) |>
   dplyr::select(
-    ano,
-    n_pessoas_amostra,
-    gini,
-    erro_padrao_gini,
-    gini_arredondado_3_casas,
-    gini_sidra,
-    diferenca_estimativa_sidra,
-    rendimento_medio,
-    erro_padrao_media
+    ano, n_pessoas_amostra, gini, erro_padrao_gini,
+    gini_arredondado_3_casas, gini_sidra, diferenca_estimativa_sidra,
+    rendimento_medio, erro_padrao_media
   )
 
 knitr::kable(
   comparacao_sidra,
-  digits = 6,
+  digits    = 6,
   col.names = c(
     "Ano", "N amostral", "Gini calculado", "Erro-padrão",
     "Arred. 3 casas", "Gini SIDRA", "Diferença",
@@ -195,79 +487,229 @@ knitr::kable(
 )
 ```
 
-O teste em 2025 funciona como uma validação fora do ano usado para organizar o
-estudo. A mesma especificação reproduz o SIDRA em ambos os anos, dentro do
+A validação cobre três cortes econômicos:  
+- 2014, antes da recessão de 2015-2016;
+- 2019, no período pós-recessão e pré-pandemia; e 
+- 2024, já no período pós-pandemia.
+
+A mesma especificação reproduz o SIDRA nesses anos, dentro do
 arredondamento de divulgação.
 
-## Curvas de Lorenz oficiais
+## Curvas de Lorenz oficiais {#sec-lorenz-oficial}
 
 A curva de Lorenz padrão é calculada com `convey::svylorenz()`, respeitando o
-desenho amostral complexo. A curva generalizada é obtida multiplicando a Lorenz
-padrão pela renda média do ano.
+desenho amostral complexo. As abas abaixo apresentam a versão padrão e a
+generalizada para os três anos de validação.
+
+```{r}
+#| label: cores-anos
+#| echo: false
+cores_anos <- c("2014" = "#B5541B", "2019" = "#1F6F8B", "2024" = "#2E7D32")
+```
+
+::: {.panel-tabset}
+## Lorenz Padrão
 
 ```{r}
 #| label: lorenz-oficial-padrao
-lorenz_oficial |>
-  dplyr::filter(tipo == "Lorenz padrão") |>
-  ggplot2::ggplot(
-    ggplot2::aes(
-      x = proporcao_populacao,
-      y = valor,
-      color = factor(ano)
-    )
-  ) +
-  ggplot2::geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "#B23A48") +
-  ggplot2::geom_line(linewidth = 1) +
-  ggplot2::coord_equal() +
-  ggplot2::scale_color_manual(values = c("2024" = "#1F6F8B", "2025" = "#2E7D32")) +
-  ggplot2::scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
-  ggplot2::scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  ggplot2::labs(
-    title = "Curva de Lorenz do rendimento domiciliar per capita",
-    subtitle = "Cálculo oficial com VD5008 e svylorenz()",
-    x = "População acumulada",
-    y = "Rendimento acumulado",
-    color = "Ano",
-    caption = "Fonte: elaboração própria com microdados da PNAD Contínua/IBGE."
-  ) +
-  ggplot2::theme_minimal(base_size = 12)
+plotar_lorenz(
+  dados       = lorenz_oficial,
+  tipo_lorenz = "Lorenz padrão",
+  var_grupo   = "ano",
+  cores       = cores_anos,
+  titulo      = "Curva de Lorenz do rendimento domiciliar per capita",
+  subtitulo   = "Cálculo oficial com VD5008 e svylorenz()"
+)
 ```
+
+## Lorenz Generalizada
+
+**Por que construir a Lorenz generalizada?**
+
+A Lorenz padrão captura desigualdade *relativa*.
+
+Ela não distingue uma sociedade igualitária mas pobre de uma igualitária e rica.
+
+A **Curva de Lorenz generalizada** (Shorrocks, 1983) resolve essa limitação ao escalar $L(p)$ pela
+renda média:
+
+$$GL(p) = L(p) \times \bar{y}$$
+
+O eixo vertical passa a representar, em R\$, quanto de renda pertence em média
+ao segmento dos $p\%$ mais pobres. Isso permite comparar bem-estar entre
+distribuições com níveis de renda diferentes.
+
+::: {.callout-note title="Critério de dominância de Lorenz generalizada (Shorrocks, 1983)"}
+Se $GL_A(p) \geq GL_B(p)$ para todo $p \in [0, 1]$, diz-se que a distribuição
+$A$ **domina** $B$ no sentido de Lorenz generalizado. Isso equivale a afirmar que
+qualquer função de bem-estar social côncava e não-decrescente na renda individual
+atribui valor maior a $A$ do que a $B$ — sem necessidade de especificar pesos
+para ricos e pobres.
+
+**Exemplo:** o país A tem Gini = 0,30 com renda média R$ 1.000; o país B tem
+Gini = 0,35 com renda média R$ 3.000. A Lorenz *padrão* de A está acima de B (A
+é mais igualitário), mas a GL de B pode estar acima da de A para todo $p$ (B
+oferece maior bem-estar). Nesse caso, A é mais igual, mas B é melhor em termos
+de bem-estar agregado.
+:::
 
 ```{r}
 #| label: lorenz-oficial-generalizada
-lorenz_oficial |>
-  dplyr::filter(tipo == "Lorenz generalizada") |>
-  ggplot2::ggplot(
-    ggplot2::aes(
-      x = proporcao_populacao,
-      y = valor,
-      color = factor(ano)
-    )
-  ) +
-  ggplot2::geom_line(linewidth = 1) +
-  ggplot2::scale_color_manual(values = c("2024" = "#1F6F8B", "2025" = "#2E7D32")) +
-  ggplot2::scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
-  ggplot2::scale_y_continuous(
-    labels = scales::dollar_format(prefix = "R$ ", big.mark = ".", decimal.mark = ",")
-  ) +
-  ggplot2::labs(
-    title = "Curva de Lorenz generalizada",
-    subtitle = "Lorenz padrão multiplicada pelo rendimento médio domiciliar per capita",
-    x = "População acumulada",
-    y = "Rendimento acumulado médio",
-    color = "Ano",
-    caption = "Fonte: elaboração própria com microdados da PNAD Contínua/IBGE."
-  ) +
-  ggplot2::theme_minimal(base_size = 12)
+plotar_lorenz(
+  dados       = lorenz_oficial,
+  tipo_lorenz = "Lorenz generalizada",
+  var_grupo   = "ano",
+  cores       = cores_anos,
+  titulo      = "Curva de Lorenz generalizada",
+  subtitulo   = "Lorenz padrão × rendimento médio domiciliar per capita"
+)
 ```
+
+:::
+
+### Análise de dominância entre os anos
+
+Uma forma objetiva de comparar as distribuições de
+`r paste(anos_validacao, collapse = ", ")` é verificar se uma curva de Lorenz
+domina a outra em todos os quantis. A tabela a seguir mostra $L(p)$ e $GL(p)$
+para cada par de anos; as diferenças são calculadas como Ano 1 menos Ano 2.
+
+```{r}
+#| label: dominancia-anos
+pares_anos <- combn(sort(anos_validacao), 2, simplify = FALSE)
+
+classificar_dominancia <- function(diferencas) {
+  positiva <- all(diferencas >= -1e-10, na.rm = TRUE)
+  negativa <- all(diferencas <=  1e-10, na.rm = TRUE)
+
+  if (positiva && !negativa) {
+    "grupo1"
+  } else if (negativa && !positiva) {
+    "grupo2"
+  } else if (positiva && negativa) {
+    "coincidem"
+  } else {
+    "cruzam"
+  }
+}
+
+descrever_dominancia <- function(status, ano1, ano2, tipo_lorenz) {
+  eh_generalizada <- tipo_lorenz == "Lorenz generalizada"
+  simbolo         <- if (eh_generalizada) "GL" else "L"
+  criterio        <- if (eh_generalizada) "bem-estar" else "desigualdade relativa"
+
+  if (status == "grupo1") {
+    sprintf(
+      "**%s domina %s** na %s: %s(%s) >= %s(%s) para todo p, portanto %s é preferível pelo critério de %s.",
+      ano1, ano2, tipo_lorenz, simbolo, ano1, simbolo, ano2, ano1, criterio
+    )
+  } else if (status == "grupo2") {
+    sprintf(
+      "**%s domina %s** na %s: %s(%s) >= %s(%s) para todo p, portanto %s é preferível pelo critério de %s.",
+      ano2, ano1, tipo_lorenz, simbolo, ano2, simbolo, ano1, ano2, criterio
+    )
+  } else if (status == "coincidem") {
+    sprintf(
+      "As curvas de %s de %s e %s **coincidem** em todos os quantis.",
+      tipo_lorenz, ano1, ano2
+    )
+  } else {
+    sprintf(
+      "As curvas de %s de %s e %s **se cruzam**: não há dominância; a comparação depende de um critério adicional de ponderação.",
+      tipo_lorenz, ano1, ano2
+    )
+  }
+}
+
+analisar_par_dominancia <- function(par) {
+  ano1 <- par[1]
+  ano2 <- par[2]
+
+  dom_l <- verificar_dominancia(lorenz_oficial, ano1, ano2,
+                                col_grupo   = "ano",
+                                tipo_lorenz = "Lorenz padrão")
+
+  dom_gl <- verificar_dominancia(lorenz_oficial, ano1, ano2,
+                                 col_grupo   = "ano",
+                                 tipo_lorenz = "Lorenz generalizada")
+
+  status_l  <- classificar_dominancia(dom_l$diferenca)
+  status_gl <- classificar_dominancia(dom_gl$diferenca)
+
+  list(
+    detalhe = dplyr::bind_cols(
+      dom_l |>
+        dplyr::transmute(
+          par = paste(ano1, ano2, sep = " vs "),
+          p = proporcao_populacao,
+          ano1 = ano1,
+          ano2 = ano2,
+          L_ano1 = L_grupo1,
+          L_ano2 = L_grupo2,
+          dif_padrao = diferenca
+        ),
+      dom_gl |>
+        dplyr::select(
+          GL_ano1 = L_grupo1,
+          GL_ano2 = L_grupo2,
+          dif_gl = diferenca
+        )
+    ),
+    resumo = tibble::tibble(
+      par = paste(ano1, ano2, sep = " vs "),
+      ano1 = ano1,
+      ano2 = ano2,
+      status_padrao = status_l,
+      status_gl = status_gl,
+      interpretacao_padrao = descrever_dominancia(status_l, ano1, ano2, "Lorenz padrão"),
+      interpretacao_gl = descrever_dominancia(status_gl, ano1, ano2, "Lorenz generalizada")
+    )
+  )
+}
+
+dominancia_anos    <- lapply(pares_anos, analisar_par_dominancia)
+dominancia_detalhe <- dplyr::bind_rows(lapply(dominancia_anos, `[[`, "detalhe"))
+dominancia_resumo  <- dplyr::bind_rows(lapply(dominancia_anos, `[[`, "resumo"))
+
+knitr::kable(
+  dominancia_detalhe,
+  digits    = 4,
+  col.names = c(
+    "Par", "p", "Ano 1", "Ano 2", "L(Ano 1)", "L(Ano 2)",
+    "Dif. padrão", "GL(Ano 1)", "GL(Ano 2)", "Dif. GL"
+  )
+)
+```
+
+```{r}
+#| label: dominancia-anos-interpretacao
+#| echo: false
+res_l <- paste0("- ", dominancia_resumo$interpretacao_padrao, collapse = "\n")
+res_gl <- paste0("- ", dominancia_resumo$interpretacao_gl, collapse = "\n")
+```
+
+::: {.callout-note title="Resultado — dominância de Lorenz padrão (desigualdade)"}
+```{r}
+#| echo: false
+#| results: asis
+cat(res_l)
+```
+:::
+
+::: {.callout-note title="Resultado — dominância de Lorenz generalizada (bem-estar)"}
+```{r}
+#| echo: false
+#| results: asis
+cat(res_gl)
+```
+:::
 
 ## Reconstrução didática da renda
 
-Esta seção recupera a riqueza analítica da versão preparatória `v03`: trabalhar
-com componentes de renda, domicílio e condição no domicílio. O objetivo aqui é
-didático e exploratório. A reconstrução permite entender a formação da renda
-domiciliar per capita e observar a contribuição de renda do trabalho e de outras
-fontes.
+Esta seção recupera a riqueza analítica da versão preparatória: trabalhar com
+componentes de renda, domicílio e condição no domicílio. O objetivo é didático e
+exploratório. A reconstrução permite entender a formação da renda domiciliar per
+capita e observar a contribuição de renda do trabalho e de outras fontes.
 
 O exercício usa:
 
@@ -278,59 +720,85 @@ O exercício usa:
 - `V2005`: condição no domicílio, usada para identificar pensionistas,
   empregados domésticos e parentes de empregados domésticos.
 
+::: {.callout-warning title="Limitação da reconstrução"}
+A reconstrução combina **rendimento habitual do trabalho** (`VD4019 × CO2`) com
+**rendimento efetivo de outras fontes** (`VD4048 × CO2e`). Essa mistura de
+conceitos distintos — habitual e efetivo — produz um Gini próximo ao oficial, mas
+não idêntico. O exercício é útil para compreender a mecânica da agregação
+domiciliar e a composição da renda, mas não deve ser usado como substituto da
+especificação oficial validada contra o SIDRA.
+:::
+
+::: {.callout-note title="Cache das colunas calculadas"}
+Objetos `survey.design` não podem ser serializados de forma confiável com `saveRDS`.
+A estratégia aqui é diferente: o `get_pnadc()` com `reload = FALSE` já carrega o
+objeto survey a partir do `.rds` salvo na pasta `dados_pnadc/` (rápido). O que se
+cacheia são apenas as **três colunas derivadas** (`rdpc_reconstruida`, `rdpc_trabalho`,
+`rdpc_outras`) — um data frame pequeno que é o resultado da parte pesada: o
+`mutate`/`group_by`/`summarise`/`left_join` sobre todos os domicílios. Com o arquivo
+de cache presente, esse bloco é ignorado e as colunas são carregadas diretamente para
+o `update()`.
+:::
+
 ```{r}
 #| label: reconstrucao
 pnadc_recon <- PNADcIBGE::get_pnadc(
-  year = ano_reconstrucao,
+  year      = ano_reconstrucao,
   interview = visita,
-  defyear = ano_reconstrucao,
-  vars = c("UPA", "V1008", "V1014", "V2005", "VD4019", "VD4048", "VD5008"),
-  design = TRUE,
-  savedir = pasta_dados,
-  reload = FALSE
+  defyear   = ano_reconstrucao,
+  vars      = c("UPA", "V1008", "V1014", "V2005", "VD4019", "VD4048", "VD5008"),
+  design    = TRUE,
+  savedir   = pasta_dados,
+  reload    = FALSE
 )
 
-dados_recon <- pnadc_recon$variables |>
-  dplyr::mutate(
-    linha_original = dplyr::row_number(),
-    id_domicilio = paste(UPA, V1008, V1014, sep = "-"),
-    fora_do_nucleo_domestico = grepl("Pensionista|Empregado", as.character(V2005), ignore.case = TRUE),
-    renda_trabalho_real = dplyr::coalesce(VD4019 * CO2, 0),
-    renda_outras_fontes_real = dplyr::coalesce(VD4048 * CO2e, 0),
-    renda_individual_total_real = renda_trabalho_real + renda_outras_fontes_real,
-    renda_trabalho_para_soma = dplyr::if_else(fora_do_nucleo_domestico, 0, renda_trabalho_real),
-    renda_outras_para_soma = dplyr::if_else(fora_do_nucleo_domestico, 0, renda_outras_fontes_real),
-    renda_individual_para_soma = renda_trabalho_para_soma + renda_outras_para_soma
-  )
+cache_recon <- file.path(
+  pasta_dados,
+  paste0("rdpc_recon_", ano_reconstrucao, "_v", visita, ".rds")
+)
 
-renda_domiciliar_recon <- dados_recon |>
-  dplyr::group_by(id_domicilio) |>
-  dplyr::summarise(
-    renda_domiciliar_trabalho = sum(renda_trabalho_para_soma, na.rm = TRUE),
-    renda_domiciliar_outras = sum(renda_outras_para_soma, na.rm = TRUE),
-    renda_domiciliar_total = sum(renda_individual_para_soma, na.rm = TRUE),
-    moradores = dplyr::n(),
-    .groups = "drop"
-  ) |>
-  dplyr::mutate(
-    rdpc_trabalho = renda_domiciliar_trabalho / moradores,
-    rdpc_outras = renda_domiciliar_outras / moradores,
-    rdpc_reconstruida = renda_domiciliar_total / moradores
-  )
+rdpc_vars <- cache_rds(cache_recon, {
+  dados_tmp <- pnadc_recon$variables |>
+    dplyr::mutate(
+      linha_original             = dplyr::row_number(),
+      id_domicilio               = paste(UPA, V1008, V1014, sep = "-"),
+      fora_do_nucleo_domestico   = grepl("Pensionista|Empregado", as.character(V2005), ignore.case = TRUE),
+      renda_trabalho_real        = dplyr::coalesce(VD4019 * CO2, 0),
+      renda_outras_fontes_real   = dplyr::coalesce(VD4048 * CO2e, 0),
+      renda_trabalho_para_soma   = dplyr::if_else(fora_do_nucleo_domestico, 0, renda_trabalho_real),
+      renda_outras_para_soma     = dplyr::if_else(fora_do_nucleo_domestico, 0, renda_outras_fontes_real),
+      renda_individual_para_soma = renda_trabalho_para_soma + renda_outras_para_soma
+    )
 
-dados_recon <- dados_recon |>
-  dplyr::left_join(
-    renda_domiciliar_recon |>
-      dplyr::select(id_domicilio, rdpc_trabalho, rdpc_outras, rdpc_reconstruida),
-    by = "id_domicilio"
-  ) |>
-  dplyr::arrange(linha_original)
+  renda_dom <- dados_tmp |>
+    dplyr::group_by(id_domicilio) |>
+    dplyr::summarise(
+      renda_domiciliar_trabalho = sum(renda_trabalho_para_soma, na.rm = TRUE),
+      renda_domiciliar_outras   = sum(renda_outras_para_soma,   na.rm = TRUE),
+      renda_domiciliar_total    = sum(renda_individual_para_soma, na.rm = TRUE),
+      moradores                 = dplyr::n(),
+      .groups = "drop"
+    ) |>
+    dplyr::mutate(
+      rdpc_trabalho     = renda_domiciliar_trabalho / moradores,
+      rdpc_outras       = renda_domiciliar_outras   / moradores,
+      rdpc_reconstruida = renda_domiciliar_total    / moradores
+    )
+
+  dados_tmp |>
+    dplyr::left_join(
+      renda_dom |> dplyr::select(id_domicilio, rdpc_trabalho, rdpc_outras, rdpc_reconstruida),
+      by = "id_domicilio"
+    ) |>
+    dplyr::arrange(linha_original) |>
+    dplyr::select(rdpc_reconstruida, rdpc_trabalho, rdpc_outras)
+})
 
 pnadc_recon <- update(
   pnadc_recon,
-  rdpc_reconstruida = dados_recon$rdpc_reconstruida,
-  rdpc_trabalho = dados_recon$rdpc_trabalho,
-  rdpc_outras = dados_recon$rdpc_outras
+  rdpc_reconstruida = rdpc_vars$rdpc_reconstruida,
+  rdpc_trabalho     = rdpc_vars$rdpc_trabalho,
+  rdpc_outras       = rdpc_vars$rdpc_outras
 )
 
 pnadc_recon_convey <- convey::convey_prep(pnadc_recon)
@@ -344,15 +812,12 @@ gini_recon <- convey::svygini(~rdpc_reconstruida, design = pnadc_recon_convey, n
 media_componentes <- survey::svymean(
   ~rdpc_reconstruida + rdpc_trabalho + rdpc_outras + VD5008,
   design = pnadc_recon,
-  na.rm = TRUE
+  na.rm  = TRUE
 )
 
 resumo_recon <- tibble::tibble(
-  indicador = c(
-    "RDPC reconstruída",
-    "VD5008 oficial"
-  ),
-  gini = c(
+  indicador   = c("RDPC reconstruída", "VD5008 oficial"),
+  gini        = c(
     as.numeric(coef(gini_recon)),
     resumo_oficial |> dplyr::filter(ano == ano_reconstrucao) |> dplyr::pull(gini)
   ),
@@ -364,7 +829,7 @@ resumo_recon <- tibble::tibble(
 
 knitr::kable(
   resumo_recon,
-  digits = 6,
+  digits    = 6,
   col.names = c("Indicador", "Gini", "Erro-padrão")
 )
 ```
@@ -372,20 +837,20 @@ knitr::kable(
 ```{r}
 #| label: medias-componentes
 componentes_renda <- tibble::tibble(
-  componente = c(
+  componente  = c(
     "RDPC reconstruída",
     "RDPC do trabalho",
     "RDPC de outras fontes",
     "VD5008 oficial"
   ),
-  media = as.numeric(coef(media_componentes)),
+  media       = as.numeric(coef(media_componentes)),
   erro_padrao = as.numeric(SE(media_componentes))
 )
 
 knitr::kable(
   componentes_renda,
-  digits = 2,
-  col.names = c("Componente", "Média", "Erro-padrão")
+  digits    = 2,
+  col.names = c("Componente", "Média (R$)", "Erro-padrão")
 )
 ```
 
@@ -397,16 +862,18 @@ para validar o Gini oficial.
 ## Lorenz da reconstrução
 
 ```{r}
-#| label: lorenz-reconstrucao
+#| label: lorenz-reconstrucao-dados
 lorenz_recon_padrao <- convey::svylorenz(
   ~rdpc_reconstruida,
-  design = pnadc_recon_convey,
+  design    = pnadc_recon_convey,
   quantiles = quantis_lorenz,
-  na.rm = TRUE,
-  plot = FALSE
+  na.rm     = TRUE,
+  plot      = FALSE
 )
 
-media_recon <- as.numeric(coef(survey::svymean(~rdpc_reconstruida, pnadc_recon, na.rm = TRUE)))
+media_recon <- as.numeric(
+  coef(survey::svymean(~rdpc_reconstruida, pnadc_recon, na.rm = TRUE))
+)
 
 lorenz_recon <- dplyr::bind_rows(
   extrair_lorenz(lorenz_recon_padrao, ano_reconstrucao, "Lorenz padrão"),
@@ -421,59 +888,118 @@ lorenz_comparada <- dplyr::bind_rows(
     dplyr::mutate(especificacao = "RDPC reconstruída")
 )
 
-lorenz_comparada |>
-  dplyr::filter(tipo == "Lorenz padrão") |>
-  ggplot2::ggplot(
-    ggplot2::aes(
-      x = proporcao_populacao,
-      y = valor,
-      color = especificacao
-    )
-  ) +
-  ggplot2::geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "#B23A48") +
-  ggplot2::geom_line(linewidth = 1) +
-  ggplot2::coord_equal() +
-  ggplot2::scale_color_manual(values = c("VD5008 oficial" = "#1F6F8B", "RDPC reconstruída" = "#6A4C93")) +
-  ggplot2::scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
-  ggplot2::scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  ggplot2::labs(
-    title = "Curva de Lorenz: oficial e reconstruída",
-    subtitle = paste("Brasil,", ano_reconstrucao),
-    x = "População acumulada",
-    y = "Rendimento acumulado",
-    color = "Especificação",
-    caption = "Fonte: elaboração própria com microdados da PNAD Contínua/IBGE."
-  ) +
-  ggplot2::theme_minimal(base_size = 12)
+cores_especificacoes <- c("VD5008 oficial" = "#1F6F8B", "RDPC reconstruída" = "#6A4C93")
 ```
+
+::: {.panel-tabset}
+## Lorenz Padrão
+
+```{r}
+#| label: lorenz-reconstrucao-padrao
+plotar_lorenz(
+  dados       = lorenz_comparada,
+  tipo_lorenz = "Lorenz padrão",
+  var_grupo   = "especificacao",
+  cores       = cores_especificacoes,
+  titulo      = "Curva de Lorenz: oficial e reconstruída",
+  subtitulo   = paste("Brasil,", ano_reconstrucao)
+)
+```
+
+## Lorenz Generalizada
 
 ```{r}
 #| label: lorenz-reconstrucao-generalizada
-lorenz_comparada |>
-  dplyr::filter(tipo == "Lorenz generalizada") |>
-  ggplot2::ggplot(
-    ggplot2::aes(
-      x = proporcao_populacao,
-      y = valor,
-      color = especificacao
-    )
-  ) +
-  ggplot2::geom_line(linewidth = 1) +
-  ggplot2::scale_color_manual(values = c("VD5008 oficial" = "#1F6F8B", "RDPC reconstruída" = "#6A4C93")) +
-  ggplot2::scale_x_continuous(labels = scales::percent_format(accuracy = 1)) +
-  ggplot2::scale_y_continuous(
-    labels = scales::dollar_format(prefix = "R$ ", big.mark = ".", decimal.mark = ",")
-  ) +
-  ggplot2::labs(
-    title = "Curva de Lorenz generalizada: oficial e reconstruída",
-    subtitle = paste("Brasil,", ano_reconstrucao),
-    x = "População acumulada",
-    y = "Rendimento acumulado médio",
-    color = "Especificação",
-    caption = "Fonte: elaboração própria com microdados da PNAD Contínua/IBGE."
-  ) +
-  ggplot2::theme_minimal(base_size = 12)
+plotar_lorenz(
+  dados       = lorenz_comparada,
+  tipo_lorenz = "Lorenz generalizada",
+  var_grupo   = "especificacao",
+  cores       = cores_especificacoes,
+  titulo      = "Curva de Lorenz generalizada: oficial e reconstruída",
+  subtitulo   = paste("Brasil,", ano_reconstrucao)
+)
 ```
+
+:::
+
+### Análise de dominância: oficial × reconstruída
+
+A comparação entre a especificação oficial e a reconstruída, para o mesmo ano,
+revela se as duas capturam a mesma ordenação relativa de bem-estar ou se há
+diferença sistemática na forma da distribuição.
+
+```{r}
+#| label: dominancia-especificacoes
+dom_l_recon  <- verificar_dominancia(
+  lorenz_comparada, "VD5008 oficial", "RDPC reconstruída",
+  col_grupo   = "especificacao",
+  tipo_lorenz = "Lorenz padrão"
+)
+
+dom_gl_recon <- verificar_dominancia(
+  lorenz_comparada, "VD5008 oficial", "RDPC reconstruída",
+  col_grupo   = "especificacao",
+  tipo_lorenz = "Lorenz generalizada"
+)
+
+knitr::kable(
+  dplyr::bind_cols(
+    dom_l_recon  |> dplyr::select(
+      p          = proporcao_populacao,
+      L_oficial  = L_grupo1,
+      L_recon    = L_grupo2,
+      dif_padrao = diferenca
+    ),
+    dom_gl_recon |> dplyr::select(
+      GL_oficial = L_grupo1,
+      GL_recon   = L_grupo2,
+      dif_gl     = diferenca
+    )
+  ),
+  digits    = 4,
+  col.names = c(
+    "p", "L(oficial)", "L(recon.)", "Δ padrão",
+    "GL(oficial)", "GL(recon.)", "Δ GL"
+  )
+)
+```
+
+```{r}
+#| label: dominancia-recon-interpretacao
+#| echo: false
+dom_lr_pos  <- all(dom_l_recon$diferenca  >= -1e-10, na.rm = TRUE)
+dom_lr_neg  <- all(dom_l_recon$diferenca  <=  1e-10, na.rm = TRUE)
+dom_glr_pos <- all(dom_gl_recon$diferenca >= -1e-10, na.rm = TRUE)
+dom_glr_neg <- all(dom_gl_recon$diferenca <=  1e-10, na.rm = TRUE)
+
+if (dom_lr_pos && !dom_lr_neg) {
+  res_l_recon <- "**VD5008 oficial domina a reconstruída** na Lorenz padrão: a especificação oficial indica distribuição mais igualitária em todos os quantis."
+} else if (dom_lr_neg && !dom_lr_pos) {
+  res_l_recon <- "**RDPC reconstruída domina VD5008** na Lorenz padrão: a reconstrução sugere distribuição mais igualitária em todos os quantis."
+} else if (dom_lr_pos && dom_lr_neg) {
+  res_l_recon <- "As curvas de Lorenz padrão **coincidem**: as especificações produzem a mesma ordenação relativa."
+} else {
+  res_l_recon <- "As curvas de Lorenz padrão **se cruzam**: as especificações diferem na forma da distribuição, não apenas no nível. Isso indica que a escolha de rendimento habitual vs. efetivo afeta grupos distintos da distribuição de forma assimétrica."
+}
+
+if (dom_glr_pos && !dom_glr_neg) {
+  res_gl_recon <- "**VD5008 oficial domina na Lorenz generalizada**: a especificação oficial implica maior bem-estar em toda a distribuição."
+} else if (dom_glr_neg && !dom_glr_pos) {
+  res_gl_recon <- "**RDPC reconstruída domina na Lorenz generalizada**: a reconstrução, apesar de didática, implica maior bem-estar agregado."
+} else if (dom_glr_pos && dom_glr_neg) {
+  res_gl_recon <- "As curvas GL **coincidem**: bem-estar idêntico entre as especificações."
+} else {
+  res_gl_recon <- "As curvas GL **se cruzam**: não há dominância de bem-estar. A diferença entre rendimento habitual e efetivo afeta grupos distintos de forma que nenhuma especificação é superior para toda a distribuição."
+}
+```
+
+::: {.callout-note title="Resultado — dominância de Lorenz padrão (desigualdade)"}
+`r res_l_recon`
+:::
+
+::: {.callout-note title="Resultado — dominância de Lorenz generalizada (bem-estar)"}
+`r res_gl_recon`
+:::
 
 ## Resultado final
 
