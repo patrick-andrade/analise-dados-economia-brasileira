@@ -1,0 +1,98 @@
+---
+title: "Encontro 2 — Atividade econômica e IBGE/SIDRA"
+---
+
+## Pergunta econômica
+
+PIB e setores produtivos cresceram no mesmo ritmo?
+
+**Competências:** filter, select, mutate, group_by, arrange e lag; identificar frequência trimestral e calcular variação interanual.
+
+**Produto verificável:** Série de crescimento interanual do PIB e setores, com trimestre explicitado.
+
+## Roteiro dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–10 | Pergunta, conceitos, fonte e população coberta |
+| 10–30 | Explicação econômica e leitura dos metadados |
+| 30–60 | Demonstração em R, linha por linha, com conferências |
+| 60–85 | Prática orientada em duplas/trio |
+| 85–90 | Checkpoint: cada estudante explica uma transformação |
+
+## Contexto e cuidados de interpretação
+
+Relacionar estabilização, vulnerabilidade externa e mudança da estrutura produtiva à bibliografia. Uma diferença de ritmo setorial não identifica o efeito causal de um governo. A pandemia de 2020 é contexto para a leitura de dados posteriores a 2018.
+
+Consultar [documentação da fonte](https://sidra.ibge.gov.br/tabela/1620) e [fichas das bases](../data/README.md). A fonte online é referência; o exercício funciona com o recorte local congelado.
+
+## Demonstração reproduzível
+
+Abrir o projeto `.Rproj` e executar [o script da aula](./02-pratica.R). RStudio e Positron oferecem o mesmo fluxo: projeto, script, console e renderização. Nenhum comando de instalação é executado pela aula.
+
+```{r}
+#| echo: false
+#| include: false
+source("aulas/02-pratica.R", encoding="UTF-8")
+```
+
+```{r}
+#| eval: false
+atividade <- ler_base("pib_volume") |>
+  mutate(ano = periodo %/% 100, trimestre = periodo %% 100) |>
+  arrange(categoria, periodo) |>
+  group_by(categoria) |>
+  mutate(crescimento_interanual = 100 * (valor / lag(valor, 4) - 1)) |>
+  ungroup()
+chave_unica(atividade, c("periodo", "categoria"))
+stopifnot(all(atividade$trimestre %in% 1:4))
+# Índices de volume dos setores não são parcelas aditivas do PIB.
+grafico <- ggplot(atividade, aes(ano + (trimestre-1)/4, crescimento_interanual,
+                               colour=categoria)) + geom_line(na.rm=TRUE) +
+  geom_hline(yintercept=0, colour="grey60") +
+  labs(x="Ano e trimestre", y="Variação contra igual trimestre anterior (%)",
+       colour=NULL, title="PIB e setores: ritmos de crescimento",
+       caption="IBGE/SIDRA 1620/583; índice encadeado, média 1995=100.")
+resumo <- atividade |> group_by(categoria, ano) |>
+  summarise(trimestres=n(), media_indice=mean(valor), .groups="drop")
+graficos <- list(grafico); tabelas <- list(resumo)
+```
+
+```{r}
+#| echo: false
+graficos[[1]]
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[1]],digits=3)
+```
+
+## Aquisição IBGE/SIDRA, em momento separado
+
+A fonte é SIDRA; o cliente R se chama `sidrar`. Conhecer tabela, variável, território e período antes de consultar. Demonstração de aquisição, sem execução automática:
+
+```{r}
+#| eval: false
+consulta <- sidrar::get_sidra(api="/t/1737/n1/all/v/63/p/202501")
+dplyr::glimpse(consulta)
+```
+
+Conferir metadados antes de selecionar colunas e salvar recorte. A prática de PIB utiliza o CSV preparado; não troca a tabela trimestral pela mensal de preços.
+
+
+## Prática e registro no Quarto
+
+1. Filtre somente o PIB a preços de mercado e o ano de 2025.
+2. Calcule a variação contra o trimestre anterior e explique por que sazonalidade impede interpretá-la como a série dessazonalizada.
+3. Explique por que um setor ter crescimento elevado não implica a mesma contribuição percentual ao PIB.
+
+Salvar a resposta em um `.qmd`, renderizar em HTML e registrar pergunta, cálculo, interpretação, fonte e limitação. Verificar se o HTML abre sem conexão. [Enunciado da prática](../exercicios/02-exercicios.md). As soluções ficam no acervo docente separado.
+
+## Leituras selecionadas
+
+R4DS: transformação e visualização de dados; Pinheiro/Giambiagi, leitura selecionada sobre crescimento. Os capítulos de métodos são selecionados pelos títulos, disponíveis em [R4DS em português](https://pt.r4ds.hadley.nz/) e nos [recursos públicos de Llaudet/Imai](https://ellaudet.github.io/dss_book/student_resources_by_chapter/). Conferir as referências econômicas em [bibliografia](../docs/bibliografia.md).
+
+## Conferência e uso de IA
+
+Antes do checkpoint: conferir unidade, período, dados ausentes, tamanho da tabela e fonte. IA pode explicar ou revisar código; o estudante executa, verifica e declara o uso. Cada integrante deve explicar por que o cálculo responde à pergunta e o que ele não permite concluir.

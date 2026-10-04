@@ -1,0 +1,15 @@
+{
+  "fim": "2025-12-31",
+  "fonte": "https://www3.bcb.gov.br/wssgs/services/FachadaWSSGS",
+  "metodo": "getValoresSeriesXML",
+  "inicio": "2019-01-01",
+  "extraido_utc": "2026-10-03T20:41:37.6151665Z",
+  "codigos": [
+    432,
+    13762,
+    4513,
+    5793,
+    5760,
+    5727
+  ]
+}

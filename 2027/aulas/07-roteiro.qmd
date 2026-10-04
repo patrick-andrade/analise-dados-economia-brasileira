@@ -1,0 +1,19 @@
+---
+title: "Encontro 7 — Avaliação 1 — Projeto país–EUA"
+---
+
+Entrega do Projeto 1 (40%). Script R, relatório QMD, HTML, três figuras, uma tabela e fontes. Núcleo: crescimento e inflação; dois indicadores do tema. Usar a API do FMI e justificar complementos. A defesa verifica conceitos, transformação e interpretação.
+
+## Organização dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–15 | Conferência de entregas, arquivos e ordem dos 12 grupos |
+| 15–75 | 12 defesas de cinco minutos |
+| 75–90 | Síntese, registros e orientações |
+
+Cada integrante responde individualmente: numa dupla, cerca de dois minutos por pessoa; no trio, cerca de 80 segundos. Pergunta sobre fonte/conceito e uma transformação, seguida de interpretação. A ordem das perguntas evita respostas copiadas. Produtos são preparados antes; a defesa não exige rede.
+
+Consultar [Projeto 1](../projetos/01-enunciado.md), [Projeto 2](../projetos/02-enunciado.md) e [rubrica comum](../projetos/rubrica.md).
+
+A compreensão individual vale 20% em cada projeto. Os demais 80% correspondem ao produto compartilhado. Duas semanas de reserva não acrescentam conteúdo obrigatório.

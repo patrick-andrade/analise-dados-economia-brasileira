@@ -1,0 +1,13 @@
+.RData
+.Rhistory
+.Rproj.user/
+.quarto/
+_site/
+renv/library/
+renv/staging/
+internal/
+docentes/
+outputs/
+
+/.quarto/
+**/*.quarto_ipynb

@@ -1,0 +1,39 @@
+project:
+  type: website
+  output-dir: _site
+  execute-dir: project
+  resources:
+    - aulas/*.R
+    - R/*.R
+    - data/processed/*.csv
+    - data/inventario-bases.json
+    - data/*-procedencia.json
+  render:
+    - index.qmd
+    - aulas/*.qmd
+    - modelos/*.qmd
+    - 00-*.md
+    - projetos/*.md
+    - exercicios/*.md
+    - data/README.md
+    - docs/bibliografia.md
+    - docs/proposta-ementa-2027.md
+website:
+  title: "Economia brasileira e análise de dados 2027"
+  navbar:
+    left:
+      - href: index.qmd
+        text: "Programa e materiais"
+format:
+  html:
+    lang: pt-BR
+    theme: cosmo
+    toc: true
+    code-copy: true
+    code-fold: false
+    embed-resources: true
+    css: styles.css
+execute:
+  cache: false
+  warning: false
+  error: false

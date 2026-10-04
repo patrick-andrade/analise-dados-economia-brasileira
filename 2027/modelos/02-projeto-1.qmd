@@ -1,0 +1,62 @@
+---
+title: "Modelo 2 — Projeto país–EUA"
+author: "Substituir por integrantes e país"
+format: html
+---
+
+Este modelo executável demonstra estrutura, usando Colômbia–EUA e tema fiscal. Não é um relatório final: substituir pergunta, seleção, interpretação e identificação. O núcleo comum tem crescimento e inflação; dívida e saldo global são os dois indicadores adicionais desta demonstração.
+
+```{r}
+#| include: false
+source("aulas/04-pratica.R",encoding="UTF-8")
+selecionado <- fmi
+figura1 <- graficos[[1]]
+figura2 <- ggplot(selecionado |> filter(indicador=="GGXWDG_NGDP"),aes(ano,valor,colour=pais)) +
+ geom_line(na.rm=TRUE) + labs(title="Dívida bruta do governo geral",y="% PIB",x=NULL,colour=NULL,caption="FMI WEO abril/2026; histórico pode conter estimativas.")
+figura3 <- ggplot(selecionado |> filter(indicador=="GGXCNL_NGDP"),aes(ano,valor,colour=pais)) +
+ geom_line(na.rm=TRUE) + labs(title="Saldo global do governo geral",y="% PIB; superávit positivo",x=NULL,colour=NULL,caption="FMI. Saldo global não é primário.")
+sintese <- selecionado |> mutate(bloco=bloco_cinco_anos(ano)) |> group_by(pais,indicador,unidade,bloco) |>
+ summarise(n_validos=sum(!is.na(valor)),media=if(all(is.na(valor))) NA_real_ else mean(valor,na.rm=TRUE),.groups="drop")
+```
+
+## Pergunta e contexto
+
+Formular uma pergunta econômica sobre o par de países. Justificar o tema e os quatro indicadores, sem atribuir efeitos causais a uma comparação descritiva.
+
+## Dados e método
+
+Explicar API do FMI, edição abril/2026, recorte 2000–2025, conceitos, unidades e status. Documentar estimativas e projeções: a demonstração exclui 2026, mas isso não torna todos os anos anteriores dados observados definitivos. Não preencher ausências por zero.
+
+## Resultados
+
+```{r}
+#| echo: false
+figura1
+```
+
+Interpretar crescimento e inflação **média anual**: não é inflação dezembro/dezembro.
+
+```{r}
+#| echo: false
+figura2
+```
+
+Discutir cobertura e comparabilidade da dívida do governo geral.
+
+```{r}
+#| echo: false
+figura3
+```
+
+Explicar o saldo global e sua convenção de sinal.
+
+```{r}
+#| echo: false
+knitr::kable(sintese,digits=2)
+```
+
+As médias por blocos são resumos descritivos, não acumulados. O bloco 2025–2029 tem apenas o ano de 2025 neste recorte: declarar que é parcial e não comparar como quinquênio completo.
+
+## Limitações, fontes e IA
+
+Descrever cobertura, mudanças metodológicas, status dos dados e o que a análise não demonstra. Declarar IA e conferências. [Enunciado completo](../projetos/01-enunciado.md). Entregar também o script próprio que produz exatamente as figuras e tabela do relatório.

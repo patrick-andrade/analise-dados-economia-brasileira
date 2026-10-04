@@ -1,0 +1,39 @@
+{
+  "ano": 2027,
+  "semestre": 1,
+  "alunos": 25,
+  "creditos": 2,
+  "carga_institucional": "34h (referência 2026; equivalência a confirmar)",
+  "minutos_encontro": 90,
+  "pesos_projetos": [
+    40,
+    60
+  ],
+  "rubrica": [
+    [
+      "Fontes, conceitos, cobertura e unidades",
+      20
+    ],
+    [
+      "Tratamento e cálculos",
+      20
+    ],
+    [
+      "Reprodutibilidade do código",
+      10
+    ],
+    [
+      "Visualizações e organização do relatório",
+      15
+    ],
+    [
+      "Interpretação econômica e limitações",
+      15
+    ],
+    [
+      "Compreensão na defesa individual",
+      20
+    ]
+  ],
+  "ementa": "Pressupostos do Plano Real. Política monetária e cambial. Estabilização e vulnerabilidade externa. Impactos do Plano Real sobre as contas públicas. O avanço das reformas e do processo de privatização. Crises externas e impactos sobre a economia brasileira. O Governo Lula e a continuidade da política econômica. Desafios da política econômica no século XXI. Perspectivas econômicas e sociais no governo Dilma."
+}

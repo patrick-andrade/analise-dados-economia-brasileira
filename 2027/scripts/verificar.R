@@ -1,0 +1,37 @@
+# Conferências numéricas e de cobertura, executadas sem rede em sessão limpa.
+source("R/comum.R",encoding="UTF-8")
+iniciar_aula()
+aprovar <- function(condicao,nome) {
+  if(!isTRUE(condicao)) stop("FALHOU: ",nome)
+  message("OK: ",nome)
+}
+aprovar(abs(inflacao_acumulada(c(10,10))-21)<1e-12,"inflação composta 10% + 10% = 21%")
+aprovar(is.na(inflacao_acumulada(c(10,NA_real_),2)),"inflação com ausência não vira taxa completa")
+aprovar(is.na(inflacao_acumulada(rep(1,11),12)),"ano incompleto não é acumulado anual")
+aprovar(abs(componente_divida(80,4,2)-(80*1.04/1.02-80))<1e-12,"dívida: taxas em percentagem e resultado em pontos do PIB")
+aprovar(abs(juros_reais(10,5)-100*(1.1/1.05-1))<1e-12,"juros reais pela identidade de Fisher")
+aprovar(abs(gini_ponderado(c(0,100,200),c(1,2,1))-.375)<1e-12,"Gini ponderado confrontado com distribuição expandida")
+aprovar(abs(gini_ponderado(c(100,100,100),c(1,3,2)))<1e-12,"igualdade perfeita")
+aprovar(abs(gini_ponderado(c(0,1000,2000),c(1,2,1))-.375)<1e-12,"invariância do Gini à escala")
+aprovar(abs(gini_ponderado(c(0,100,200),c(10,20,10))-.375)<1e-12,"invariância à escala dos pesos")
+aprovar(abs(gini_ponderado(c(0,100,100,200))-.375)<1e-12,"pesos inteiros equivalem à replicação")
+aprovar(inherits(try(gini_ponderado(c(1,NA)),silent=TRUE),"try-error"),"renda ausente exige tratamento explícito")
+aprovar(inherits(try(gini_ponderado(c(1,Inf)),silent=TRUE),"try-error"),"renda não finita é recusada")
+aprovar(inherits(try(chave_unica(tibble::tibble(pais=c("BRA","BRA"),ano=c(2020,2020)),c("pais","ano")),silent=TRUE),"try-error"),"duplicata país–ano é detectada")
+for(nome in c("ipca","desocupacao","rendimento_real")) {
+  dados <- ler_base(nome) |> arrange(periodo)
+  chave_unica(dados,"periodo")
+  datas <- as.Date(paste0(dados$periodo,"01"),"%Y%m%d")
+  aprovar(nrow(dados)==84 && identical(datas,seq(as.Date("2019-01-01"),as.Date("2025-12-01"),by="month")),
+          paste(nome,"continuidade mensal e cobertura"))
+}
+source("aulas/05-pratica.R",encoding="UTF-8")
+aprovar(nrow(fiscal)==84 && max(abs(fiscal$residuo))<=.02,"identidade fiscal SGS e cobertura")
+source("aulas/06-pratica.R",encoding="UTF-8")
+aprovar(all(anual$meses==12) && !anyNA(anual$primario),"RTN: anos completos e cálculo primário")
+source("aulas/10-pratica.R",encoding="UTF-8")
+aprovar(sum(caged$registros)==414914,"CAGED: recorte real, total de registros preservado")
+aprovar(all(conferencia$residuo==c(83,3245)),"RAIS: resíduo publicado preservado")
+source("aulas/12-pratica.R",encoding="UTF-8")
+aprovar(nrow(integrado)==52,"junção FMI–WDI preserva país–ano sem multiplicar registros")
+message("CONFERÊNCIAS NUMÉRICAS CONCLUÍDAS")

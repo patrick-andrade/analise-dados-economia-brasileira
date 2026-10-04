@@ -1,0 +1,226 @@
+[
+  {
+    "arquivo": "data/raw/fmi-NGDP_RPCH.json",
+    "fonte": "https://www.imf.org/external/datamapper/api/v2/NGDP_RPCH",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "689860c3b985d99078145c6f171c4b7a9c4e8baa6a4e6ee89a27dd2411d13ead",
+    "descricao": "FMI DataMapper NGDP_RPCH",
+    "observacoes": "API pode retornar países adicionais; filtro local explícito. Histórico não implica observado definitivo."
+  },
+  {
+    "arquivo": "data/raw/fmi-PCPIPCH.json",
+    "fonte": "https://www.imf.org/external/datamapper/api/v2/PCPIPCH",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "0c327da1a2f429c24bcaa79586509bb6358a43bf642067c925777318cc5cbc97",
+    "descricao": "FMI DataMapper PCPIPCH",
+    "observacoes": "API pode retornar países adicionais; filtro local explícito. Histórico não implica observado definitivo."
+  },
+  {
+    "arquivo": "data/raw/fmi-GGXWDG_NGDP.json",
+    "fonte": "https://www.imf.org/external/datamapper/api/v2/GGXWDG_NGDP",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "2c0dd10138cbf07c8b087c25677b75c93797e8677e3fe68635bff7f692dad434",
+    "descricao": "FMI DataMapper GGXWDG_NGDP",
+    "observacoes": "API pode retornar países adicionais; filtro local explícito. Histórico não implica observado definitivo."
+  },
+  {
+    "arquivo": "data/raw/fmi-GGXCNL_NGDP.json",
+    "fonte": "https://www.imf.org/external/datamapper/api/v2/GGXCNL_NGDP",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "1db85fde3872e22e9546b35c9f7a078a7955c34dfae57f160c11090c8f399e37",
+    "descricao": "FMI DataMapper GGXCNL_NGDP",
+    "observacoes": "API pode retornar países adicionais; filtro local explícito. Histórico não implica observado definitivo."
+  },
+  {
+    "arquivo": "data/raw/fmi-BCA_NGDPD.json",
+    "fonte": "https://www.imf.org/external/datamapper/api/v2/BCA_NGDPD",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "3dfce29e9f41f0e49114034571192ff53ba713addb6f4d80fe4865dce5575093",
+    "descricao": "FMI DataMapper BCA_NGDPD",
+    "observacoes": "API pode retornar países adicionais; filtro local explícito. Histórico não implica observado definitivo."
+  },
+  {
+    "arquivo": "data/raw/fmi-LUR.json",
+    "fonte": "https://www.imf.org/external/datamapper/api/v2/LUR",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "9e1102aa2566fe23face227cd2505e98aca6533c99baca2f20173ca93b22d34c",
+    "descricao": "FMI DataMapper LUR",
+    "observacoes": "API pode retornar países adicionais; filtro local explícito. Histórico não implica observado definitivo."
+  },
+  {
+    "arquivo": "data/raw/fmi-NGDPDPC.json",
+    "fonte": "https://www.imf.org/external/datamapper/api/v2/NGDPDPC",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "fd69a5589099f316cbdd40ce77f8d1161c9af15a6b4b02bda45f6b935bec9aa7",
+    "descricao": "FMI DataMapper NGDPDPC",
+    "observacoes": "API pode retornar países adicionais; filtro local explícito. Histórico não implica observado definitivo."
+  },
+  {
+    "arquivo": "data/raw/fmi-PPPGDP.json",
+    "fonte": "https://www.imf.org/external/datamapper/api/v2/PPPGDP",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "a816e43e82d2741f4dd101941fe38bd9d2bb9af12cccb4858e023471126e55ce",
+    "descricao": "FMI DataMapper PPPGDP",
+    "observacoes": "API pode retornar países adicionais; filtro local explícito. Histórico não implica observado definitivo."
+  },
+  {
+    "arquivo": "data/processed/fmi_paises.csv",
+    "fonte": "https://www.imf.org/external/datamapper/api/",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "a62b1af363fb094d363a8411706afc20d1301f89e9ba4352769aa3096fe6969f",
+    "descricao": "Recorte de 14 países, 2000–2026, formato longo",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/processed/fmi_metadados.csv",
+    "fonte": "https://www.imf.org/external/datamapper/api/v2/indicators",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "aee05bc2d4408c873d61db1852a5d6f5be41ddeb6454179382ccfb1dc5e0b740",
+    "descricao": "Definições, unidade e início das projeções por indicador",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/raw/sidra-ipca.json",
+    "fonte": "https://apisidra.ibge.gov.br/values/t/1737/n1/all/v/63/p/201901,201902,201903,201904,201905,201906,201907,201908,201909,201910,201911,201912,202001,202002,202003,202004,202005,202006,202007,202008,202009,202010,202011,202012,202101,202102,202103,202104,202105,202106,202107,202108,202109,202110,202111,202112,202201,202202,202203,202204,202205,202206,202207,202208,202209,202210,202211,202212,202301,202302,202303,202304,202305,202306,202307,202308,202309,202310,202311,202312,202401,202402,202403,202404,202405,202406,202407,202408,202409,202410,202411,202412,202501,202502,202503,202504,202505,202506,202507,202508,202509,202510,202511,202512",
+    "extraido_utc": "2026-10-03T20:49:58.890370+00:00",
+    "sha256": "8beff27958d95204e6fc7a7bc224578ff422daae7314ab350b01ad5d9b653b26",
+    "descricao": "IBGE SIDRA tabela 1737, variável 63",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/processed/ipca.csv",
+    "fonte": "https://apisidra.ibge.gov.br/values/t/1737/n1/all/v/63/p/201901,201902,201903,201904,201905,201906,201907,201908,201909,201910,201911,201912,202001,202002,202003,202004,202005,202006,202007,202008,202009,202010,202011,202012,202101,202102,202103,202104,202105,202106,202107,202108,202109,202110,202111,202112,202201,202202,202203,202204,202205,202206,202207,202208,202209,202210,202211,202212,202301,202302,202303,202304,202305,202306,202307,202308,202309,202310,202311,202312,202401,202402,202403,202404,202405,202406,202407,202408,202409,202410,202411,202412,202501,202502,202503,202504,202505,202506,202507,202508,202509,202510,202511,202512",
+    "extraido_utc": "2026-10-03T20:49:58.890370+00:00",
+    "sha256": "41ccd1cb45837d8e39b73b1422a1e6af7262f21dc9824ca32af99fdd267fc97e",
+    "descricao": "Recorte SIDRA ipca",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/raw/sidra-pib_volume.json",
+    "fonte": "https://apisidra.ibge.gov.br/values/t/1620/n1/all/v/583/p/201901,201902,201903,201904,202001,202002,202003,202004,202101,202102,202103,202104,202201,202202,202203,202204,202301,202302,202303,202304,202401,202402,202403,202404,202501,202502,202503,202504/c11255/90707,90687,90691,90696",
+    "extraido_utc": "2026-10-03T20:49:58.890370+00:00",
+    "sha256": "c8b413d810179c2abeda0a00b3bb8bc4505ee6344aea2acb32ab2e11f72f1f5c",
+    "descricao": "IBGE SIDRA tabela 1620, variável 583",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/processed/pib_volume.csv",
+    "fonte": "https://apisidra.ibge.gov.br/values/t/1620/n1/all/v/583/p/201901,201902,201903,201904,202001,202002,202003,202004,202101,202102,202103,202104,202201,202202,202203,202204,202301,202302,202303,202304,202401,202402,202403,202404,202501,202502,202503,202504/c11255/90707,90687,90691,90696",
+    "extraido_utc": "2026-10-03T20:49:58.890370+00:00",
+    "sha256": "90cdffa044363d503a99fd67db357566f756a661aef46803adb36acba3a5eda9",
+    "descricao": "Recorte SIDRA pib_volume",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/raw/sidra-desocupacao.json",
+    "fonte": "https://apisidra.ibge.gov.br/values/t/6381/n1/all/v/4099/p/201901,201902,201903,201904,201905,201906,201907,201908,201909,201910,201911,201912,202001,202002,202003,202004,202005,202006,202007,202008,202009,202010,202011,202012,202101,202102,202103,202104,202105,202106,202107,202108,202109,202110,202111,202112,202201,202202,202203,202204,202205,202206,202207,202208,202209,202210,202211,202212,202301,202302,202303,202304,202305,202306,202307,202308,202309,202310,202311,202312,202401,202402,202403,202404,202405,202406,202407,202408,202409,202410,202411,202412,202501,202502,202503,202504,202505,202506,202507,202508,202509,202510,202511,202512",
+    "extraido_utc": "2026-10-03T20:49:58.890370+00:00",
+    "sha256": "1df25001901c43ccbe1a8085a003550d775ede8a29a154f235c87e052022194e",
+    "descricao": "IBGE SIDRA tabela 6381, variável 4099",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/processed/desocupacao.csv",
+    "fonte": "https://apisidra.ibge.gov.br/values/t/6381/n1/all/v/4099/p/201901,201902,201903,201904,201905,201906,201907,201908,201909,201910,201911,201912,202001,202002,202003,202004,202005,202006,202007,202008,202009,202010,202011,202012,202101,202102,202103,202104,202105,202106,202107,202108,202109,202110,202111,202112,202201,202202,202203,202204,202205,202206,202207,202208,202209,202210,202211,202212,202301,202302,202303,202304,202305,202306,202307,202308,202309,202310,202311,202312,202401,202402,202403,202404,202405,202406,202407,202408,202409,202410,202411,202412,202501,202502,202503,202504,202505,202506,202507,202508,202509,202510,202511,202512",
+    "extraido_utc": "2026-10-03T20:49:58.890370+00:00",
+    "sha256": "ef67e8c27bd3c9eace491325d73eb7e8f3fb4cc2e2ae7a6ef85bda02f2da3d48",
+    "descricao": "Recorte SIDRA desocupacao",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/raw/sidra-rendimento_real.json",
+    "fonte": "https://apisidra.ibge.gov.br/values/t/6389/n1/all/v/5932/p/201901,201902,201903,201904,201905,201906,201907,201908,201909,201910,201911,201912,202001,202002,202003,202004,202005,202006,202007,202008,202009,202010,202011,202012,202101,202102,202103,202104,202105,202106,202107,202108,202109,202110,202111,202112,202201,202202,202203,202204,202205,202206,202207,202208,202209,202210,202211,202212,202301,202302,202303,202304,202305,202306,202307,202308,202309,202310,202311,202312,202401,202402,202403,202404,202405,202406,202407,202408,202409,202410,202411,202412,202501,202502,202503,202504,202505,202506,202507,202508,202509,202510,202511,202512",
+    "extraido_utc": "2026-10-03T20:49:58.890370+00:00",
+    "sha256": "6550aa4a8104de9de267f35552846e19754de376767bddb08846184ad37a1ed3",
+    "descricao": "IBGE SIDRA tabela 6389, variável 5932",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/processed/rendimento_real.csv",
+    "fonte": "https://apisidra.ibge.gov.br/values/t/6389/n1/all/v/5932/p/201901,201902,201903,201904,201905,201906,201907,201908,201909,201910,201911,201912,202001,202002,202003,202004,202005,202006,202007,202008,202009,202010,202011,202012,202101,202102,202103,202104,202105,202106,202107,202108,202109,202110,202111,202112,202201,202202,202203,202204,202205,202206,202207,202208,202209,202210,202211,202212,202301,202302,202303,202304,202305,202306,202307,202308,202309,202310,202311,202312,202401,202402,202403,202404,202405,202406,202407,202408,202409,202410,202411,202412,202501,202502,202503,202504,202505,202506,202507,202508,202509,202510,202511,202512",
+    "extraido_utc": "2026-10-03T20:49:58.890370+00:00",
+    "sha256": "a20e3ef11be6075eb0e3d77401ca6ddb29c71fa130078f075c0ef07195f20fba",
+    "descricao": "Recorte SIDRA rendimento_real",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/raw/sidra-gini_oficial.json",
+    "fonte": "https://apisidra.ibge.gov.br/values/t/7435/n1/all/v/10681/p/2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024",
+    "extraido_utc": "2026-10-03T20:49:58.890370+00:00",
+    "sha256": "64a04c4d1f6decce02df42206035850d78ea61ce7da22ddcc97d84c804b7ceb2",
+    "descricao": "IBGE SIDRA tabela 7435, variável 10681",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/processed/gini_oficial.csv",
+    "fonte": "https://apisidra.ibge.gov.br/values/t/7435/n1/all/v/10681/p/2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024",
+    "extraido_utc": "2026-10-03T20:49:58.890370+00:00",
+    "sha256": "38c04d296f1a24521ca0a3e07a2f639f406c1f97ed7d8f86ed73e3994566e157",
+    "descricao": "Recorte SIDRA gini_oficial",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/raw/wdi-SI.POV.GINI.json",
+    "fonte": "https://api.worldbank.org/v2/country/BRA;USA;COL;ARG;CHL;MEX;PER;URY;CAN;GBR;DEU;FRA;ZAF;IND/indicator/SI.POV.GINI?format=json&date=2000:2025&per_page=20000",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "731c543886449c130c0a934c441f034a8958e771081c21a0372e38ad2f3d9e7d",
+    "descricao": "WDI SI.POV.GINI",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/raw/wdi-SL.UEM.TOTL.ZS.json",
+    "fonte": "https://api.worldbank.org/v2/country/BRA;USA;COL;ARG;CHL;MEX;PER;URY;CAN;GBR;DEU;FRA;ZAF;IND/indicator/SL.UEM.TOTL.ZS?format=json&date=2000:2025&per_page=20000",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "a3716a23c33fdd0544be8687bb8a1c883a9de98662857433116d3a9df5b4e19f",
+    "descricao": "WDI SL.UEM.TOTL.ZS",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/processed/wdi_complemento.csv",
+    "fonte": "https://data.worldbank.org/indicator",
+    "extraido_utc": "2026-10-03T20:33:33.553099+00:00",
+    "sha256": "2eddb666c0df08d53f2316561ed8d9974f7c1a34739b52917fdee7b3e457bc7b",
+    "descricao": "Complemento desigualdade e emprego",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/raw/rtn-serie-historica.xlsx",
+    "fonte": "https://www.tesourotransparente.gov.br/ckan/dataset/ab56485b-9c40-4efb-8563-9ce3e1973c4b/resource/527ccdb1-3059-42f3-bf23-b5e3ab4c6dc6/download/seriehistoricajul26.xlsx",
+    "extraido_utc": "2026-10-03T20:38:06.819117+00:00",
+    "sha256": "35899d771fc487db1ca17a6a1fb3fc0cc293230b8c5ad98287b69db2a7d0843c",
+    "descricao": "RTN planilha fonte",
+    "observacoes": "Aba 1.1; extração por nome da rubrica"
+  },
+  {
+    "arquivo": "data/processed/rtn.csv",
+    "fonte": "https://www.tesourotransparente.gov.br/ckan/dataset/ab56485b-9c40-4efb-8563-9ce3e1973c4b/resource/527ccdb1-3059-42f3-bf23-b5e3ab4c6dc6/download/seriehistoricajul26.xlsx",
+    "extraido_utc": "2026-10-03T20:38:06.819117+00:00",
+    "sha256": "1665e1cc6953ab1b128a614c41ffa90362f8c2281cadcc35a9333eee84b9155b",
+    "descricao": "RTN, rubricas selecionadas e valores nominais",
+    "observacoes": ""
+  },
+  {
+    "arquivo": "data/processed/bcb.csv",
+    "fonte": "https://www3.bcb.gov.br/wssgs/services/FachadaWSSGS",
+    "sha256": "dcf668274b2deca9f613118e8b8cdb4d6acd3b5970a107cc8f13c55218b068c5",
+    "bytes": 144882,
+    "extraido_utc": "2026-10-03T20:48:51.508085+00:00",
+    "metodo": "ver data/*-procedencia.json"
+  },
+  {
+    "arquivo": "data/processed/rais_setores.csv",
+    "fonte": "https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/acoes-e-programas/programas-projetos-acoes-obras-e-atividades/estatisticas-trabalho/rais/rais-2024/rais-2024-1/sumario-executivo_rais-2024-1.pdf",
+    "sha256": "6cbe85488a476b529da0b75570404427545e55a6906ff7aeb379128802c610f2",
+    "bytes": 1267,
+    "extraido_utc": "2026-10-03T20:48:51.509050+00:00",
+    "metodo": "ver data/*-procedencia.json"
+  },
+  {
+    "arquivo": "data/processed/caged_sp_202412.csv",
+    "fonte": "ftp://ftp.mtps.gov.br/pdet/microdados/NOVO%20CAGED/2024/202412/CAGEDMOV202412.7z",
+    "sha256": "5e966d6b0f54afae0641dae2431a6b6cd53554e0b808919b47597205f0eca18e",
+    "bytes": 1802,
+    "extraido_utc": "2026-10-03T20:48:51.509050+00:00",
+    "metodo": "ver data/*-procedencia.json"
+  }
+]

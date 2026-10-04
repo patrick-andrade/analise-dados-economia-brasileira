@@ -1,0 +1,94 @@
+---
+title: "Encontro 11 — Distribuição de renda e desigualdade"
+---
+
+## Pergunta econômica
+
+O que um Gini informa e o que a distribuição mostra além dele?
+
+**Competências:** Escalas, ordenação, Lorenz, pesos populacionais, ausências e distinção entre descrição e inferência amostral.
+
+**Produto verificável:** Gini oficial brasileiro e Lorenz de exemplo ponderado, com conceitos separados.
+
+## Roteiro dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–10 | Pergunta, conceitos, fonte e população coberta |
+| 10–30 | Explicação econômica e leitura dos metadados |
+| 30–60 | Demonstração em R, linha por linha, com conferências |
+| 60–85 | Prática orientada em duplas/trio |
+| 85–90 | Checkpoint: cada estudante explica uma transformação |
+
+## Contexto e cuidados de interpretação
+
+Conectar desigualdade a mercado de trabalho, tributação e transferências. O Gini resume uma distribuição definida por renda, unidade e população; não mede mobilidade ou riqueza. Diferenças entre grupos e séries não implicam efeitos causais de políticas.
+
+Consultar [documentação da fonte](https://sidra.ibge.gov.br/tabela/7435) e [fichas das bases](../data/README.md). A fonte online é referência; o exercício funciona com o recorte local congelado.
+
+## Demonstração reproduzível
+
+Abrir o projeto `.Rproj` e executar [o script da aula](./11-pratica.R). RStudio e Positron oferecem o mesmo fluxo: projeto, script, console e renderização. Nenhum comando de instalação é executado pela aula.
+
+```{r}
+#| echo: false
+#| include: false
+source("aulas/11-pratica.R", encoding="UTF-8")
+```
+
+```{r}
+#| eval: false
+oficial <- ler_base("gini_oficial") |> transmute(ano=periodo,gini=valor)
+stopifnot(all(oficial$gini>=0 & oficial$gini<=1))
+# Quatro pessoas equivalentes em três valores: exemplo SIMULADO, não PNADC.
+exemplo <- tibble::tibble(renda=c(0,100,200),peso=c(1,2,1))
+lorenz <- lorenz_ponderada(exemplo$renda,exemplo$peso)
+gini_exemplo <- gini_ponderado(exemplo$renda,exemplo$peso)
+stopifnot(abs(gini_exemplo-0.375)<1e-12)
+g1 <- ggplot(oficial,aes(ano,gini)) + geom_line() + geom_point() +
+  labs(title="Gini do rendimento domiciliar per capita — Brasil",y="Índice (0–1)",x=NULL,
+       caption="IBGE/PNADC/SIDRA 7435/10681. Série oficial, não reprodução por microdados.")
+g2 <- ggplot(lorenz,aes(p,L)) + geom_line() +
+  geom_abline(slope=1,intercept=0,linetype=2) + coord_equal() +
+  labs(title="Lorenz ponderada — exemplo simulado",x="Fração acumulada da população",
+       y="Fração acumulada da renda",caption="Rendas 0,100,200; pesos 1,2,1. Gini=0,375. Sem erro-padrão survey.")
+graficos <- list(g1,g2); tabelas <- list(exemplo,lorenz)
+```
+
+```{r}
+#| echo: false
+graficos[[1]]
+```
+
+```{r}
+#| echo: false
+graficos[[2]]
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[1]],digits=3)
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[2]],digits=3)
+```
+
+
+
+## Prática e registro no Quarto
+
+1. Calcule a média ponderada de renda do exemplo e confronte com a média simples.
+2. Multiplique todas as rendas por dez e confira a invariância do Gini.
+3. Explique por que ponderar observações não é suficiente para estimar erro-padrão na PNADC.
+
+Salvar a resposta em um `.qmd`, renderizar em HTML e registrar pergunta, cálculo, interpretação, fonte e limitação. Verificar se o HTML abre sem conexão. [Enunciado da prática](../exercicios/11-exercicios.md). As soluções ficam no acervo docente separado.
+
+## Leituras selecionadas
+
+R4DS: transformação e visualização; Llaudet/Imai: descrição e incerteza; documentação PNADC. Os capítulos de métodos são selecionados pelos títulos, disponíveis em [R4DS em português](https://pt.r4ds.hadley.nz/) e nos [recursos públicos de Llaudet/Imai](https://ellaudet.github.io/dss_book/student_resources_by_chapter/). Conferir as referências econômicas em [bibliografia](../docs/bibliografia.md).
+
+## Conferência e uso de IA
+
+Antes do checkpoint: conferir unidade, período, dados ausentes, tamanho da tabela e fonte. IA pode explicar ou revisar código; o estudante executa, verifica e declara o uso. Cada integrante deve explicar por que o cálculo responde à pergunta e o que ele não permite concluir.

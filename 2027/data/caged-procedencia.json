@@ -1,0 +1,12 @@
+{
+  "fonte": "ftp://ftp.mtps.gov.br/pdet/microdados/NOVO%20CAGED/2024/202412/CAGEDMOV202412.7z",
+  "objeto": "dados_msp_202412",
+  "competencia": "202412",
+  "arquivo_fonte": ".RData",
+  "nota": "Aquisição herdada de 2026; revisão do MTE não revalidada. Recorte municipal agregado, não estoque de emprego.",
+  "n_registros": 414914,
+  "n_grupos": 42,
+  "sha256_rdata_fonte": "9d7f4462cab2f07aee6ced78ac80a55a19fd0ff7d0f844fbf60eba2adab096b6",
+  "data_extracao_recorte": "2026-10-03",
+  "municipio_codigo_mte": "355030"
+}

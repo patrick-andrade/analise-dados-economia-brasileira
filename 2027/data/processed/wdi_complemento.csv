@@ -1,0 +1,729 @@
+pais,iso3,ano,indicador,valor,unidade,status,edicao
+Argentina,ARG,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2024,SI.POV.GINI,42.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2023,SI.POV.GINI,42.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2022,SI.POV.GINI,40.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2021,SI.POV.GINI,42.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2020,SI.POV.GINI,42.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2019,SI.POV.GINI,43.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2018,SI.POV.GINI,41.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2017,SI.POV.GINI,41.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2016,SI.POV.GINI,42.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2015,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2014,SI.POV.GINI,41.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2013,SI.POV.GINI,41.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2012,SI.POV.GINI,41.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2011,SI.POV.GINI,42.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2010,SI.POV.GINI,43.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2009,SI.POV.GINI,43.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2008,SI.POV.GINI,45,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2007,SI.POV.GINI,46.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2006,SI.POV.GINI,46.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2005,SI.POV.GINI,47.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2004,SI.POV.GINI,48.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2003,SI.POV.GINI,51,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2002,SI.POV.GINI,53.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2001,SI.POV.GINI,53.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2000,SI.POV.GINI,51,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2024,SI.POV.GINI,50.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2023,SI.POV.GINI,51.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2022,SI.POV.GINI,51.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2021,SI.POV.GINI,52.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2020,SI.POV.GINI,48.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2019,SI.POV.GINI,53.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2018,SI.POV.GINI,53.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2017,SI.POV.GINI,53.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2016,SI.POV.GINI,53.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2015,SI.POV.GINI,51.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2014,SI.POV.GINI,52.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2013,SI.POV.GINI,52.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2012,SI.POV.GINI,53.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2011,SI.POV.GINI,52.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2010,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2009,SI.POV.GINI,53.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2008,SI.POV.GINI,54,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2007,SI.POV.GINI,54.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2006,SI.POV.GINI,55.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2005,SI.POV.GINI,56.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2004,SI.POV.GINI,56.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2003,SI.POV.GINI,57.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2002,SI.POV.GINI,58.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2001,SI.POV.GINI,58.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2000,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2024,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2023,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2022,SI.POV.GINI,31.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2021,SI.POV.GINI,31.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2020,SI.POV.GINI,29.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2019,SI.POV.GINI,31.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2018,SI.POV.GINI,32.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2017,SI.POV.GINI,33.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2016,SI.POV.GINI,32.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2015,SI.POV.GINI,33.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2014,SI.POV.GINI,33.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2013,SI.POV.GINI,33.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2012,SI.POV.GINI,33.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2011,SI.POV.GINI,32.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2010,SI.POV.GINI,33.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2009,SI.POV.GINI,34,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2008,SI.POV.GINI,33.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2007,SI.POV.GINI,33.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2006,SI.POV.GINI,34.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2005,SI.POV.GINI,33.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2004,SI.POV.GINI,33.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2003,SI.POV.GINI,33.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2002,SI.POV.GINI,33.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2001,SI.POV.GINI,33.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2000,SI.POV.GINI,33.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2024,SI.POV.GINI,43,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2023,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2022,SI.POV.GINI,43.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2021,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2020,SI.POV.GINI,47,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2019,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2018,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2017,SI.POV.GINI,45.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2016,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2015,SI.POV.GINI,45.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2014,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2013,SI.POV.GINI,46.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2012,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2011,SI.POV.GINI,46.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2010,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2009,SI.POV.GINI,47.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2008,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2007,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2006,SI.POV.GINI,47.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2005,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2004,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2003,SI.POV.GINI,51.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2002,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2001,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2000,SI.POV.GINI,52.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2024,SI.POV.GINI,54.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2023,SI.POV.GINI,54.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2022,SI.POV.GINI,54.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2021,SI.POV.GINI,55.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2020,SI.POV.GINI,54.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2019,SI.POV.GINI,52.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2018,SI.POV.GINI,51.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2017,SI.POV.GINI,50.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2016,SI.POV.GINI,51.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2015,SI.POV.GINI,52,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2014,SI.POV.GINI,53.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2013,SI.POV.GINI,53.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2012,SI.POV.GINI,53.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2011,SI.POV.GINI,53.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2010,SI.POV.GINI,54.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2009,SI.POV.GINI,54.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2008,SI.POV.GINI,55,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2007,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2006,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2005,SI.POV.GINI,53.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2004,SI.POV.GINI,55,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2003,SI.POV.GINI,53.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2002,SI.POV.GINI,56,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2001,SI.POV.GINI,57.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2000,SI.POV.GINI,58.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2024,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2023,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2022,SI.POV.GINI,33.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2021,SI.POV.GINI,33.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2020,SI.POV.GINI,32.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2019,SI.POV.GINI,32.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2018,SI.POV.GINI,31.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2017,SI.POV.GINI,31.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2016,SI.POV.GINI,31.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2015,SI.POV.GINI,31.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2014,SI.POV.GINI,30.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2013,SI.POV.GINI,31.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2012,SI.POV.GINI,30.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2011,SI.POV.GINI,30.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2010,SI.POV.GINI,30.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2009,SI.POV.GINI,30.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2008,SI.POV.GINI,30.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2007,SI.POV.GINI,31.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2006,SI.POV.GINI,31,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2005,SI.POV.GINI,31.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2004,SI.POV.GINI,30.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2003,SI.POV.GINI,29.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2002,SI.POV.GINI,29.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2001,SI.POV.GINI,29.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2000,SI.POV.GINI,28.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2024,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2023,SI.POV.GINI,31.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2022,SI.POV.GINI,31.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2021,SI.POV.GINI,31.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2020,SI.POV.GINI,30.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2019,SI.POV.GINI,31.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2018,SI.POV.GINI,32.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2017,SI.POV.GINI,31.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2016,SI.POV.GINI,31.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2015,SI.POV.GINI,32.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2014,SI.POV.GINI,32.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2013,SI.POV.GINI,32.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2012,SI.POV.GINI,33.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2011,SI.POV.GINI,33.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2010,SI.POV.GINI,33.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2009,SI.POV.GINI,32.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2008,SI.POV.GINI,33,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2007,SI.POV.GINI,32.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2006,SI.POV.GINI,29.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2005,SI.POV.GINI,29.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2004,SI.POV.GINI,30.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2003,SI.POV.GINI,31.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2002,SI.POV.GINI,31.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2001,SI.POV.GINI,32.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2000,SI.POV.GINI,32.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2024,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2023,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2022,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2021,SI.POV.GINI,32.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2020,SI.POV.GINI,32.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2019,SI.POV.GINI,32.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2018,SI.POV.GINI,33.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2017,SI.POV.GINI,32.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2016,SI.POV.GINI,33.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2015,SI.POV.GINI,33.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2014,SI.POV.GINI,33.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2013,SI.POV.GINI,32.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2012,SI.POV.GINI,33.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2011,SI.POV.GINI,33.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2010,SI.POV.GINI,33.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2009,SI.POV.GINI,35.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2008,SI.POV.GINI,35.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2007,SI.POV.GINI,34.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2006,SI.POV.GINI,35.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2005,SI.POV.GINI,35.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2004,SI.POV.GINI,34.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2003,SI.POV.GINI,34.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2002,SI.POV.GINI,35.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2001,SI.POV.GINI,37.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2000,SI.POV.GINI,38.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2024,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2023,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2022,SI.POV.GINI,25.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2021,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2020,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2019,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2018,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2017,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2016,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2015,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2014,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2013,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2012,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2011,SI.POV.GINI,28.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2010,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2009,SI.POV.GINI,27.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2008,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2007,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2006,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2005,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2004,SI.POV.GINI,27.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2003,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2002,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2001,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2000,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2024,SI.POV.GINI,42.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2023,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2022,SI.POV.GINI,43.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2021,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2020,SI.POV.GINI,44.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2019,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2018,SI.POV.GINI,46,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2017,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2016,SI.POV.GINI,46.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2015,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2014,SI.POV.GINI,48.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2013,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2012,SI.POV.GINI,49.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2011,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2010,SI.POV.GINI,47.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2009,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2008,SI.POV.GINI,50.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2007,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2006,SI.POV.GINI,49.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2005,SI.POV.GINI,50.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2004,SI.POV.GINI,50.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2003,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2002,SI.POV.GINI,50.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2001,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2000,SI.POV.GINI,53.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2024,SI.POV.GINI,40.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2023,SI.POV.GINI,40.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2022,SI.POV.GINI,40.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2021,SI.POV.GINI,40.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2020,SI.POV.GINI,43.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2019,SI.POV.GINI,41.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2018,SI.POV.GINI,42.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2017,SI.POV.GINI,43.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2016,SI.POV.GINI,43.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2015,SI.POV.GINI,43.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2014,SI.POV.GINI,43.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2013,SI.POV.GINI,43.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2012,SI.POV.GINI,44.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2011,SI.POV.GINI,44.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2010,SI.POV.GINI,45.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2009,SI.POV.GINI,47,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2008,SI.POV.GINI,47.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2007,SI.POV.GINI,50,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2006,SI.POV.GINI,50.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2005,SI.POV.GINI,50.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2004,SI.POV.GINI,49.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2003,SI.POV.GINI,53.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2002,SI.POV.GINI,53.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2001,SI.POV.GINI,51.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2000,SI.POV.GINI,49.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2024,SI.POV.GINI,40,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2023,SI.POV.GINI,40.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2022,SI.POV.GINI,40.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2021,SI.POV.GINI,40.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2020,SI.POV.GINI,40.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2019,SI.POV.GINI,39.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2018,SI.POV.GINI,39.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2017,SI.POV.GINI,39.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2016,SI.POV.GINI,39.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2015,SI.POV.GINI,40.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2014,SI.POV.GINI,40.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2013,SI.POV.GINI,40.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2012,SI.POV.GINI,39.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2011,SI.POV.GINI,42.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2010,SI.POV.GINI,44.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2009,SI.POV.GINI,45.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2008,SI.POV.GINI,45.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2007,SI.POV.GINI,46.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2006,SI.POV.GINI,45.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2005,SI.POV.GINI,44.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2004,SI.POV.GINI,45.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2003,SI.POV.GINI,45,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2002,SI.POV.GINI,45.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2001,SI.POV.GINI,45,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2000,SI.POV.GINI,43.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2024,SI.POV.GINI,41.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2023,SI.POV.GINI,41.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2022,SI.POV.GINI,41.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2021,SI.POV.GINI,39.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2020,SI.POV.GINI,40,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2019,SI.POV.GINI,41.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2018,SI.POV.GINI,41.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2017,SI.POV.GINI,41.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2016,SI.POV.GINI,41.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2015,SI.POV.GINI,41.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2014,SI.POV.GINI,41.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2013,SI.POV.GINI,40.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2012,SI.POV.GINI,41.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2011,SI.POV.GINI,41.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2010,SI.POV.GINI,40.2,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2009,SI.POV.GINI,40.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2008,SI.POV.GINI,41.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2007,SI.POV.GINI,41.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2006,SI.POV.GINI,41.7,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2005,SI.POV.GINI,41.3,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2004,SI.POV.GINI,40.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2003,SI.POV.GINI,40.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2002,SI.POV.GINI,40.4,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2001,SI.POV.GINI,40.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2000,SI.POV.GINI,40.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2025,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2024,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2023,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2022,SI.POV.GINI,54.1,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2021,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2020,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2019,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2018,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2017,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2016,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2015,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2014,SI.POV.GINI,59.6,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2013,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2012,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2011,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2010,SI.POV.GINI,60.9,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2009,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2008,SI.POV.GINI,62.5,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2007,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2006,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2005,SI.POV.GINI,65,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2004,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2003,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2002,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2001,SI.POV.GINI,,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2000,SI.POV.GINI,57.8,"Índice de Gini, escala 0–100",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2025,SL.UEM.TOTL.ZS,7.145,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2024,SL.UEM.TOTL.ZS,7.15,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2023,SL.UEM.TOTL.ZS,6.139,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2022,SL.UEM.TOTL.ZS,6.805,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2021,SL.UEM.TOTL.ZS,8.736,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2020,SL.UEM.TOTL.ZS,11.461,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2019,SL.UEM.TOTL.ZS,9.843,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2018,SL.UEM.TOTL.ZS,9.22,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2017,SL.UEM.TOTL.ZS,8.347,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2016,SL.UEM.TOTL.ZS,8.088,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2015,SL.UEM.TOTL.ZS,7.577,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2014,SL.UEM.TOTL.ZS,7.268,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2013,SL.UEM.TOTL.ZS,7.1,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2012,SL.UEM.TOTL.ZS,7.217,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2011,SL.UEM.TOTL.ZS,7.18,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2010,SL.UEM.TOTL.ZS,7.714,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2009,SL.UEM.TOTL.ZS,8.645,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2008,SL.UEM.TOTL.ZS,7.837,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2007,SL.UEM.TOTL.ZS,8.47,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2006,SL.UEM.TOTL.ZS,10.078,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2005,SL.UEM.TOTL.ZS,11.506,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2004,SL.UEM.TOTL.ZS,13.522,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2003,SL.UEM.TOTL.ZS,15.36,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2002,SL.UEM.TOTL.ZS,19.59,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2001,SL.UEM.TOTL.ZS,17.32,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Argentina,ARG,2000,SL.UEM.TOTL.ZS,15,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2025,SL.UEM.TOTL.ZS,5.97,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2024,SL.UEM.TOTL.ZS,6.801,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2023,SL.UEM.TOTL.ZS,7.947,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2022,SL.UEM.TOTL.ZS,9.231,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2021,SL.UEM.TOTL.ZS,13.158,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2020,SL.UEM.TOTL.ZS,13.697,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2019,SL.UEM.TOTL.ZS,11.936,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2018,SL.UEM.TOTL.ZS,12.329,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2017,SL.UEM.TOTL.ZS,12.792,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2016,SL.UEM.TOTL.ZS,11.58,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2015,SL.UEM.TOTL.ZS,8.538,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2014,SL.UEM.TOTL.ZS,6.755,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2013,SL.UEM.TOTL.ZS,7.071,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2012,SL.UEM.TOTL.ZS,7.251,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2011,SL.UEM.TOTL.ZS,7.578,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2010,SL.UEM.TOTL.ZS,8.42,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2009,SL.UEM.TOTL.ZS,9.419,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2008,SL.UEM.TOTL.ZS,8.268,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2007,SL.UEM.TOTL.ZS,9.28,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2006,SL.UEM.TOTL.ZS,9.692,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2005,SL.UEM.TOTL.ZS,10.551,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2004,SL.UEM.TOTL.ZS,10.072,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2003,SL.UEM.TOTL.ZS,11.168,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2002,SL.UEM.TOTL.ZS,10.641,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2001,SL.UEM.TOTL.ZS,10.649,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Brasil,BRA,2000,SL.UEM.TOTL.ZS,10.889,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2025,SL.UEM.TOTL.ZS,6.907,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2024,SL.UEM.TOTL.ZS,6.351,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2023,SL.UEM.TOTL.ZS,5.415,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2022,SL.UEM.TOTL.ZS,5.279,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2021,SL.UEM.TOTL.ZS,7.527,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2020,SL.UEM.TOTL.ZS,9.657,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2019,SL.UEM.TOTL.ZS,5.69,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2018,SL.UEM.TOTL.ZS,5.837,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2017,SL.UEM.TOTL.ZS,6.426,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2016,SL.UEM.TOTL.ZS,7.038,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2015,SL.UEM.TOTL.ZS,6.945,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2014,SL.UEM.TOTL.ZS,7.023,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2013,SL.UEM.TOTL.ZS,7.143,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2012,SL.UEM.TOTL.ZS,7.392,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2011,SL.UEM.TOTL.ZS,7.637,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2010,SL.UEM.TOTL.ZS,8.178,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2009,SL.UEM.TOTL.ZS,8.46,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2008,SL.UEM.TOTL.ZS,6.284,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2007,SL.UEM.TOTL.ZS,6.156,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2006,SL.UEM.TOTL.ZS,6.484,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2005,SL.UEM.TOTL.ZS,6.758,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2004,SL.UEM.TOTL.ZS,7.185,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2003,SL.UEM.TOTL.ZS,7.574,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2002,SL.UEM.TOTL.ZS,7.665,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2001,SL.UEM.TOTL.ZS,7.219,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Canadá,CAN,2000,SL.UEM.TOTL.ZS,6.829,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2025,SL.UEM.TOTL.ZS,8.974,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2024,SL.UEM.TOTL.ZS,8.718,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2023,SL.UEM.TOTL.ZS,9.013,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2022,SL.UEM.TOTL.ZS,8.249,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2021,SL.UEM.TOTL.ZS,9.281,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2020,SL.UEM.TOTL.ZS,10.934,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2019,SL.UEM.TOTL.ZS,7.493,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2018,SL.UEM.TOTL.ZS,7.623,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2017,SL.UEM.TOTL.ZS,7.257,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2016,SL.UEM.TOTL.ZS,6.926,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2015,SL.UEM.TOTL.ZS,6.605,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2014,SL.UEM.TOTL.ZS,6.761,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2013,SL.UEM.TOTL.ZS,6.361,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2012,SL.UEM.TOTL.ZS,6.79,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2011,SL.UEM.TOTL.ZS,7.492,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2010,SL.UEM.TOTL.ZS,8.547,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2009,SL.UEM.TOTL.ZS,11.313,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2008,SL.UEM.TOTL.ZS,9.285,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2007,SL.UEM.TOTL.ZS,8.427,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2006,SL.UEM.TOTL.ZS,9.024,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2005,SL.UEM.TOTL.ZS,9.34,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2004,SL.UEM.TOTL.ZS,10.162,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2003,SL.UEM.TOTL.ZS,9.765,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2002,SL.UEM.TOTL.ZS,10.168,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2001,SL.UEM.TOTL.ZS,10.39,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Chile,CHL,2000,SL.UEM.TOTL.ZS,10.491,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2025,SL.UEM.TOTL.ZS,8.29,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2024,SL.UEM.TOTL.ZS,9.619,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2023,SL.UEM.TOTL.ZS,9.591,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2022,SL.UEM.TOTL.ZS,10.541,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2021,SL.UEM.TOTL.ZS,13.898,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2020,SL.UEM.TOTL.ZS,15.983,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2019,SL.UEM.TOTL.ZS,10.28,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2018,SL.UEM.TOTL.ZS,9.36,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2017,SL.UEM.TOTL.ZS,9.086,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2016,SL.UEM.TOTL.ZS,8.922,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2015,SL.UEM.TOTL.ZS,8.572,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2014,SL.UEM.TOTL.ZS,8.799,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2013,SL.UEM.TOTL.ZS,9.246,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2012,SL.UEM.TOTL.ZS,9.959,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2011,SL.UEM.TOTL.ZS,10.288,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2010,SL.UEM.TOTL.ZS,11.153,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2009,SL.UEM.TOTL.ZS,12.066,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2008,SL.UEM.TOTL.ZS,11.273,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2007,SL.UEM.TOTL.ZS,11.204,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2006,SL.UEM.TOTL.ZS,11.088,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2005,SL.UEM.TOTL.ZS,11.062,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2004,SL.UEM.TOTL.ZS,13.717,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2003,SL.UEM.TOTL.ZS,13.221,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2002,SL.UEM.TOTL.ZS,14.481,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2001,SL.UEM.TOTL.ZS,15.04,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Colômbia,COL,2000,SL.UEM.TOTL.ZS,20.52,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2025,SL.UEM.TOTL.ZS,3.711,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2024,SL.UEM.TOTL.ZS,3.4,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2023,SL.UEM.TOTL.ZS,3.071,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2022,SL.UEM.TOTL.ZS,3.137,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2021,SL.UEM.TOTL.ZS,3.594,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2020,SL.UEM.TOTL.ZS,3.881,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2019,SL.UEM.TOTL.ZS,3.163,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2018,SL.UEM.TOTL.ZS,3.384,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2017,SL.UEM.TOTL.ZS,3.781,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2016,SL.UEM.TOTL.ZS,4.104,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2015,SL.UEM.TOTL.ZS,4.612,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2014,SL.UEM.TOTL.ZS,4.979,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2013,SL.UEM.TOTL.ZS,5.316,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2012,SL.UEM.TOTL.ZS,5.372,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2011,SL.UEM.TOTL.ZS,5.967,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2010,SL.UEM.TOTL.ZS,7.043,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2009,SL.UEM.TOTL.ZS,7.88,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2008,SL.UEM.TOTL.ZS,7.508,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2007,SL.UEM.TOTL.ZS,8.732,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2006,SL.UEM.TOTL.ZS,10.277,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2005,SL.UEM.TOTL.ZS,11.193,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2004,SL.UEM.TOTL.ZS,10.727,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2003,SL.UEM.TOTL.ZS,9.779,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2002,SL.UEM.TOTL.ZS,8.482,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2001,SL.UEM.TOTL.ZS,7.773,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Alemanha,DEU,2000,SL.UEM.TOTL.ZS,7.917,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2025,SL.UEM.TOTL.ZS,7.542,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2024,SL.UEM.TOTL.ZS,7.4,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2023,SL.UEM.TOTL.ZS,7.335,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2022,SL.UEM.TOTL.ZS,7.303,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2021,SL.UEM.TOTL.ZS,7.871,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2020,SL.UEM.TOTL.ZS,8.009,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2019,SL.UEM.TOTL.ZS,8.415,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2018,SL.UEM.TOTL.ZS,9.018,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2017,SL.UEM.TOTL.ZS,9.409,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2016,SL.UEM.TOTL.ZS,10.057,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2015,SL.UEM.TOTL.ZS,10.354,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2014,SL.UEM.TOTL.ZS,10.273,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2013,SL.UEM.TOTL.ZS,9.913,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2012,SL.UEM.TOTL.ZS,9.841,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2011,SL.UEM.TOTL.ZS,9.228,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2010,SL.UEM.TOTL.ZS,9.279,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2009,SL.UEM.TOTL.ZS,9.122,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2008,SL.UEM.TOTL.ZS,7.386,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2007,SL.UEM.TOTL.ZS,8.008,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2006,SL.UEM.TOTL.ZS,8.832,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2005,SL.UEM.TOTL.ZS,8.882,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2004,SL.UEM.TOTL.ZS,8.914,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2003,SL.UEM.TOTL.ZS,8.306,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2002,SL.UEM.TOTL.ZS,8.702,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2001,SL.UEM.TOTL.ZS,8.61,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+França,FRA,2000,SL.UEM.TOTL.ZS,10.218,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2025,SL.UEM.TOTL.ZS,4.746,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2024,SL.UEM.TOTL.ZS,4.361,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2023,SL.UEM.TOTL.ZS,4.025,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2022,SL.UEM.TOTL.ZS,3.768,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2021,SL.UEM.TOTL.ZS,4.864,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2020,SL.UEM.TOTL.ZS,4.472,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2019,SL.UEM.TOTL.ZS,3.657,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2018,SL.UEM.TOTL.ZS,4.145,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2017,SL.UEM.TOTL.ZS,4.501,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2016,SL.UEM.TOTL.ZS,4.909,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2015,SL.UEM.TOTL.ZS,5.552,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2014,SL.UEM.TOTL.ZS,6.398,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2013,SL.UEM.TOTL.ZS,7.752,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2012,SL.UEM.TOTL.ZS,8.279,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2011,SL.UEM.TOTL.ZS,8.195,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2010,SL.UEM.TOTL.ZS,7.973,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2009,SL.UEM.TOTL.ZS,7.683,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2008,SL.UEM.TOTL.ZS,5.748,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2007,SL.UEM.TOTL.ZS,5.399,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2006,SL.UEM.TOTL.ZS,5.472,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2005,SL.UEM.TOTL.ZS,4.884,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2004,SL.UEM.TOTL.ZS,4.594,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2003,SL.UEM.TOTL.ZS,4.807,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2002,SL.UEM.TOTL.ZS,5.037,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2001,SL.UEM.TOTL.ZS,4.696,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Reino Unido,GBR,2000,SL.UEM.TOTL.ZS,5.558,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2025,SL.UEM.TOTL.ZS,4.219,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2024,SL.UEM.TOTL.ZS,4.173,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2023,SL.UEM.TOTL.ZS,4.172,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2022,SL.UEM.TOTL.ZS,4.822,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2021,SL.UEM.TOTL.ZS,6.38,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2020,SL.UEM.TOTL.ZS,7.859,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2019,SL.UEM.TOTL.ZS,6.51,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2018,SL.UEM.TOTL.ZS,7.652,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2017,SL.UEM.TOTL.ZS,7.626,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2016,SL.UEM.TOTL.ZS,7.611,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2015,SL.UEM.TOTL.ZS,7.629,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2014,SL.UEM.TOTL.ZS,7.656,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2013,SL.UEM.TOTL.ZS,7.678,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2012,SL.UEM.TOTL.ZS,7.645,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2011,SL.UEM.TOTL.ZS,7.609,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2010,SL.UEM.TOTL.ZS,7.631,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2009,SL.UEM.TOTL.ZS,7.636,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2008,SL.UEM.TOTL.ZS,7.629,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2007,SL.UEM.TOTL.ZS,7.562,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2006,SL.UEM.TOTL.ZS,7.553,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2005,SL.UEM.TOTL.ZS,7.551,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2004,SL.UEM.TOTL.ZS,7.598,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2003,SL.UEM.TOTL.ZS,7.633,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2002,SL.UEM.TOTL.ZS,7.681,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2001,SL.UEM.TOTL.ZS,7.611,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Índia,IND,2000,SL.UEM.TOTL.ZS,7.589,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2025,SL.UEM.TOTL.ZS,2.673,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2024,SL.UEM.TOTL.ZS,2.678,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2023,SL.UEM.TOTL.ZS,2.765,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2022,SL.UEM.TOTL.ZS,3.256,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2021,SL.UEM.TOTL.ZS,4.019,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2020,SL.UEM.TOTL.ZS,4.44,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2019,SL.UEM.TOTL.ZS,3.477,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2018,SL.UEM.TOTL.ZS,3.275,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2017,SL.UEM.TOTL.ZS,3.419,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2016,SL.UEM.TOTL.ZS,3.853,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2015,SL.UEM.TOTL.ZS,4.311,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2014,SL.UEM.TOTL.ZS,4.819,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2013,SL.UEM.TOTL.ZS,4.921,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2012,SL.UEM.TOTL.ZS,4.892,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2011,SL.UEM.TOTL.ZS,5.175,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2010,SL.UEM.TOTL.ZS,5.303,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2009,SL.UEM.TOTL.ZS,5.356,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2008,SL.UEM.TOTL.ZS,3.874,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2007,SL.UEM.TOTL.ZS,3.628,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2006,SL.UEM.TOTL.ZS,3.566,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2005,SL.UEM.TOTL.ZS,3.558,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2004,SL.UEM.TOTL.ZS,3.937,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2003,SL.UEM.TOTL.ZS,3.455,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2002,SL.UEM.TOTL.ZS,3.003,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2001,SL.UEM.TOTL.ZS,2.627,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+México,MEX,2000,SL.UEM.TOTL.ZS,2.646,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2025,SL.UEM.TOTL.ZS,5.117,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2024,SL.UEM.TOTL.ZS,5.199,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2023,SL.UEM.TOTL.ZS,4.899,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2022,SL.UEM.TOTL.ZS,4.291,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2021,SL.UEM.TOTL.ZS,5.097,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2020,SL.UEM.TOTL.ZS,7.179,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2019,SL.UEM.TOTL.ZS,3.379,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2018,SL.UEM.TOTL.ZS,3.492,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2017,SL.UEM.TOTL.ZS,3.691,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2016,SL.UEM.TOTL.ZS,3.741,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2015,SL.UEM.TOTL.ZS,3.272,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2014,SL.UEM.TOTL.ZS,3.208,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2013,SL.UEM.TOTL.ZS,3.575,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2012,SL.UEM.TOTL.ZS,3.238,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2011,SL.UEM.TOTL.ZS,3.477,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2010,SL.UEM.TOTL.ZS,3.6,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2009,SL.UEM.TOTL.ZS,3.96,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2008,SL.UEM.TOTL.ZS,4.03,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2007,SL.UEM.TOTL.ZS,4.08,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2006,SL.UEM.TOTL.ZS,4.17,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2005,SL.UEM.TOTL.ZS,4.87,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2004,SL.UEM.TOTL.ZS,4.71,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2003,SL.UEM.TOTL.ZS,4.15,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2002,SL.UEM.TOTL.ZS,4.84,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2001,SL.UEM.TOTL.ZS,5.068,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Peru,PER,2000,SL.UEM.TOTL.ZS,4.959,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2025,SL.UEM.TOTL.ZS,7.516,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2024,SL.UEM.TOTL.ZS,8.209,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2023,SL.UEM.TOTL.ZS,8.355,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2022,SL.UEM.TOTL.ZS,7.877,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2021,SL.UEM.TOTL.ZS,9.328,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2020,SL.UEM.TOTL.ZS,10.413,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2019,SL.UEM.TOTL.ZS,8.836,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2018,SL.UEM.TOTL.ZS,8.336,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2017,SL.UEM.TOTL.ZS,7.89,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2016,SL.UEM.TOTL.ZS,7.841,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2015,SL.UEM.TOTL.ZS,7.488,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2014,SL.UEM.TOTL.ZS,6.547,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2013,SL.UEM.TOTL.ZS,6.444,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2012,SL.UEM.TOTL.ZS,6.451,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2011,SL.UEM.TOTL.ZS,6.307,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2010,SL.UEM.TOTL.ZS,7.158,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2009,SL.UEM.TOTL.ZS,7.74,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2008,SL.UEM.TOTL.ZS,8.025,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2007,SL.UEM.TOTL.ZS,9.403,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2006,SL.UEM.TOTL.ZS,10.844,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2005,SL.UEM.TOTL.ZS,12.009,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2004,SL.UEM.TOTL.ZS,12.98,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2003,SL.UEM.TOTL.ZS,16.661,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2002,SL.UEM.TOTL.ZS,16.648,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2001,SL.UEM.TOTL.ZS,15.052,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Uruguai,URY,2000,SL.UEM.TOTL.ZS,12.627,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2025,SL.UEM.TOTL.ZS,4.198,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2024,SL.UEM.TOTL.ZS,4.022,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2023,SL.UEM.TOTL.ZS,3.638,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2022,SL.UEM.TOTL.ZS,3.65,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2021,SL.UEM.TOTL.ZS,5.349,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2020,SL.UEM.TOTL.ZS,8.055,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2019,SL.UEM.TOTL.ZS,3.669,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2018,SL.UEM.TOTL.ZS,3.896,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2017,SL.UEM.TOTL.ZS,4.355,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2016,SL.UEM.TOTL.ZS,4.869,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2015,SL.UEM.TOTL.ZS,5.28,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2014,SL.UEM.TOTL.ZS,6.168,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2013,SL.UEM.TOTL.ZS,7.375,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2012,SL.UEM.TOTL.ZS,8.069,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2011,SL.UEM.TOTL.ZS,8.949,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2010,SL.UEM.TOTL.ZS,9.633,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2009,SL.UEM.TOTL.ZS,9.254,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2008,SL.UEM.TOTL.ZS,5.784,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2007,SL.UEM.TOTL.ZS,4.622,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2006,SL.UEM.TOTL.ZS,4.623,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2005,SL.UEM.TOTL.ZS,5.084,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2004,SL.UEM.TOTL.ZS,5.529,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2003,SL.UEM.TOTL.ZS,5.989,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2002,SL.UEM.TOTL.ZS,5.783,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2001,SL.UEM.TOTL.ZS,4.731,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+Estados Unidos,USA,2000,SL.UEM.TOTL.ZS,3.992,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2025,SL.UEM.TOTL.ZS,32.391,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2024,SL.UEM.TOTL.ZS,32.279,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2023,SL.UEM.TOTL.ZS,32.098,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2022,SL.UEM.TOTL.ZS,33.268,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2021,SL.UEM.TOTL.ZS,34.007,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2020,SL.UEM.TOTL.ZS,29.217,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2019,SL.UEM.TOTL.ZS,28.468,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2018,SL.UEM.TOTL.ZS,26.906,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2017,SL.UEM.TOTL.ZS,27.035,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2016,SL.UEM.TOTL.ZS,26.536,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2015,SL.UEM.TOTL.ZS,25.149,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2014,SL.UEM.TOTL.ZS,24.89,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2013,SL.UEM.TOTL.ZS,24.561,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2012,SL.UEM.TOTL.ZS,24.727,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2011,SL.UEM.TOTL.ZS,24.639,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2010,SL.UEM.TOTL.ZS,24.683,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2009,SL.UEM.TOTL.ZS,23.523,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2008,SL.UEM.TOTL.ZS,22.407,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2007,SL.UEM.TOTL.ZS,22.26,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2006,SL.UEM.TOTL.ZS,22.304,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2005,SL.UEM.TOTL.ZS,22.472,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2004,SL.UEM.TOTL.ZS,22.567,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2003,SL.UEM.TOTL.ZS,22.679,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2002,SL.UEM.TOTL.ZS,22.579,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2001,SL.UEM.TOTL.ZS,22.652,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03
+África do Sul,ZAF,2000,SL.UEM.TOTL.ZS,22.788,"Desemprego, estimativa modelada OIT, % força de trabalho",estimativa; conferir metadados WDI,WDI extraído 2026-10-03

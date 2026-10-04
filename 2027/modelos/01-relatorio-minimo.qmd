@@ -1,0 +1,23 @@
+---
+title: "Modelo 1 — Primeiro relatório"
+author: "Substituir pelo nome do estudante"
+format: html
+---
+
+## Pergunta
+
+Como variou o IPCA mensal em 2025? Substituir por sua pergunta.
+
+```{r}
+#| echo: false
+source("aulas/01-pratica.R",encoding="UTF-8")
+graficos[[1]]
+```
+
+## Interpretação
+
+Escrever duas frases com a unidade e o período. Distinguir variação mensal do nível de preços. Não deixar este texto de orientação na entrega.
+
+## Fonte e uso de IA
+
+IBGE/SIDRA 1737/63; Brasil; variação mensal em %. Extração local de 03/10/2026. Declarar se usou IA e como verificou o código.

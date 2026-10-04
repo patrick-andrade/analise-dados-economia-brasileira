@@ -1,0 +1,90 @@
+---
+title: "Encontro 1 — Ambiente R e primeiro problema econômico"
+---
+
+## Pergunta econômica
+
+Como a variação mensal dos preços aparece em um gráfico?
+
+**Competências:** Abrir um projeto, criar objetos, ler uma tabela, construir um gráfico e renderizar um Quarto mínimo.
+
+**Produto verificável:** Um gráfico do IPCA de 2025 e um HTML com pergunta, figura e fonte.
+
+## Roteiro dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–10 | Pergunta, conceitos, fonte e população coberta |
+| 10–30 | Explicação econômica e leitura dos metadados |
+| 30–60 | Demonstração em R, linha por linha, com conferências |
+| 60–85 | Prática orientada em duplas/trio |
+| 85–90 | Checkpoint: cada estudante explica uma transformação |
+
+## Contexto e cuidados de interpretação
+
+Apresentar o Plano Real como episódio de estabilização. Distinguir a pergunta histórica da série recente usada no primeiro exercício. O índice de preços não é o preço de um único produto.
+
+Consultar [documentação da fonte](https://quarto.org/docs/get-started/hello/rstudio.html) e [fichas das bases](../data/README.md). A fonte online é referência; o exercício funciona com o recorte local congelado.
+
+## Demonstração reproduzível
+
+Abrir o projeto `.Rproj` e executar [o script da aula](./01-pratica.R). RStudio e Positron oferecem o mesmo fluxo: projeto, script, console e renderização. Nenhum comando de instalação é executado pela aula.
+
+```{r}
+#| echo: false
+#| include: false
+source("aulas/01-pratica.R", encoding="UTF-8")
+```
+
+```{r}
+#| eval: false
+# Objetos têm nomes; <- atribui um valor. Execute uma linha por vez no início.
+ano_escolhido <- 2025
+precos <- ler_base("ipca") |>
+  mutate(ano = periodo %/% 100, mes = periodo %% 100) |>
+  filter(ano == ano_escolhido) |>
+  select(ano, mes, valor, unidade)
+stopifnot(nrow(precos) == 12, !anyNA(precos$valor))
+grafico <- ggplot(precos, aes(mes, valor)) + geom_line() + geom_point() +
+  labs(title = "IPCA mensal — Brasil, 2025", x = "Mês", y = "Variação mensal (%)",
+       caption = "Fonte: IBGE/SIDRA 1737; base local, extração 03/10/2026.")
+graficos <- list(grafico); tabelas <- list(precos)
+```
+
+```{r}
+#| echo: false
+graficos[[1]]
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[1]],digits=3)
+```
+
+## Primeiro relatório em Quarto
+
+1. Abrir `modelos/01-relatorio-minimo.qmd` na IDE e salvar uma cópia na mesma pasta, com seu nome.
+2. Identificar cabeçalho YAML, texto em Markdown e bloco de código R. O cabeçalho define título, autoria e formato.
+3. Executar o script antes de renderizar. Um objeto no console só existe depois que sua linha foi executada.
+4. Alterar título e autoria, escrever a pergunta e completar a interpretação. Citar fonte, período e unidade.
+5. Usar Render no RStudio ou Preview no Positron; no terminal, `quarto render modelos/01-relatorio-minimo.qmd`.
+6. Abrir o HTML e conferir a figura. Guardar QMD e script: o HTML comunica o resultado e os arquivos de origem permitem reproduzi-lo.
+
+RStudio: localizar editor, console, ambiente e painel de arquivos. Positron: localizar editor, console R, variáveis e Preview. O projeto usa caminhos relativos; não salvar nem restaurar workspace automaticamente.
+
+
+## Prática e registro no Quarto
+
+1. Altere o ano para 2024 e confira se o gráfico contém 12 meses.
+2. Localize o mês de maior e de menor inflação; uma taxa negativa significa que o nível de preços voltou ao início do ano?
+3. Use o modelo mínimo Quarto e escreva duas frases sobre o gráfico, com fonte e unidade.
+
+Salvar a resposta em um `.qmd`, renderizar em HTML e registrar pergunta, cálculo, interpretação, fonte e limitação. Verificar se o HTML abre sem conexão. [Enunciado da prática](../exercicios/01-exercicios.md). As soluções ficam no acervo docente separado.
+
+## Leituras selecionadas
+
+R4DS: introdução, visualização e fluxo de trabalho básico; Llaudet/Imai, capítulo 1, Getting Started; Quarto: documentos com R. Os capítulos de métodos são selecionados pelos títulos, disponíveis em [R4DS em português](https://pt.r4ds.hadley.nz/) e nos [recursos públicos de Llaudet/Imai](https://ellaudet.github.io/dss_book/student_resources_by_chapter/). Conferir as referências econômicas em [bibliografia](../docs/bibliografia.md).
+
+## Conferência e uso de IA
+
+Antes do checkpoint: conferir unidade, período, dados ausentes, tamanho da tabela e fonte. IA pode explicar ou revisar código; o estudante executa, verifica e declara o uso. Cada integrante deve explicar por que o cálculo responde à pergunta e o que ele não permite concluir.

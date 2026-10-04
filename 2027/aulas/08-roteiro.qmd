@@ -1,0 +1,85 @@
+---
+title: "Encontro 8 — Regras fiscais e dinâmica da dívida"
+---
+
+## Pergunta econômica
+
+Como crescimento, juros e primário alteram uma razão dívida/PIB?
+
+**Competências:** Percentagens versus frações, estoque e fluxo, funções e simulação transparente com cenários.
+
+**Produto verificável:** Tabela de cenários de dívida e gráfico de trajetória simulada.
+
+## Roteiro dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–10 | Pergunta, conceitos, fonte e população coberta |
+| 10–30 | Explicação econômica e leitura dos metadados |
+| 30–60 | Demonstração em R, linha por linha, com conferências |
+| 60–85 | Prática orientada em duplas/trio |
+| 85–90 | Checkpoint: cada estudante explica uma transformação |
+
+## Contexto e cuidados de interpretação
+
+Conectar regras fiscais e política econômica. A identidade simplificada omite ajustes estoque–fluxo, composição cambial e outros fatores. A Selic não representa automaticamente o custo efetivo de toda a dívida. Regras vigentes em 2027 deverão ser verificadas antes da oferta.
+
+Consultar [documentação da fonte](https://www.tesourotransparente.gov.br/temas/divida-publica-federal) e [fichas das bases](../data/README.md). A fonte online é referência; o exercício funciona com o recorte local congelado.
+
+## Demonstração reproduzível
+
+Abrir o projeto `.Rproj` e executar [o script da aula](./08-pratica.R). RStudio e Positron oferecem o mesmo fluxo: projeto, script, console e renderização. Nenhum comando de instalação é executado pela aula.
+
+```{r}
+#| echo: false
+#| include: false
+source("aulas/08-pratica.R", encoding="UTF-8")
+```
+
+```{r}
+#| eval: false
+# d_t = d_(t-1)*(1+r)/(1+g) - s_t + ajuste_t.
+# d e s em pontos percentuais do PIB; r e g entram como frações.
+# Nesta simulação, r=4% real e ajuste=0 são hipóteses, não estimativas históricas.
+cenarios <- tidyr::expand_grid(crescimento_pct=c(0,2,4),superavit_pct=c(0,2)) |>
+  mutate(divida_inicial=80,juros_reais_pct=4,
+         bola_neve=componente_divida(divida_inicial,juros_reais_pct,crescimento_pct),
+         divida_final=divida_inicial+bola_neve-superavit_pct)
+trajetorias <- purrr::map_dfr(c(0,2,4),function(g) {
+  d <- numeric(11);d[1] <- 80
+  for(t in 2:11) d[t] <- d[t-1]+componente_divida(d[t-1],4,g)-2
+  tibble::tibble(ano=0:10,divida_pct=d,crescimento_pct=factor(g))
+})
+grafico <- ggplot(trajetorias,aes(ano,divida_pct,colour=crescimento_pct)) + geom_line() +
+  labs(title="Dívida/PIB: cenários simulados",y="% PIB",x="Anos após condição inicial",
+       colour="Crescimento real (%)",caption="Hipóteses: dívida inicial 80% PIB; juros reais 4%; superávit 2% PIB; ajuste zero.")
+graficos <- list(grafico); tabelas <- list(cenarios)
+```
+
+```{r}
+#| echo: false
+graficos[[1]]
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[1]],digits=3)
+```
+
+
+
+## Prática e registro no Quarto
+
+1. Confira manualmente o cenário d=80, r=4%, g=2%, s=2% PIB.
+2. Adicione ajuste estoque–fluxo de +1 ponto percentual e explique seu efeito.
+3. Compare regra fiscal, identidade contábil e hipótese causal; indique o que os cenários não demonstram.
+
+Salvar a resposta em um `.qmd`, renderizar em HTML e registrar pergunta, cálculo, interpretação, fonte e limitação. Verificar se o HTML abre sem conexão. [Enunciado da prática](../exercicios/08-exercicios.md). As soluções ficam no acervo docente separado.
+
+## Leituras selecionadas
+
+R4DS: funções; documentação fiscal do Tesouro e legislação primária como extensão. Os capítulos de métodos são selecionados pelos títulos, disponíveis em [R4DS em português](https://pt.r4ds.hadley.nz/) e nos [recursos públicos de Llaudet/Imai](https://ellaudet.github.io/dss_book/student_resources_by_chapter/). Conferir as referências econômicas em [bibliografia](../docs/bibliografia.md).
+
+## Conferência e uso de IA
+
+Antes do checkpoint: conferir unidade, período, dados ausentes, tamanho da tabela e fonte. IA pode explicar ou revisar código; o estudante executa, verifica e declara o uso. Cada integrante deve explicar por que o cálculo responde à pergunta e o que ele não permite concluir.

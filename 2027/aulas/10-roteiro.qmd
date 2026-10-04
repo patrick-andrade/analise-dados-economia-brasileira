@@ -1,0 +1,91 @@
+---
+title: "Encontro 10 — RAIS e Novo CAGED"
+---
+
+## Pergunta econômica
+
+Por que estoque de vínculos e saldo de movimentações não são intercambiáveis?
+
+**Competências:** Categorias, group_by, agregação, estoque versus fluxo, cobertura territorial e procedência administrativa.
+
+**Produto verificável:** Tabela de saldos municipais por seção CNAE e tabela nacional de estoques RAIS, sem junção indevida.
+
+## Roteiro dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–10 | Pergunta, conceitos, fonte e população coberta |
+| 10–30 | Explicação econômica e leitura dos metadados |
+| 30–60 | Demonstração em R, linha por linha, com conferências |
+| 60–85 | Prática orientada em duplas/trio |
+| 85–90 | Checkpoint: cada estudante explica uma transformação |
+
+## Contexto e cuidados de interpretação
+
+RAIS inclui vínculos formais públicos e privados; Novo CAGED é registro de movimentações no âmbito de sua cobertura. Vínculos não são pessoas. Este laboratório compara conceitos: o recorte RAIS é nacional e o CAGED é municipal, portanto não calcula um crescimento combinado.
+
+Consultar [documentação da fonte](https://www.gov.br/trabalho-e-emprego/pt-br/assuntos/estatisticas-trabalho) e [fichas das bases](../data/README.md). A fonte online é referência; o exercício funciona com o recorte local congelado.
+
+## Demonstração reproduzível
+
+Abrir o projeto `.Rproj` e executar [o script da aula](./10-pratica.R). RStudio e Positron oferecem o mesmo fluxo: projeto, script, console e renderização. Nenhum comando de instalação é executado pela aula.
+
+```{r}
+#| echo: false
+#| include: false
+source("aulas/10-pratica.R", encoding="UTF-8")
+```
+
+```{r}
+#| eval: false
+caged <- ler_base("caged_sp_202412")
+stopifnot(all(caged$saldo==caged$admissoes-caged$desligamentos),
+          sum(caged$movimentos_ausentes)==0)
+setores <- caged |> group_by(setor) |>
+  summarise(across(c(admissoes,desligamentos,saldo),sum),.groups="drop") |>
+  arrange(saldo)
+rais <- ler_base("rais_setores")
+total <- rais |> filter(setor=="Total publicado")
+classificados <- rais |> filter(setor!="Total publicado") |>
+  group_by(ano) |> summarise(soma_classificados=sum(vinculos),.groups="drop")
+conferencia <- left_join(total,classificados,by="ano",relationship="one-to-one") |>
+  mutate(residuo=vinculos-soma_classificados)
+grafico <- ggplot(setores,aes(reorder(setor,saldo),saldo)) + geom_col() + coord_flip() +
+  labs(title="Novo CAGED: saldo em São Paulo, dezembro/2024",x="Seção CNAE (código)",
+       y="Admissões menos desligamentos (vínculos)",
+       caption="MTE; aquisição herdada de 2026, revisão não revalidada. Não é estoque de postos.")
+graficos <- list(grafico); tabelas <- list(setores,conferencia)
+```
+
+```{r}
+#| echo: false
+graficos[[1]]
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[1]],digits=3)
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[2]],digits=3)
+```
+
+
+
+## Prática e registro no Quarto
+
+1. Agregue CAGED por sexo codificado; confira que somar grupos preserva o saldo total.
+2. Calcule a variação do estoque RAIS nacional entre 2023 e 2024, usando o total publicado.
+3. Explique os resíduos setoriais e por que o saldo municipal de dezembro não completa a variação anual nacional da RAIS.
+
+Salvar a resposta em um `.qmd`, renderizar em HTML e registrar pergunta, cálculo, interpretação, fonte e limitação. Verificar se o HTML abre sem conexão. [Enunciado da prática](../exercicios/10-exercicios.md). As soluções ficam no acervo docente separado.
+
+## Leituras selecionadas
+
+R4DS: categorias e transformação; documentação MTE RAIS e Novo CAGED. Os capítulos de métodos são selecionados pelos títulos, disponíveis em [R4DS em português](https://pt.r4ds.hadley.nz/) e nos [recursos públicos de Llaudet/Imai](https://ellaudet.github.io/dss_book/student_resources_by_chapter/). Conferir as referências econômicas em [bibliografia](../docs/bibliografia.md).
+
+## Conferência e uso de IA
+
+Antes do checkpoint: conferir unidade, período, dados ausentes, tamanho da tabela e fonte. IA pode explicar ou revisar código; o estudante executa, verifica e declara o uso. Cada integrante deve explicar por que o cálculo responde à pergunta e o que ele não permite concluir.

@@ -1,0 +1,56 @@
+---
+title: "Modelo 3 — Aprofundamento país–EUA"
+author: "Substituir por integrantes"
+format: html
+---
+
+O exemplo integra FMI e WDI, mantendo Colômbia–EUA. O WDI só satisfaz a exigência de fonte nova se não tiver sido utilizado pelo grupo no Projeto 1. Formular uma pergunta sobre finanças públicas, trabalho ou desigualdade; substituir o exemplo pela investigação do grupo.
+
+```{r}
+#| include: false
+source("aulas/12-pratica.R",encoding="UTF-8")
+medianas <- integrado |> filter(ano<=2019) |> mutate(periodo=if_else(ano<=2009,"2000–2009","2010–2019")) |>
+ group_by(pais,periodo) |> summarise(n_validos=sum(!is.na(desemprego_modelado_pct)),mediana=median(desemprego_modelado_pct,na.rm=TRUE),.groups="drop")
+serie <- ggplot(integrado,aes(ano,desemprego_modelado_pct,colour=pais)) + geom_line(na.rm=TRUE) +
+ labs(title="Desemprego modelado OIT",y="% força de trabalho",x=NULL,colour=NULL,caption="Banco Mundial WDI; estimativas modeladas, não série PNADC.")
+por_periodo <- ggplot(medianas,aes(periodo,mediana,fill=pais)) + geom_col(position="dodge") +
+ labs(title="Medianas por década",y="Desemprego modelado (%)",x=NULL,fill=NULL,caption="WDI; décadas 2000–2009 e 2010–2019; conferir anos válidos.")
+```
+
+## Questão e avanço em relação ao Projeto 1
+
+Identificar o resultado anterior que motiva esta investigação. Explicar por que a fonte e o método novos respondem melhor à pergunta; repetir gráficos anteriores não conta como avanço.
+
+## Conceitos, cobertura e junção
+
+Definir desemprego modelado, força de trabalho, país e ano. Conferir chave país–ano única e enumerar ausências. Justificar recortes comuns e diferenças de metodologia entre países. Registrar data e versão da nova fonte.
+
+## Análise nova
+
+```{r}
+#| echo: false
+graficos[[1]]
+```
+
+Descrever a associação sem apresentar a dispersão como efeito causal.
+
+```{r}
+#| echo: false
+serie
+```
+
+Explicar episódios relevantes e mudanças de cobertura.
+
+```{r}
+#| echo: false
+por_periodo
+knitr::kable(medianas,digits=2)
+```
+
+## Robustez e limites
+
+Repetir um cálculo com outro recorte e explicar como a conclusão muda ou se mantém. Listar hipóteses, dados ausentes, conceitos diferentes e possíveis explicações alternativas. Uma correlação não elimina variáveis omitidas nem resolve identificação causal.
+
+## Fontes, reprodutibilidade e IA
+
+Registrar FMI/DataMapper e Banco Mundial/WDI, mais a fonte realmente nova do grupo quando aplicável. Entregar script que reproduz as três figuras e a tabela, relatório QMD, HTML e bases pequenas documentadas. [Enunciado completo](../projetos/02-enunciado.md).

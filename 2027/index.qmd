@@ -1,0 +1,40 @@
+---
+title: "Economia brasileira e análise de dados"
+subtitle: "Primeiro semestre de 2027 • Professor Patrick Rodrigues Andrade"
+---
+
+Um laboratório para aprender R e produzir evidências sobre economia, com aplicações brasileiras e projetos de comparação de um país aos EUA.
+
+## Programa e entregas
+
+[Plano oficial](00-1-plano-ensino-oficial.md) · [Guia para estudantes](00-2-plano-ensino-alunos.md) · [Configuração](00-3-configuracoes-basicas.md)
+
+[Projeto 1 — 40%](projetos/01-enunciado.md) · [Projeto 2 — 60%](projetos/02-enunciado.md) · [Fontes e bases locais](data/README.md)
+
+## Aulas
+
+- [01 — Ambiente R e primeiro problema econômico](aulas/01-roteiro.qmd)
+- [02 — Atividade econômica e IBGE/SIDRA](aulas/02-roteiro.qmd)
+- [03 — Inflação, poder de compra e renda real](aulas/03-roteiro.qmd)
+- [04 — Comparação internacional e API do FMI](aulas/04-roteiro.qmd)
+- [05 — Contas públicas brasileiras](aulas/05-roteiro.qmd)
+- [06 — Receitas, despesas e previdência](aulas/06-roteiro.qmd)
+- [07 — Projeto 1 país–EUA](aulas/07-roteiro.qmd)
+- [08 — Regras fiscais e dinâmica da dívida](aulas/08-roteiro.qmd)
+- [09 — Mercado de trabalho brasileiro](aulas/09-roteiro.qmd)
+- [10 — RAIS e Novo CAGED](aulas/10-roteiro.qmd)
+- [11 — Distribuição de renda e desigualdade](aulas/11-roteiro.qmd)
+- [12 — Laboratório integrador do Projeto 2](aulas/12-roteiro.qmd)
+- [13 — Revisão de competências](aulas/13-roteiro.qmd)
+- [14 — Projeto 2 de aprofundamento](aulas/14-roteiro.qmd)
+- [15 — Vista e devolutiva](aulas/15-roteiro.qmd)
+
+## Modelos de relatório
+
+- [Primeiro relatório](modelos/01-relatorio-minimo.qmd)
+- [Projeto país–EUA](modelos/02-projeto-1.qmd)
+- [Aprofundamento](modelos/03-projeto-2.qmd)
+
+## Leituras
+
+[R4DS em português](https://pt.r4ds.hadley.nz/) fornece a trilha técnica. [Llaudet/Imai](https://ellaudet.github.io/dss_book/student_resources_by_chapter/) apoia o raciocínio sobre evidências. A bibliografia econômica está no plano oficial.

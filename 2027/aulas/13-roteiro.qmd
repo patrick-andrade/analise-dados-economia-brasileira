@@ -1,0 +1,20 @@
+---
+title: "Encontro 13 — Revisão"
+---
+
+Retomar projetos, datas, inflação composta, nominal/real, chaves país–ano, estoque/fluxo, conceitos fiscais, populações e pesos. Cada grupo traz uma dúvida econômica, uma de código e uma de fonte. Corrigir uma transformação e registrar a mudança; feedback sem nota.
+
+## Organização dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–20 | Diagnóstico e organização das dúvidas |
+| 20–60 | Discussão e correções guiadas |
+| 60–85 | Revisão dos próprios resultados |
+| 85–90 | Registro individual de aprendizado |
+
+O trabalho com Quarto e R permanece no centro da atividade; registrar correções sem substituir silenciosamente a entrega avaliada.
+
+Consultar [Projeto 1](../projetos/01-enunciado.md), [Projeto 2](../projetos/02-enunciado.md) e [rubrica comum](../projetos/rubrica.md).
+
+A compreensão individual vale 20% em cada projeto. Os demais 80% correspondem ao produto compartilhado. Duas semanas de reserva não acrescentam conteúdo obrigatório.

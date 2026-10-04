@@ -1,0 +1,83 @@
+---
+title: "Encontro 9 — Mercado de trabalho brasileiro"
+---
+
+## Pergunta econômica
+
+Desocupação e rendimento real evoluem juntos?
+
+**Competências:** População coberta, trimestre móvel, junção por período, taxas e limites de comparabilidade.
+
+**Produto verificável:** Painéis separados de desocupação e rendimento; ficha de população e frequência.
+
+## Roteiro dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–10 | Pergunta, conceitos, fonte e população coberta |
+| 10–30 | Explicação econômica e leitura dos metadados |
+| 30–60 | Demonstração em R, linha por linha, com conferências |
+| 60–85 | Prática orientada em duplas/trio |
+| 85–90 | Checkpoint: cada estudante explica uma transformação |
+
+## Contexto e cuidados de interpretação
+
+Relacionar emprego à bibliografia de economia brasileira e aos episódios recentes. Os denominadores importam: taxa de desocupação divide desocupados pela força de trabalho, não pela população total. Rendimento do trabalho não é renda domiciliar per capita.
+
+Consultar [documentação da fonte](https://www.ibge.gov.br/estatisticas/sociais/trabalho/9171-pesquisa-nacional-por-amostra-de-domicilios-continua-mensal.html) e [fichas das bases](../data/README.md). A fonte online é referência; o exercício funciona com o recorte local congelado.
+
+## Demonstração reproduzível
+
+Abrir o projeto `.Rproj` e executar [o script da aula](./09-pratica.R). RStudio e Positron oferecem o mesmo fluxo: projeto, script, console e renderização. Nenhum comando de instalação é executado pela aula.
+
+```{r}
+#| echo: false
+#| include: false
+source("aulas/09-pratica.R", encoding="UTF-8")
+```
+
+```{r}
+#| eval: false
+taxa <- ler_base("desocupacao") |> select(periodo,desocupacao_pct=valor)
+renda <- ler_base("rendimento_real") |> select(periodo,rendimento_real_rs=valor)
+chave_unica(taxa,"periodo"); chave_unica(renda,"periodo")
+trabalho <- left_join(taxa,renda,by="periodo",relationship="one-to-one") |>
+  mutate(data=as.Date(paste0(periodo,"01"),"%Y%m%d"))
+stopifnot(nrow(trabalho)==84)
+longa <- trabalho |> select(data,desocupacao_pct,rendimento_real_rs) |>
+  pivot_longer(-data,names_to="indicador",values_to="valor")
+grafico <- ggplot(longa,aes(data,valor)) + geom_line() +
+  facet_wrap(~indicador,scales="free_y",ncol=1) +
+  labs(title="Trabalho no Brasil: dois conceitos, duas unidades",x="Mês final do trimestre móvel",
+       y="% (desocupação) ou R$ reais (rendimento)",
+       caption="PNADC/SIDRA 6381 e 6389. Rendimento já deflacionado; janelas se sobrepõem.")
+graficos <- list(grafico); tabelas <- list(tail(trabalho,12))
+```
+
+```{r}
+#| echo: false
+graficos[[1]]
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[1]],digits=3)
+```
+
+
+
+## Prática e registro no Quarto
+
+1. Compare o trimestre móvel terminado em dezembro/2024 com dezembro/2025.
+2. Explique por que o rendimento real da base não deve ser deflacionado novamente.
+3. Uma queda da taxa prova que mais pessoas conseguiram emprego? Discuta força de trabalho, desalentados e denominador.
+
+Salvar a resposta em um `.qmd`, renderizar em HTML e registrar pergunta, cálculo, interpretação, fonte e limitação. Verificar se o HTML abre sem conexão. [Enunciado da prática](../exercicios/09-exercicios.md). As soluções ficam no acervo docente separado.
+
+## Leituras selecionadas
+
+R4DS: junções e dados ausentes; Carleial sobre mercado de trabalho; Llaudet/Imai sobre associação e causalidade. Os capítulos de métodos são selecionados pelos títulos, disponíveis em [R4DS em português](https://pt.r4ds.hadley.nz/) e nos [recursos públicos de Llaudet/Imai](https://ellaudet.github.io/dss_book/student_resources_by_chapter/). Conferir as referências econômicas em [bibliografia](../docs/bibliografia.md).
+
+## Conferência e uso de IA
+
+Antes do checkpoint: conferir unidade, período, dados ausentes, tamanho da tabela e fonte. IA pode explicar ou revisar código; o estudante executa, verifica e declara o uso. Cada integrante deve explicar por que o cálculo responde à pergunta e o que ele não permite concluir.

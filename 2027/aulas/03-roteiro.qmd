@@ -1,0 +1,86 @@
+---
+title: "Encontro 3 — Inflação, poder de compra e renda real"
+---
+
+## Pergunta econômica
+
+Somar taxas mensais mede corretamente a inflação anual?
+
+**Competências:** Datas, cumprod, composição de taxas, índice de preços e conversão nominal–real.
+
+**Produto verificável:** Tabela de inflação anual composta e exemplo transparente de deflação.
+
+## Roteiro dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–10 | Pergunta, conceitos, fonte e população coberta |
+| 10–30 | Explicação econômica e leitura dos metadados |
+| 30–60 | Demonstração em R, linha por linha, com conferências |
+| 60–85 | Prática orientada em duplas/trio |
+| 85–90 | Checkpoint: cada estudante explica uma transformação |
+
+## Contexto e cuidados de interpretação
+
+Retomar estabilização e poder de compra depois do Plano Real. Discutir inflação recente, choques e efeitos distributivos sem atribuir causalidade a uma simples correlação. A renda real depende do deflator e da cesta escolhida.
+
+Consultar [documentação da fonte](https://sidra.ibge.gov.br/tabela/1737) e [fichas das bases](../data/README.md). A fonte online é referência; o exercício funciona com o recorte local congelado.
+
+## Demonstração reproduzível
+
+Abrir o projeto `.Rproj` e executar [o script da aula](./03-pratica.R). RStudio e Positron oferecem o mesmo fluxo: projeto, script, console e renderização. Nenhum comando de instalação é executado pela aula.
+
+```{r}
+#| echo: false
+#| include: false
+source("aulas/03-pratica.R", encoding="UTF-8")
+```
+
+```{r}
+#| eval: false
+precos <- ler_base("ipca") |> arrange(periodo) |>
+  mutate(data=as.Date(paste0(periodo,"01"), "%Y%m%d"), ano=periodo %/% 100,
+         indice=100*cumprod(1+valor/100))
+chave_unica(precos, "periodo")
+stopifnot(!anyNA(precos$valor), nrow(precos)==84)
+anual <- precos |> group_by(ano) |>
+  summarise(meses=n(), inflacao_pct=inflacao_acumulada(valor,12),
+            soma_incorreta=sum(valor), .groups="drop")
+# Simulação didática explícita: salário fixo R$ 3.000, não série salarial observada.
+# Preços de dez/2025: renda_real = renda_nominal * índice_base / índice_t.
+exemplo <- precos |> mutate(renda_nominal_simulada=3000,
+  renda_real_dez2025=3000*last(indice)/indice)
+grafico <- ggplot(exemplo, aes(data, renda_real_dez2025)) + geom_line() +
+  labs(title="Poder de compra de salário nominal fixo — simulação",
+       y="R$ a preços de dezembro/2025", x=NULL,
+       caption="IPCA/IBGE. Salário de R$ 3.000 é hipótese, não dado de renda.")
+graficos <- list(grafico); tabelas <- list(anual)
+```
+
+```{r}
+#| echo: false
+graficos[[1]]
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[1]],digits=3)
+```
+
+
+
+## Prática e registro no Quarto
+
+1. Compare inflação composta e soma em 2025; mostre a diferença em pontos percentuais.
+2. Use duas taxas de 10% para demonstrar por que 20% é incorreto.
+3. Deflacione R$ 3.000 de dezembro/2024 para preços de dezembro/2025 e declare o mês de referência.
+
+Salvar a resposta em um `.qmd`, renderizar em HTML e registrar pergunta, cálculo, interpretação, fonte e limitação. Verificar se o HTML abre sem conexão. [Enunciado da prática](../exercicios/03-exercicios.md). As soluções ficam no acervo docente separado.
+
+## Leituras selecionadas
+
+R4DS: datas e horários, vetores numéricos; Llaudet/Imai: descrição dos dados. Os capítulos de métodos são selecionados pelos títulos, disponíveis em [R4DS em português](https://pt.r4ds.hadley.nz/) e nos [recursos públicos de Llaudet/Imai](https://ellaudet.github.io/dss_book/student_resources_by_chapter/). Conferir as referências econômicas em [bibliografia](../docs/bibliografia.md).
+
+## Conferência e uso de IA
+
+Antes do checkpoint: conferir unidade, período, dados ausentes, tamanho da tabela e fonte. IA pode explicar ou revisar código; o estudante executa, verifica e declara o uso. Cada integrante deve explicar por que o cálculo responde à pergunta e o que ele não permite concluir.

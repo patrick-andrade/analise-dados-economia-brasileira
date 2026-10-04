@@ -1,0 +1,98 @@
+---
+title: "Encontro 4 — Comparação internacional e API do FMI"
+---
+
+## Pergunta econômica
+
+Como comparar trajetórias de um país e dos EUA sem misturar indicadores?
+
+**Competências:** Metadados, API, formato longo, pivot_wider, left_join, chaves e cobertura; iniciar Projeto 1.
+
+**Produto verificável:** Dicionário de quatro indicadores e tabela de cobertura do par escolhido.
+
+## Roteiro dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–10 | Pergunta, conceitos, fonte e população coberta |
+| 10–30 | Explicação econômica e leitura dos metadados |
+| 30–60 | Demonstração em R, linha por linha, com conferências |
+| 60–85 | Prática orientada em duplas/trio |
+| 85–90 | Checkpoint: cada estudante explica uma transformação |
+
+## Contexto e cuidados de interpretação
+
+O par demonstrativo é Colômbia–EUA. Cada grupo escolherá outro par conforme o registro de países. Crescimento e inflação são o núcleo comum; agregar dois indicadores do tema escolhido. As aplicações brasileiras anteriores ajudam a interpretar conceitos, mas o projeto compara o país escolhido com os EUA.
+
+Consultar [documentação da fonte](https://www.imf.org/external/datamapper/api/help) e [fichas das bases](../data/README.md). A fonte online é referência; o exercício funciona com o recorte local congelado.
+
+## Demonstração reproduzível
+
+Abrir o projeto `.Rproj` e executar [o script da aula](./04-pratica.R). RStudio e Positron oferecem o mesmo fluxo: projeto, script, console e renderização. Nenhum comando de instalação é executado pela aula.
+
+```{r}
+#| echo: false
+#| include: false
+source("aulas/04-pratica.R", encoding="UTF-8")
+```
+
+```{r}
+#| eval: false
+fmi <- ler_base("fmi_paises") |> filter(iso3 %in% c("COL","USA"), ano<=2025,
+  indicador %in% c("NGDP_RPCH","PCPIPCH","GGXWDG_NGDP","GGXCNL_NGDP"))
+chave_unica(fmi,c("iso3","ano","indicador"))
+cobertura <- resumir_cobertura(fmi)
+longa <- fmi |> select(iso3,pais,ano,indicador,valor)
+larga <- longa |> pivot_wider(names_from=indicador, values_from=valor)
+chave_unica(larga,c("iso3","ano"))
+# Exemplo de junção: país-ano do crescimento com inflação. Não juntar só pelo ano.
+crescimento <- longa |> filter(indicador=="NGDP_RPCH") |>
+  select(iso3,ano,crescimento_pct=valor)
+inflacao <- longa |> filter(indicador=="PCPIPCH") |>
+  select(iso3,ano,inflacao_media_pct=valor)
+comparacao <- left_join(crescimento,inflacao,by=c("iso3","ano"),relationship="one-to-one")
+grafico <- ggplot(fmi |> filter(indicador %in% c("NGDP_RPCH","PCPIPCH")),
+  aes(ano,valor,colour=pais)) + geom_line(na.rm=TRUE) + facet_wrap(~indicador,scales="free_y") +
+  labs(title="Colômbia e EUA: crescimento e inflação média anual",x=NULL,y="%",colour=NULL,
+       caption="FMI/DataMapper; WEO abril/2026; histórico pode conter estimativas.")
+graficos <- list(grafico); tabelas <- list(cobertura)
+```
+
+```{r}
+#| echo: false
+graficos[[1]]
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[1]],digits=3)
+```
+
+## Aquisição e API, em momento separado
+
+O CSV local deriva da API obrigatória do FMI. Abrir o JSON bruto e reconhecer indicador, país, ano e valor antes de selecionar dados. A API pode devolver mais países do que o recorte: filtrar explicitamente. `R/fontes.R` permite aquisição em R quando há rede. Este bloco é demonstrativo e **não executa durante a renderização**:
+
+```{r}
+#| eval: false
+source("R/fontes.R", encoding="UTF-8")
+consultar_fmi("NGDP_RPCH", "data/raw/fmi-NGDP_RPCH-nova-extracao.json")
+```
+
+Uma nova extração precisa de registro de data, edição, metadados e hash. Não sobrescrever a base do projeto durante a defesa. Ausências ficam `NA`; datas anteriores à projeção não são automaticamente observações definitivas.
+
+
+## Prática e registro no Quarto
+
+1. Escolha o país do grupo e identifique códigos, unidades e cobertura de quatro indicadores.
+2. Leia o JSON local de crescimento com R/fontes.R e compare três valores com o CSV, sem rede.
+3. Identifique um indicador fiscal e explique por que GGXCNL_NGDP não é resultado primário.
+
+Salvar a resposta em um `.qmd`, renderizar em HTML e registrar pergunta, cálculo, interpretação, fonte e limitação. Verificar se o HTML abre sem conexão. [Enunciado da prática](../exercicios/04-exercicios.md). As soluções ficam no acervo docente separado.
+
+## Leituras selecionadas
+
+R4DS: organização dos dados e junções; Llaudet/Imai: descrever e comparar; documentação DataMapper. Os capítulos de métodos são selecionados pelos títulos, disponíveis em [R4DS em português](https://pt.r4ds.hadley.nz/) e nos [recursos públicos de Llaudet/Imai](https://ellaudet.github.io/dss_book/student_resources_by_chapter/). Conferir as referências econômicas em [bibliografia](../docs/bibliografia.md).
+
+## Conferência e uso de IA
+
+Antes do checkpoint: conferir unidade, período, dados ausentes, tamanho da tabela e fonte. IA pode explicar ou revisar código; o estudante executa, verifica e declara o uso. Cada integrante deve explicar por que o cálculo responde à pergunta e o que ele não permite concluir.

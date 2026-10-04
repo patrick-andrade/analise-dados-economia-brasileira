@@ -1,0 +1,84 @@
+---
+title: "Encontro 6 — Receitas, despesas e previdência"
+---
+
+## Pergunta econômica
+
+Qual parcela da despesa do Governo Central corresponde à previdência?
+
+**Competências:** Reconhecer rubricas de planilha, transformar formato longo, sumarizar meses completos, calcular participação.
+
+**Produto verificável:** Tabela anual de receitas, despesas, primário e participação dos benefícios, com orientação do Projeto 1.
+
+## Roteiro dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–10 | Pergunta, conceitos, fonte e população coberta |
+| 10–30 | Explicação econômica e leitura dos metadados |
+| 30–60 | Demonstração em R, linha por linha, com conferências |
+| 60–85 | Prática orientada em duplas/trio |
+| 85–90 | Checkpoint: cada estudante explica uma transformação |
+
+## Contexto e cuidados de interpretação
+
+Retomar reformas e escolhas distributivas. Participação previdenciária é uma composição contábil; não mede, sozinha, sustentabilidade, efeito multiplicador ou incidência distributiva. Não somar um componente novamente à despesa total.
+
+Consultar [documentação da fonte](https://www.tesourotransparente.gov.br/temas/estatisticas-fiscais-e-planejamento/resultado-do-tesouro-nacional-rtn) e [fichas das bases](../data/README.md). A fonte online é referência; o exercício funciona com o recorte local congelado.
+
+## Demonstração reproduzível
+
+Abrir o projeto `.Rproj` e executar [o script da aula](./06-pratica.R). RStudio e Positron oferecem o mesmo fluxo: projeto, script, console e renderização. Nenhum comando de instalação é executado pela aula.
+
+```{r}
+#| echo: false
+#| include: false
+source("aulas/06-pratica.R", encoding="UTF-8")
+```
+
+```{r}
+#| eval: false
+rtn <- ler_base("rtn") |> mutate(data=as.Date(data),ano=lubridate::year(data),
+  item=case_when(str_detect(rubrica,"RECEITA L") ~ "receita",
+                 str_detect(rubrica,"DESPESA TOTAL") ~ "despesa",
+                 str_detect(rubrica,"Benefícios") ~ "beneficios",
+                 str_detect(rubrica,"RESULTADO PRIM") ~ "primario"))
+chave_unica(rtn,c("data","item"))
+mensal <- rtn |> select(data,ano,item,valor) |> pivot_wider(names_from=item,values_from=valor)
+stopifnot(max(abs(mensal$receita-mensal$despesa-mensal$primario))<1e-5)
+anual <- mensal |> group_by(ano) |> summarise(meses=n(),
+  across(c(receita,despesa,beneficios,primario), ~if(n()==12&&!anyNA(.x)) sum(.x) else NA_real_),
+  .groups="drop") |> mutate(participacao_beneficios_pct=100*beneficios/despesa)
+grafico <- ggplot(anual,aes(ano,participacao_beneficios_pct)) + geom_col() +
+  labs(title="Benefícios previdenciários na despesa do Governo Central",x=NULL,
+       y="Participação na despesa total (%)",caption="Tesouro/RTN; valores nominais mensais agregados; 12 meses por ano.")
+graficos <- list(grafico); tabelas <- list(anual)
+```
+
+```{r}
+#| echo: false
+graficos[[1]]
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[1]],digits=3)
+```
+
+
+
+## Prática e registro no Quarto
+
+1. Compare participação de benefícios em 2019 e 2025, distinguindo nível, variação percentual e pontos percentuais.
+2. Verifique receita menos despesa igual ao primário e compare o sinal com a NFSP da aula 5.
+3. Checkpoint Projeto 1: cada integrante explica um cálculo e apresenta uma figura com unidade e fonte.
+
+Salvar a resposta em um `.qmd`, renderizar em HTML e registrar pergunta, cálculo, interpretação, fonte e limitação. Verificar se o HTML abre sem conexão. [Enunciado da prática](../exercicios/06-exercicios.md). As soluções ficam no acervo docente separado.
+
+## Leituras selecionadas
+
+R4DS: planilhas, transformação e organização; Marques/Ferreira, leitura selecionada sobre Estado e política econômica. Os capítulos de métodos são selecionados pelos títulos, disponíveis em [R4DS em português](https://pt.r4ds.hadley.nz/) e nos [recursos públicos de Llaudet/Imai](https://ellaudet.github.io/dss_book/student_resources_by_chapter/). Conferir as referências econômicas em [bibliografia](../docs/bibliografia.md).
+
+## Conferência e uso de IA
+
+Antes do checkpoint: conferir unidade, período, dados ausentes, tamanho da tabela e fonte. IA pode explicar ou revisar código; o estudante executa, verifica e declara o uso. Cada integrante deve explicar por que o cálculo responde à pergunta e o que ele não permite concluir.

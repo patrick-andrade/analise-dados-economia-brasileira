@@ -1,0 +1,92 @@
+---
+title: "Encontro 5 — Contas públicas brasileiras"
+---
+
+## Pergunta econômica
+
+Primário, juros e nominal contam a mesma história fiscal?
+
+**Competências:** Filtrar códigos SGS, preservar a chave temporal, pivotar, conferir identidades e distinguir estoque, fluxo e sinal.
+
+**Produto verificável:** Tabela que verifica nominal = primário + juros na convenção NFSP; painel de dívida.
+
+## Roteiro dos 90 minutos
+
+| Minutos | Atividade |
+|---|---|
+| 0–10 | Pergunta, conceitos, fonte e população coberta |
+| 10–30 | Explicação econômica e leitura dos metadados |
+| 30–60 | Demonstração em R, linha por linha, com conferências |
+| 60–85 | Prática orientada em duplas/trio |
+| 85–90 | Checkpoint: cada estudante explica uma transformação |
+
+## Contexto e cuidados de interpretação
+
+Relacionar os impactos fiscais do Plano Real à trajetória posterior. Separar resultado primário, custo de juros e dívida. O setor público consolidado do SGS não equivale ao Governo Central do RTN nem ao governo geral do FMI.
+
+Consultar [documentação da fonte](https://www3.bcb.gov.br/sgspub/) e [fichas das bases](../data/README.md). A fonte online é referência; o exercício funciona com o recorte local congelado.
+
+## Demonstração reproduzível
+
+Abrir o projeto `.Rproj` e executar [o script da aula](./05-pratica.R). RStudio e Positron oferecem o mesmo fluxo: projeto, script, console e renderização. Nenhum comando de instalação é executado pela aula.
+
+```{r}
+#| echo: false
+#| include: false
+source("aulas/05-pratica.R", encoding="UTF-8")
+```
+
+```{r}
+#| eval: false
+bcb <- ler_base("bcb") |> mutate(data=as.Date(data))
+fiscal <- bcb |> filter(codigo %in% c(5793,5760,5727), periodicidade=="mensal") |>
+  select(data,codigo,valor) |> mutate(codigo=as.character(codigo)) |>
+  pivot_wider(names_from=codigo,values_from=valor,names_prefix="sgs_") |>
+  mutate(residuo=sgs_5727-sgs_5793-sgs_5760,
+         saldo_primario_superavit_positivo=-sgs_5793)
+chave_unica(fiscal,"data")
+# Arredondamento a 0,01% PIB admite resíduo de até 0,02 ponto percentual.
+stopifnot(max(abs(fiscal$residuo),na.rm=TRUE)<=0.02)
+fluxos <- bcb |> filter(codigo %in% c(5793,5760,5727))
+divida <- bcb |> filter(codigo %in% c(13762,4513))
+g1 <- ggplot(fluxos,aes(data,valor,colour=indicador)) + geom_line() +
+  labs(title="NFSP: fluxos acumulados em 12 meses",x=NULL,y="% PIB; déficit positivo",colour=NULL,
+       caption="BCB/SGS. Não somar as 12 observações mensais: as janelas se sobrepõem.")
+g2 <- ggplot(divida,aes(data,valor,colour=indicador)) + geom_line() +
+  labs(title="Dívida bruta e líquida",x=NULL,y="Estoque em % PIB",colour=NULL,
+       caption="BCB/SGS 13762 e 4513; conceitos e abrangências distintos.")
+graficos <- list(g1,g2); tabelas <- list(tail(fiscal,6))
+```
+
+```{r}
+#| echo: false
+graficos[[1]]
+```
+
+```{r}
+#| echo: false
+graficos[[2]]
+```
+
+```{r}
+#| echo: false
+knitr::kable(tabelas[[1]],digits=3)
+```
+
+
+
+## Prática e registro no Quarto
+
+1. Interprete o último primário tanto em NFSP déficit positivo quanto em saldo superávit positivo.
+2. Mostre o resíduo da identidade e explique o limite de arredondamento.
+3. Por que somar valores mensais de DBGG ou do primário acumulado em 12 meses não gera um total anual válido?
+
+Salvar a resposta em um `.qmd`, renderizar em HTML e registrar pergunta, cálculo, interpretação, fonte e limitação. Verificar se o HTML abre sem conexão. [Enunciado da prática](../exercicios/05-exercicios.md). As soluções ficam no acervo docente separado.
+
+## Leituras selecionadas
+
+R4DS: pivotar e junções; Paulani e Carneiro, leitura selecionada sobre política econômica e finanças. Os capítulos de métodos são selecionados pelos títulos, disponíveis em [R4DS em português](https://pt.r4ds.hadley.nz/) e nos [recursos públicos de Llaudet/Imai](https://ellaudet.github.io/dss_book/student_resources_by_chapter/). Conferir as referências econômicas em [bibliografia](../docs/bibliografia.md).
+
+## Conferência e uso de IA
+
+Antes do checkpoint: conferir unidade, período, dados ausentes, tamanho da tabela e fonte. IA pode explicar ou revisar código; o estudante executa, verifica e declara o uso. Cada integrante deve explicar por que o cálculo responde à pergunta e o que ele não permite concluir.
