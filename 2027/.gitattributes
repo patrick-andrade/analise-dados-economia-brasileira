@@ -1,0 +1,2 @@
+# Preservar os bytes das bases e respostas: hashes precisam valer em todos os sistemas.
+data/** -text

@@ -22,6 +22,8 @@ Logs e capturas ficam em `internal/validacao/`, separados do pacote público. Ro
 
 A demonstração docente de Gini também foi renderizada separadamente. A inspeção detectou e corrigiu recursos R ausentes na saída HTML e corte da legenda da fonte no gráfico fiscal. Na máquina de preparação, o cache Quarto usou `internal/quarto-cache` como `LOCALAPPDATA` apenas no processo de compilação; não houve alteração persistente de configuração do sistema.
 
+A conferência da publicação verificou também os objetos Git contra os bytes locais. O envio preserva CRLF/LF dos arquivos de dados, e `.gitattributes` desativa conversão de finais de linha em `data/`, para manter os hashes entre sistemas. O ZIP também conserva os bytes originais.
+
 ## Limites e providências antes da oferta
 
 Datas de 2027 e equivalência entre 34h institucionais e tempo operacional dos encontros permanecem a confirmar. Conferir regras fiscais vigentes e eventual reimpressão de 2021 do livro brasileiro de R4DS no exemplar utilizado.

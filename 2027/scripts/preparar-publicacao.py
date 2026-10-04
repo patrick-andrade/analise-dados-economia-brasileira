@@ -16,7 +16,8 @@ assert not any('docentes' in p.parts for p in selected)
 entries=[];binary=[]
 for p in selected:
     rel=p.relative_to(ROOT).as_posix()
-    try:content=p.read_text(encoding='utf-8')
+    # read_text normaliza CRLF: isso invalidaria hashes dos snapshots CSV/JSON.
+    try:content=p.read_bytes().decode('utf-8')
     except UnicodeDecodeError:
         blobpath=OUT/(p.name+'.b64');blobpath.write_text(base64.b64encode(p.read_bytes()).decode('ascii'),encoding='ascii')
         binary.append(dict(path='2027/'+rel,arquivo_base64=blobpath.relative_to(ROOT).as_posix(),chars=blobpath.stat().st_size));continue
